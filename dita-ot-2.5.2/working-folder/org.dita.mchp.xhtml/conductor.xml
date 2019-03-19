@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project name="com.mchp-htmlx">
+  <target name="dita2mchp-htmlx.init">
+    <property name="customization.dir" location="plugins/org.mchp.htmlx/cfg"/>
+  </target>
+  <target name="dita2mchp-htmlx" depends="dita2mchp-htmlx.init, org.dita.xhtml"/>
+</project>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is part of the DITA Open Toolkit project.
+
+Copyright 2011 Jarno Elovirta
+
+See the accompanying LICENSE file for applicable license.
+-->
+<plugin id="com.bluestream.preprocess">
+  <feature extension="dita.conductor.transtype.check" value="exportpreprocess"/>
+  <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
+  <require plugin="org.dita.base" />
+</plugin>

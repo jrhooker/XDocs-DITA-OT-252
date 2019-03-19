@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "/SysSchema/dita/dtd/technicalContent/dtd/map.dtd">
+<map xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" title="CopyOf_Growing Flowers" xml:lang="en-US">
+<topicref href="topics/introduction.xml" navtitle="Introduction" type="topic"/>
+
+<topicref href="topics/care.xml" navtitle="Care and Preparation" type="topic">
+<topicref href="tasks/pruning.xml" navtitle="Pruning" type="task"/>
+
+<topicref href="tasks/gardenPreparation.xml" navtitle="Garden Preparation" type="task"/>
+</topicref>
+
+<topicref href="topics/index.xml" id="thisistheid" navtitle="Flowers by Season" type="topic">
+<topicref href="concepts/springFlowers.xml" navtitle="Spring Flowers" type="concept">
+<topicref href="topics/iris.xml" navtitle="Iris" type="topic"/>
+
+<topicref href="topics/snowdrop.xml" navtitle="Snowdrop" type="topic"/>
+</topicref>
+
+<topicref href="concepts/summerFlowers.xml" navtitle="Summer Flowers" type="concept">
+<topicref href="topics/gardenia.xml" navtitle="Gardenia" type="topic"/>
+
+<topicref href="topics/lilac.xml" navtitle="Lilac" type="topic"/>
+</topicref>
+
+<topicref href="concepts/autumnFlowers.xml" navtitle="Autumn Flowers" type="concept">
+<topicref href="topics/chrysanthemum.xml" navtitle="Chrysanthemum" type="topic"/>
+
+<topicref href="topics/salvia.xml" navtitle="Salvia" type="topic"/>
+</topicref>
+
+<topicref href="concepts/winterFlowers.xml" navtitle="Winter Flowers" type="concept">
+<topicref href="topics/gerbera.xml" navtitle="Gerbera" type="topic"/>
+</topicref>
+</topicref>
+
+<topicref href="concepts/glossary.xml" navtitle="Glossary" type="concept"/>
+
+<topicref href="topics/copyright.xml" navtitle="Copyright" type="topic"/>
+</map>

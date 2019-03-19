@@ -1,0 +1,17 @@
+Project release info
+
+Product name: XEP
+Release name: Personal
+Project version: 4.26.690
+Build date: 2018-01-17
+current.time.year = 2018
+SETUP_JAR_NAME = setup-4.26-2018-01-17-personal.jar
+
+Compiler:
+Java Runtime version: 1.8.0_101
+JDK version: 1.5
+JDK version for AFP backend: 1.8
+Java runtime version for tests: 1.8
+Java Target version for core and backends: 1.5
+Java Target version for AFP backend: 1.8
+Java Target version for TXT backend: 1.5

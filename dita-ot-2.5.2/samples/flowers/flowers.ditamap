@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "/SysSchema/dita/dtd/technicalContent/dtd/map.dtd">
+<map xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" title="Growing Flowers" xml:lang="en-US">
+<topicref href="topics/introduction.xml" navtitle="Introduction" type="topic"/>
+
+<topicref href="topics/care.xml" navtitle="Care and Preparation" type="topic">
+<topicref href="tasks/pruning.xml" navtitle="Pruning" type="task"/>
+
+<topicref href="tasks/gardenPreparation.xml" navtitle="Garden Preparation" type="task"/>
+</topicref>
+
+<topicref conref="Flowers2.ditamap#thisistheid"/>
+
+<topicref href="concepts/glossary.xml" navtitle="Glossary" type="concept"/>
+
+<topicref href="topics/copyright.xml" navtitle="Copyright" type="topic"/>
+</map>

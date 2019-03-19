@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<plugin id="com.dita.mchp-htmlx">
+  <require plugin="org.dita.htmlx"/>
+  <feature extension="dita.conductor.transtype.check" value="mchp-htmlx"/>
+  <feature extension="dita.transtype.print" value="mchp-htmlx"/>
+  <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
+</plugin>

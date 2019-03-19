@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="exportpre" default="all" basedir=".">
+
+  <target name="dita2exportpreprocess" description="preprocessfiles" >
+	<echo> prior to preprocessbuildint</echo>
+	<antcall target="preprocessbuildint"/>
+	<echo> after preprocessbuildint</echo>
+  </target>
+  <target name="preprocessbuildint" description="preprocessfilesint" depends="build-init, preprocess">
+	<echo> prior to xslt call to remove ns</echo>
+	<echo> dita temp dir: ${dita.temp.dir}</echo>
+	<echo> output dir: ${output.dir}</echo>
+	<echo> include file: ${dita.temp.dir}${file.separator}${fullditamapandtopicfile}</echo>
+	<echo> style xsl: ${dita.plugin.com.bluestream.preprocess.dir}/removens.xsl</echo>
+	<xslt basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditamapandtopicfile}" classpathref="dost.class.path" style="${dita.plugin.com.bluestream.preprocess.dir}/removens.xsl">
+		<mapper type="identity"/>
+        <!--excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/-->
+        <xmlcatalog refid="dita.catalog"/>
+    </xslt>
+	<echo> after call to remove ns</echo>
+  </target>
+
+
+</project>

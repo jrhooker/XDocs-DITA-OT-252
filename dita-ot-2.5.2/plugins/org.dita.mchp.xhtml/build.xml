@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- This plug-in extends DITA-OT HTML5 processing with a custom CSS file. -->
+<project name="com.html5.mchp">
+    <target name="dita2xhtml-mchp">
+        <antcall target="dita2xhtml">
+            <!-- Custom .css file used to style output -->
+            <param name="args.css" value="${dita.plugin.com.xhtml.mchp.dir}/css/custom.css"/>
+            <!-- Copy the custom .css file to the output directory -->
+            <param name="args.copycss" value="yes"/>
+            <!-- Location of the copied .css file relative to the output -->
+            <param name="args.csspath" value="css"/>          
+            <param name="args.xsl" value="${dita.plugin.com.xhtml.mchp.dir}/xsl/custom.xsl"/>                
+        </antcall>        
+    </target>   
+</project>
