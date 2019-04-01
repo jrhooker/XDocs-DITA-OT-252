@@ -10,4 +10,6 @@
     <xsl:param name="SHOWCOMMENTS">NO</xsl:param><!-- values: yes, no (or any not "yes") -->
     <xsl:param name="SHOWCOMMENTS-NUM" select="0"/><!-- values: yes, no (or any not "yes") -->
     
+<xsl:template match="data"/> <!-- just to keep XDocs data elements from appearing out of place -->
+    
 </xsl:stylesheet>

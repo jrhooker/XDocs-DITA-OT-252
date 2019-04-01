@@ -2561,17 +2561,17 @@ See the accompanying LICENSE file for applicable license.
 
   <xsl:template name="chapter-setup">   
     <html>
+      <xsl:variable name="XDocs_ResPathId" select="data[@name = 'XDocs_ResPathId']/@value"/>
       <xsl:call-template name="setTopicLanguage"/>
       <xsl:value-of select="$newline"/>
       <xsl:call-template name="chapterHead"/>      
       <xsl:if test="number($SHOWCOMMENTS-NUM) = 1">
         <xsl:element name="div">
           <xsl:attribute name="class">EDITBLOCKCOMMENT</xsl:attribute>        
-          <xsl:variable name="path2production">xdocs://Production/$XDocs_ResPathId</xsl:variable>          
+          <xsl:variable name="path2production"><xsl:value-of select="concat('xdocs://Production/' ,$XDocs_ResPathId)"/></xsl:variable>          
           <script>
             function editXDocs() {           
-            <xsl:text>openedWindow = window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
-            <xsl:text>openedWindow.close();</xsl:text> 
+            <xsl:text>window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
             }
           </script>          
           <button onclick="editXDocs()">Edit In XMLmind</button>           
