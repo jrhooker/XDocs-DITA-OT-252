@@ -9,7 +9,7 @@ See the accompanying LICENSE file for applicable license.
   <!-- Start of Ant Messages -->
   <message id="DOTA001F" type="FATAL">
     <reason>"%1" is not a recognized transformation type.</reason>
-    <response>Supported transformation types are eclipsehelp, eclipsehelp-mchp, exportpreprocess, html5, htmlhelp, javahelp, pdf, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-feedback-mobile, webhelp-mobile, webhelp-responsive, webhelpCommons, xhtml, xhtml-mchp.</response>
+    <response>Supported transformation types are eclipsehelp, eclipsehelp-mchp, exportpreprocess, html5, htmlhelp, javahelp, mchp-firmware, pdf, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-feedback-mobile, webhelp-mobile, webhelp-responsive, webhelpCommons, xhtml, xhtml-mchp.</response>
   </message>
   
   <message id="DOTA002F" type="FATAL">
@@ -737,11 +737,6 @@ See the accompanying LICENSE file for applicable license.
     <response>Remove references to this target from your custom XSLT or plug-ins.</response>
   </message>
 
-  <message id="DOTX048I" type="INFO">
-    <reason>In order to include peer or external topic '%1' in your help file, you may need to recompile the CHM file after making the file available.</reason>
-    <response/>
-  </message>
-
   
   <message id="DOTA066F" type="FATAL">
     <reason>Cannot find the user specified XSLT stylesheet '%1'.</reason>
@@ -818,6 +813,11 @@ See the accompanying LICENSE file for applicable license.
   <message id="PDFX011E" type="ERROR">
     <reason>The index term '%2' uses both an index-see element and %1 element.</reason>
     <response>Convert the index-see element to index-see-also.</response>
+  </message>
+
+  <message id="DOTX048I" type="INFO">
+    <reason>In order to include peer or external topic '%1' in your help file, you may need to recompile the CHM file after making the file available.</reason>
+    <response/>
   </message>
 
   

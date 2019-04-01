@@ -31,7 +31,7 @@ See the accompanying LICENSE file for applicable license.
     <dita-ot-fail id="DOTA001F">
       <condition>
         <and>
-          <not><equals arg1="${transtype}" arg2="exportpreprocess" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-mobile" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-feedback" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-feedback-mobile" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelpCommons" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-responsive" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml-mchp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp-mchp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="html5" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not>
+          <not><equals arg1="${transtype}" arg2="exportpreprocess" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-mobile" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-feedback" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-feedback-mobile" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelpCommons" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="webhelp-responsive" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml-mchp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="mchp-firmware" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp-mchp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="html5" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not>
         </and>
       </condition>
       <param name="1" value="${transtype}"/>
@@ -48,7 +48,7 @@ See the accompanying LICENSE file for applicable license.
     </antcall>
   </target>
   
-  <property name="dita.plugin.com.oxygenxml.webhelp.common.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.common"/><property name="dita.plugin.org.dita.base.dir" location="${dita.dir}"/><property name="dita.plugin.org.dita.pdf2.xep.dir" location="${dita.dir}/plugins/org.dita.pdf2.xep"/><property name="dita.plugin.com.oxygenxml.webhelp.classic.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.classic"/><property name="dita.plugin.org.dita.eclipsehelp.dir" location="${dita.dir}/plugins/org.dita.eclipsehelp"/><property name="dita.plugin.com.oxygenxml.highlight.dir" location="${dita.dir}/plugins/com.oxygenxml.highlight"/><property name="dita.plugin.org.dita.specialization.dita11.dir" location="${dita.dir}/plugins/org.dita.specialization.dita11"/><property name="dita.plugin.org.dita.troff.dir" location="${dita.dir}/plugins/org.dita.troff"/><property name="dita.plugin.org.mscc.pdf-parameters.dir" location="${dita.dir}/plugins/org.mscc.pdf.parameters"/><property name="dita.plugin.org.dita.xhtml.dir" location="${dita.dir}/plugins/org.dita.xhtml"/><property name="dita.plugin.com.oxygenxml.webhelp.responsive.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.responsive"/><property name="dita.plugin.org.oasis-open.dita.v1_2.dir" location="${dita.dir}/plugins/org.oasis-open.dita.v1_2"/><property name="dita.plugin.org.oasis-open.dita.v1_3.dir" location="${dita.dir}/plugins/org.oasis-open.dita.v1_3"/><property name="dita.plugin.org.dita.htmlhelp.dir" location="${dita.dir}/plugins/org.dita.htmlhelp"/><property name="dita.plugin.com.sophos.tocjs.dir" location="${dita.dir}/plugins/com.sophos.tocjs"/><property name="dita.plugin.org.dita.pdf2.fop.dir" location="${dita.dir}/plugins/org.dita.pdf2.fop"/><property name="dita.plugin.com.bluestream.preprocess.dir" location="${dita.dir}/plugins/com.bluestream.preprocess"/><property name="dita.plugin.com.oxygenxml.html.custom.dir" location="${dita.dir}/plugins/com.oxygenxml.html.custom"/><property name="dita.plugin.org.dita.pdf2.axf.dir" location="${dita.dir}/plugins/org.dita.pdf2.axf"/><property name="dita.plugin.org.dita.html5.dir" location="${dita.dir}/plugins/org.dita.html5"/><property name="dita.plugin.org.dita.javahelp.dir" location="${dita.dir}/plugins/org.dita.javahelp"/><property name="dita.plugin.org.dita.eclipsehelp.mchp.dir" location="${dita.dir}/plugins/org.dita.eclipsehelp.mchp"/><property name="dita.plugin.com.xhtml.mchp.dir" location="${dita.dir}/plugins/org.dita.mchp.xhtml"/><property name="dita.plugin.org.dita.pdf2.dir" location="${dita.dir}/plugins/org.dita.pdf2"/><property name="dita.plugin.com.oxygenxml.media.dir" location="${dita.dir}/plugins/com.oxygenxml.media"/>
+  <property name="dita.plugin.com.oxygenxml.webhelp.common.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.common"/><property name="dita.plugin.org.dita.base.dir" location="${dita.dir}"/><property name="dita.plugin.org.dita.pdf2.xep.dir" location="${dita.dir}/plugins/org.dita.pdf2.xep"/><property name="dita.plugin.com.oxygenxml.webhelp.classic.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.classic"/><property name="dita.plugin.org.dita.eclipsehelp.dir" location="${dita.dir}/plugins/org.dita.eclipsehelp"/><property name="dita.plugin.com.oxygenxml.highlight.dir" location="${dita.dir}/plugins/com.oxygenxml.highlight"/><property name="dita.plugin.org.dita.specialization.dita11.dir" location="${dita.dir}/plugins/org.dita.specialization.dita11"/><property name="dita.plugin.org.dita.troff.dir" location="${dita.dir}/plugins/org.dita.troff"/><property name="dita.plugin.org.mscc.pdf-parameters.dir" location="${dita.dir}/plugins/org.mscc.pdf.parameters"/><property name="dita.plugin.org.dita.xhtml.dir" location="${dita.dir}/plugins/org.dita.xhtml"/><property name="dita.plugin.com.oxygenxml.webhelp.responsive.dir" location="${dita.dir}/plugins/com.oxygenxml.webhelp.responsive"/><property name="dita.plugin.org.oasis-open.dita.v1_2.dir" location="${dita.dir}/plugins/org.oasis-open.dita.v1_2"/><property name="dita.plugin.org.oasis-open.dita.v1_3.dir" location="${dita.dir}/plugins/org.oasis-open.dita.v1_3"/><property name="dita.plugin.org.dita.htmlhelp.dir" location="${dita.dir}/plugins/org.dita.htmlhelp"/><property name="dita.plugin.com.sophos.tocjs.dir" location="${dita.dir}/plugins/com.sophos.tocjs"/><property name="dita.plugin.org.dita.pdf2.fop.dir" location="${dita.dir}/plugins/org.dita.pdf2.fop"/><property name="dita.plugin.com.bluestream.preprocess.dir" location="${dita.dir}/plugins/com.bluestream.preprocess"/><property name="dita.plugin.com.oxygenxml.html.custom.dir" location="${dita.dir}/plugins/com.oxygenxml.html.custom"/><property name="dita.plugin.org.dita.pdf2.axf.dir" location="${dita.dir}/plugins/org.dita.pdf2.axf"/><property name="dita.plugin.org.dita.html5.dir" location="${dita.dir}/plugins/org.dita.html5"/><property name="dita.plugin.org.dita.javahelp.dir" location="${dita.dir}/plugins/org.dita.javahelp"/><property name="dita.plugin.org.dita.eclipsehelp.mchp.dir" location="${dita.dir}/plugins/org.dita.eclipsehelp.mchp"/><property name="dita.plugin.com.xhtml.mchp.dir" location="${dita.dir}/plugins/org.dita.mchp.xhtml"/><property name="dita.plugin.org.dita.pdf2.dir" location="${dita.dir}/plugins/org.dita.pdf2"/><property name="dita.plugin.com.oxygenxml.media.dir" location="${dita.dir}/plugins/com.oxygenxml.media"/><property name="dita.plugin.mchp-firmware.dir" location="${dita.dir}/plugins/mchp-firmware"/>
   
   <import file="plugins/org.dita.base/build_init.xml"/>
   <import file="plugins/org.dita.base/build_preprocess.xml"/>
@@ -83,6 +83,33 @@ See the accompanying LICENSE file for applicable license.
         </antcall>        
     </target>   
 
+
+  <import file="plugins/org.dita.pdf2/build.xml"/>
+
+
+    
+  <target depends="dita2pdf2.init, build-init, preprocess, map2firmware, create-firmware" name="dita2mchp-firmware"/>  
+ 
+  <target name="map2firmware" unless="noMap">
+    <dirname property="dita.temp.dir.fullpath" file="${dita.temp.dir}${file.separator}dummy.file"/>
+    <pipeline message="topicmerge" taskname="topic-merge" inputmap="${dita.temp.dir.fullpath}${file.separator}${user.input.file}" tempdir="${dita.temp.dir.fullpath}">
+      <module class="org.dita.dost.module.TopicMergeModule">
+        <param name="output" location="${dita.temp.dir.fullpath}${file.separator}${dita.map.filename.root}_MERGED.xml"/>
+        <param name="style" location="${dita.plugin.org.dita.pdf2.dir}/xsl/common/topicmerge.xsl"/>
+      </module>
+    </pipeline>
+    
+  </target>  
+  
+  <target name="create-firmware">
+     
+    <property name="outputFile.base" value="${dita.map.filename.root}"/>
+    <mkdir dir="${dita.map.output.dir}"/>
+    <xslt style="${dita.plugin.mchp-firmware.dir}/xsl/generate_headerfile.xsl" in="${dita.temp.dir.fullpath}${file.separator}${dita.map.filename.root}_MERGED.xml" out="${dita.temp.dir}/${outputFile.base}.h"/> 
+    <copy file="${dita.temp.dir}/${outputFile.base}.h" tofile="${dita.map.output.dir}/${outputFile.base}.h"/>
+  </target>
+ 
+
   <import file="plugins/org.dita.eclipsehelp/build_dita2eclipsehelp.xml"/>
 
   <import file="plugins/org.dita.eclipsehelp.mchp/build_dita2eclipsehelp.xml"/>
@@ -92,10 +119,6 @@ See the accompanying LICENSE file for applicable license.
   <import file="plugins/org.dita.htmlhelp/build_dita2htmlhelp.xml"/>
 
   <import file="plugins/org.dita.javahelp/build_dita2javahelp.xml"/>
-
-
-  <import file="plugins/org.dita.pdf2/build.xml"/>
-
 
   <import file="plugins/org.dita.pdf2.axf/build_axf.xml"/>
 
