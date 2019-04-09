@@ -131,7 +131,7 @@ See the accompanying LICENSE file for applicable license.
   <!--  The elipse.plugin mode teamplate is used to create a plugin.xml file. -->  
   <xsl:template match="*[contains(@class, ' map/map ')]" mode="eclipse.plugin">
     <xsl:element name="plugin">
-     <!-- <xsl:attribute name="name">
+     <xsl:attribute name="name">
         <xsl:choose>
           <xsl:when test="*[contains(@class, ' topic/title ')]">
             <xsl:value-of select="*[contains(@class, ' topic/title ')]"/>
@@ -146,11 +146,11 @@ See the accompanying LICENSE file for applicable license.
       </xsl:attribute>
       <xsl:attribute name="id">
         <xsl:choose>
-          <xsl:when test="@id">
-            <xsl:value-of select="@id"/>
+          <xsl:when test="//bookmap/bookmeta/pmc_iso[1]/@id">
+            <xsl:value-of select="//bookmap/bookmeta/pmc_iso[1]/@id"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:text>org.sample.help.doc</xsl:text>
+            <xsl:text>org.sample.help.doc_</xsl:text><xsl:value-of select="generate-id(.)"/>
             <xsl:call-template name="output-message">
               <xsl:with-param name="id" select="'DOTX050W'"/>
             </xsl:call-template>
@@ -162,7 +162,7 @@ See the accompanying LICENSE file for applicable license.
       </xsl:attribute>
       <xsl:attribute name="provider-name">
         <xsl:value-of select="$provider"/>
-      </xsl:attribute>-->
+      </xsl:attribute>
       <xsl:element name="extension">
         <xsl:attribute name="point">
           <xsl:text>org.eclipse.help.toc</xsl:text>
