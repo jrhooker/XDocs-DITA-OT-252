@@ -240,7 +240,7 @@ See the accompanying LICENSE file for applicable license.
     unless="noPlugin"
     depends="dita.map.eclipse.plugin.init" if="old.transform"
     description="Build Eclipsehelp manifest.mf file">
-    <xslt
+    <!--<xslt
       in="${dita.temp.dir}/${user.input.file}"
       out="${dita.map.output.dir}/META-INF/MANIFEST.MF"
       classpathref="dost.class.path"
@@ -266,14 +266,14 @@ See the accompanying LICENSE file for applicable license.
       <param name="dita.plugin.output" 
         expression="dita.eclipse.manifest"/>
       <xmlcatalog refid="dita.catalog"/>
-    </xslt>
+    </xslt>-->
   </target>
   
   <target name="dita.out.map.eclipse.manifest.file"
     unless="noPlugin"
     depends="dita.map.eclipse.plugin.init" if="inner.transform"
     description="Build Eclipsehelp manifest.mf file">
-    <xslt
+    <!--<xslt
       in="${dita.temp.dir}/${user.input.file}"
       out="${dita.map.output.dir}/META-INF/MANIFEST.MF"
       classpathref="dost.class.path"
@@ -299,7 +299,7 @@ See the accompanying LICENSE file for applicable license.
       <param name="dita.plugin.output" 
         expression="dita.eclipse.manifest"/>
       <xmlcatalog refid="dita.catalog"/>
-    </xslt>
+    </xslt>-->
   </target>
   
   
@@ -369,7 +369,7 @@ See the accompanying LICENSE file for applicable license.
   
   <target name="dita.map.eclipse.fragment.move.files"
     if="old.transform">
-    <defaultexcludes add="**/META-INF/**"/>
+    <!--<defaultexcludes add="**/META-INF/**"/>-->
     <defaultexcludes add="**/nl/**"/>
     <delete file="${dita.output.dir}/plugin.xml"/>
     <delete file="${dita.output.dir}/plugincustomization.ini"/>
@@ -393,7 +393,7 @@ See the accompanying LICENSE file for applicable license.
   
   <target name="dita.out.map.eclipse.fragment.move.files"
     if="inner.transform">
-    <defaultexcludes add="**/META-INF/**"/>
+    <!--<defaultexcludes add="**/META-INF/**"/>-->
     <defaultexcludes add="**/nl/**"/>
     <delete file="${dita.output.dir}/plugin.xml"/>
     <delete file="${dita.output.dir}/plugincustomization.ini"/>

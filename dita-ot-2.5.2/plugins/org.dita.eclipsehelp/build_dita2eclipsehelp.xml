@@ -167,31 +167,63 @@ See the accompanying LICENSE file for applicable license.
   
   
   <target name="dita.map.eclipse.manifest.file" unless="noPlugin" depends="dita.map.eclipse.plugin.init" if="old.transform" description="Build Eclipsehelp manifest.mf file">
-    <xslt in="${dita.temp.dir}/${user.input.file}" out="${dita.map.output.dir}/META-INF/MANIFEST.MF" classpathref="dost.class.path" style="${dita.plugin.org.dita.eclipsehelp.dir}/xsl/map2plugin.xsl">
-      <param name="version" expression="${args.eclipse.version}" if="args.eclipse.version"/>
-      <param name="provider" expression="${args.eclipse.provider}" if="args.eclipse.provider"/>
-      <param name="osgi.symbolic.name" expression="${args.eclipse.symbolic.name}" if="args.eclipse.symbolic.name"/>
-      <param name="plugin" expression="${eclipse.plugin}"/>
-      <param name="fragment.country" expression="${args.eclipsehelp.country}" if="eclipse.fragment.country"/>
-      <param name="fragment.lang" expression="${args.eclipsehelp.language}" if="args.eclipsehelp.language"/>
+    <!--<xslt
+      in="${dita.temp.dir}/${user.input.file}"
+      out="${dita.map.output.dir}/META-INF/MANIFEST.MF"
+      classpathref="dost.class.path"
+      style="${dita.plugin.org.dita.eclipsehelp.dir}/xsl/map2plugin.xsl">
+      <param name="version"
+        expression="${args.eclipse.version}"
+        if="args.eclipse.version" />
+      <param name="provider"
+        expression="${args.eclipse.provider}"
+        if="args.eclipse.provider" />
+      <param name="osgi.symbolic.name"
+        expression="${args.eclipse.symbolic.name}"
+        if="args.eclipse.symbolic.name"/>
+      <param name="plugin"
+        expression="${eclipse.plugin}" />
+      <param name="fragment.country" 
+        expression="${args.eclipsehelp.country}" 
+        if="eclipse.fragment.country"/>
+      <param name="fragment.lang" 
+        expression="${args.eclipsehelp.language}" 
+        if="args.eclipsehelp.language"/>
       <outputproperty value="text" name="method"/>
-      <param name="dita.plugin.output" expression="dita.eclipse.manifest"/>
+      <param name="dita.plugin.output" 
+        expression="dita.eclipse.manifest"/>
       <xmlcatalog refid="dita.catalog"/>
-    </xslt>
+    </xslt>-->
   </target>
   
   <target name="dita.out.map.eclipse.manifest.file" unless="noPlugin" depends="dita.map.eclipse.plugin.init" if="inner.transform" description="Build Eclipsehelp manifest.mf file">
-    <xslt in="${dita.temp.dir}/${user.input.file}" out="${dita.map.output.dir}/META-INF/MANIFEST.MF" classpathref="dost.class.path" style="${dita.plugin.org.dita.eclipsehelp.dir}/xsl/map2plugin.xsl">
-      <param name="version" expression="${args.eclipse.version}" if="args.eclipse.version"/>
-      <param name="provider" expression="${args.eclipse.provider}" if="args.eclipse.provider"/>
-      <param name="osgi.symbolic.name" expression="${args.eclipse.symbolic.name}" if="args.eclipse.symbolic.name"/>
-      <param name="plugin" expression="${eclipse.plugin}"/>
-      <param name="fragment.country" expression="${args.eclipsehelp.country}" if="eclipse.fragment.country"/>
-      <param name="fragment.lang" expression="${args.eclipsehelp.language}" if="args.eclipsehelp.language"/>
+    <!--<xslt
+      in="${dita.temp.dir}/${user.input.file}"
+      out="${dita.map.output.dir}/META-INF/MANIFEST.MF"
+      classpathref="dost.class.path"
+      style="${dita.plugin.org.dita.eclipsehelp.dir}/xsl/map2plugin.xsl">
+      <param name="version"
+        expression="${args.eclipse.version}"
+        if="args.eclipse.version" />
+      <param name="provider"
+        expression="${args.eclipse.provider}"
+        if="args.eclipse.provider" />
+      <param name="osgi.symbolic.name"
+        expression="${args.eclipse.symbolic.name}"
+        if="args.eclipse.symbolic.name"/>
+      <param name="plugin"
+        expression="${eclipse.plugin}" />
+      <param name="fragment.country" 
+        expression="${args.eclipsehelp.country}" 
+        if="eclipse.fragment.country"/>
+      <param name="fragment.lang" 
+        expression="${args.eclipsehelp.language}" 
+        if="args.eclipsehelp.language"/>
       <outputproperty value="text" name="method"/>
-      <param name="dita.plugin.output" expression="dita.eclipse.manifest"/>
+      <param name="dita.plugin.output" 
+        expression="dita.eclipse.manifest"/>
       <xmlcatalog refid="dita.catalog"/>
-    </xslt>
+    </xslt>-->
   </target>
   
   
@@ -234,7 +266,7 @@ See the accompanying LICENSE file for applicable license.
   </target>
   
   <target name="dita.map.eclipse.fragment.move.files" if="old.transform">
-    <defaultexcludes add="**/META-INF/**"/>
+    <!--<defaultexcludes add="**/META-INF/**"/>-->
     <defaultexcludes add="**/nl/**"/>
     <delete file="${dita.output.dir}/plugin.xml"/>
     <delete file="${dita.output.dir}/plugincustomization.ini"/>
@@ -257,7 +289,7 @@ See the accompanying LICENSE file for applicable license.
   </target>
   
   <target name="dita.out.map.eclipse.fragment.move.files" if="inner.transform">
-    <defaultexcludes add="**/META-INF/**"/>
+    <!--<defaultexcludes add="**/META-INF/**"/>-->
     <defaultexcludes add="**/nl/**"/>
     <delete file="${dita.output.dir}/plugin.xml"/>
     <delete file="${dita.output.dir}/plugincustomization.ini"/>
