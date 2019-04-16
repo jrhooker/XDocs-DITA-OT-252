@@ -2562,6 +2562,8 @@ See the accompanying LICENSE file for applicable license.
   <xsl:template name="chapter-setup">   
     <html>
       <xsl:variable name="XDocs_ResPathId" select="data[@name = 'XDocs_ResPathId']/@value"/>
+      <xsl:variable name="XDocs_ResId" select="data[@name = 'XDocs_ResId']/@value"/>
+      <xsl:variable name="XDocs_ResIdPrimary" select="data[@name = 'XDocs_ResIdPrimary']/@value"/>
       <xsl:call-template name="setTopicLanguage"/>
       <xsl:value-of select="$newline"/>
       <xsl:call-template name="chapterHead"/>      
@@ -2569,18 +2571,24 @@ See the accompanying LICENSE file for applicable license.
         <xsl:element name="div">
           <xsl:attribute name="class">EDITBLOCKCOMMENT</xsl:attribute>        
           <xsl:variable name="path2production"><xsl:value-of select="concat('xdocs://Production/' ,$XDocs_ResPathId)"/></xsl:variable>          
+          <xsl:variable name="path2production">xdocs://Production/<xsl:value-of select="@XDocs_ResPathId"/></xsl:variable>          
           <script>
             function editXDocs() {           
             <xsl:text>window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
+            <xsl:text>openedWindow = window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
+            <xsl:text>openedWindow.close();</xsl:text> 
             }
           </script>          
           <button onclick="editXDocs()">Edit In XMLmind</button>           
         </xsl:element>      
       </xsl:if>
       <xsl:call-template name="chapterBody"/>         
+      <xsl:call-template name="chapterBody"/>    
+      <p>XDocs_ResPathId: <xsl:value-of select="$XDocs_ResPathId"/></p>
+      <p>XDocs_ResId: <xsl:value-of select="$XDocs_ResId"/></p>
+      <p>XDocs_ResIdPrimary: <xsl:value-of select="$XDocs_ResIdPrimary"/></p>
     </html>
   </xsl:template>  
- 
 
   <xsl:template name="setTopicLanguage">
     <xsl:variable name="childlang">
