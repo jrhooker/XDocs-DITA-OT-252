@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="IPC_Message_Interface_4cht98nxzd" xml:lang="en-US">
+  <title>IPC Message Interface</title>
+
+  <body>
+    <p>The Data Manager sends and receives IPC messages to
+    and from many of the managers and hardware functional units in the system.
+    <xref href="#IPC_Message_Interface_4cht98nxzd/IPC_Messages_4dht98nxzd"/>
+    outlines the message types that are sent between these managers and
+    hardware functional units.</p>
+
+    <table id="IPC_Messages_4dht98nxzd" rowheader="firstcol">
+      <title>IPC Messages</title>
+
+      <tgroup cols="7">
+        <colspec colname="c2" colwidth="13*"/>
+
+        <colspec colname="c3" colwidth="14*"/>
+
+        <colspec colname="c4" colwidth="12*"/>
+
+        <colspec colname="c5" colwidth="14*"/>
+
+        <colspec colname="c6" colwidth="13*"/>
+
+        <colspec colname="c7" colwidth="14*"/>
+
+        <colspec colname="c8" colwidth="15*"/>
+
+        <thead>
+          <row>
+            <entry/>
+
+            <entry>Data Manager (Destination)</entry>
+
+            <entry>Locking Manager
+            (Destination)</entry>
+
+            <entry>Admin Command Manager
+            (Destination)</entry>
+
+            <entry>FTL Manager (Destination)</entry>
+
+            <entry>Host Interface</entry>
+
+            <entry>Buffer Manager</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p>Data Manager
+            (Source)</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>ReadLockReq</p> <p>WriteLockReq</p> <p>LockRelease</p></entry>
+
+            <entry><p>CmdReady</p>
+            <p>QueueMapCreateCpl</p> <p>QueueMapDelCpl</p> <p>DMSMARTUpdateCpl</p> <p>UpdateMemPgSzCpl</p> <p>LogUpdate</p> <p>PMReadyCpl</p> <p>NotifyPCIeMgr</p></entry>
+
+            <entry><p>WriteReq</p>
+            <p>ReadReq</p> <p>SelfTestReq</p></entry>
+
+            <entry><p>CplQueueUpdate</p> <p>EgressSectorDMA</p> <p>IngressSectorDMA</p> <p>IngressDMA</p></entry>
+
+            <entry><p>BufferAlloc</p> <p>BufferFree</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Locking
+            Manager (Source)</p></entry>
+
+            <entry><p>LockCpl</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Admin Command
+            Manager (Source)</p></entry>
+
+            <entry><p>QueueMapCreateReq</p> <p>QueueMapDelReq</p> <p>SMARTUpdateReq</p> <p>UpdateMemPgSzReq</p> <p>PMReadyReq</p> <p>UpdatePCIHdr</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+
+          <row>
+            <entry><p>FTL Manager
+            (Source)</p></entry>
+
+            <entry><p>WriteCpl</p>
+            <p>ReadCpl</p> <p>SelfTestCpl</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Host
+            Interface</p></entry>
+
+            <entry><p>CmdReady64</p>
+            <p>CplQueueUpdateCpl</p> <p>DMACpl</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Buffer
+            Manager</p></entry>
+
+            <entry><p>BufferOpCpl</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

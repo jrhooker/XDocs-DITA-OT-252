@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Write_Arbitration_9yhta874f9" xml:lang="en-US">
+  <title>Write Arbitration</title>
+
+  <body>
+    <p><cmdname otherprops="bold">DataFrameWriteReq</cmdname>s or <cmdname otherprops="bold">WriteReq</cmdname> are
+    received from the Data Manager and the Wearleveling Manager. In a busy
+    system, the Data Managers will be sending write requests much faster than
+    the Wearleveling Manager; that is, the Lookup Manager will be processing
+    more write requests from the Data Managers than those from the
+    Wearleveling Manager. This will cause the Wearleveling Manager to fall
+    behind and all flash LUNs will be full. Once this happens, there will be
+    no free block to use by the Wearleveling Manager and the system will
+    deadlock.</p>
+
+    <p>Write Arbitration schedules the Data Managers and
+    Wearleveling Managers write requests to avoid system deadlocks.</p>
+
+    <p>Write Arbitration objective is:</p>
+
+    <ul>
+      <li id="d1e9456"><p>Command
+      latency is as minimal as possible and average command latency is in
+      steady state.</p></li>
+
+      <li id="d1e9462"><p>Throughput is
+      in steady state when drive is full and Garbage Collection is
+      active.</p></li>
+
+      <li id="d1e9468"><p>Write
+      Application matches with theoretical number.</p></li>
+
+      <li id="d1e9474"><p>Should handle
+      grown bad block so that will not run out of free blocks.</p></li>
+    </ul>
+
+    <p>When Garbage Collection is not active, Write
+    arbitration processes only requests from the Data Managers. When Garbage
+    Collection is active, the Data Managers and Wearleveling Manager writes
+    are scheduled as follows.</p>
+
+    <fig id="Write_Arbitration_Algorithm_9zhta874f9">
+      <title>Write Arbitration Algorithm</title>
+
+      <image href="Graphics/clip_image072_b28s84b.png" placement="break"/>
+    </fig>
+
+    <p>Data Manager and Wearleveling Managers requests are
+    interleaved to bring down command latency as low as possible.</p>
+
+    <p>Example: Given X = 2, Y = 3, the requests are
+    processed in the following order:</p>
+
+    <ul>
+      <li id="d1e9507"><p>1 Data
+      Manager request</p></li>
+
+      <li id="d1e9513"><p>1
+      Wearleveling Manager request</p></li>
+
+      <li id="d1e9519"><p>1 Data
+      Manager request</p></li>
+
+      <li id="d1e9525"><p>2
+      Wearleveling Manager requests</p></li>
+    </ul>
+
+    <p>While scheduling the requests, if there is no
+    request in the inbound message queue from next scheduled manager, it is
+    skipped and the request from the other manager is processed.</p>
+
+    <section id="Write_Arbitration_Parameters_a0hta874f9"><title>Write Arbitration Parameters</title><p>The Lookup Manager calculates write arbitration
+    parameters (X, Y) based on write credit count. Write credit count is the
+    total number of free data frames available for write. When the system is
+    powering up, the Lookup manager has an infinite number of write credits
+    and full bandwidth is given to the Data Manager requests.</p><p>When garbage collection is triggered, the Wearleveling
+    Manager sends UpdateWriteCreditCountReq message to the Lookup Manager. The
+    Lookup Manager changes write credit count from an infinite number to a
+    given number and sets write arbitration parameters X = 2 and Y = 1; that
+    is, two Data Manager requests and one Wearleveling Manager request are
+    processed. The Lookup Manager decrements the write credit count after
+    processing data frame write requests. When write credit count goes below
+    next threshold, more time is given to the Wearleveling Manager
+    requests.</p><p>The Wearleveling Manager keeps sending
+    UpdateWriteCreditCountReqs whenever a flash block is freed from the
+    Garbage Collection.</p></section>
+  </body>
+</topic>

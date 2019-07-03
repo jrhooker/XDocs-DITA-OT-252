@@ -7,7 +7,7 @@
         <xsl:variable name="title">
             <xsl:call-template name="get-file-title">
                 <xsl:with-param name="title"
-                    select="/ditac:chunk/topic[1]/title[1]"
+                    select="/bookmap/topic[1]/title[1]"
                 />
             </xsl:call-template>
         </xsl:variable>

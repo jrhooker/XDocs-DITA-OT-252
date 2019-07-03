@@ -1,0 +1,6565 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="System_Management_4ht98jkcn" xml:lang="en-US">
+  <title>System Management</title>
+
+  <body>
+    <p>The IPC messages in the following sections are
+    initiated by different managers in order to manage the system.</p>
+
+    <section id="CreateAdminCplQReq_5ht98jkco"><title>CreateAdminCplQReq</title> <p>This message is sent from the PCIe Manager to the Admin
+    Command Manager to create the admin completion queue when the host sets
+    the CC.EN bit to ‘1’.</p> <table id="_6ht98jkco">
+        <title>CreateAdminCplQreq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>14</single>
+              </position>
+
+              <name>interruptEnable</name>
+
+              <description>
+                <p>Interrupt Enable</p>
+
+                <p>If set to ‘1’, then interrupts are
+                enabled for this Completion Queue. If cleared to ‘0’, then
+                interrupts are disabled for this Completion Queue.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>interruptVector</name>
+
+              <description>
+                <p>Interrupt Vector</p>
+
+                <p>This field indicates which interrupt
+                vector to use for this Completion Queue. This corresponds to
+                the MSI-X or multiple message MSI vector. If using single
+                message MSI or pin-based interrupts, then this field shall be
+                cleared to 0h.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>queueID</name>
+
+              <description>
+                <p>Queue Identifier</p>
+
+                <p>Identifier given to the queue being
+                created. This value shall not exceed the value reported in the
+                Number of Queues feature for I/O Completion Queues.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>queueSize</name>
+
+              <description>
+                <p>Queue Size</p>
+
+                <p>Zero based value specifying the size of
+                the completion queue in entries.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>queueAddrLower</name>
+
+              <description>
+                <p>Queue Base Address (lower)</p>
+
+                <p>Lower 32 bits of the 64-bit queue base
+                address in host memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>queueAddrUpper</name>
+
+              <description>
+                <p>Queue Base Address (upper)</p>
+
+                <p>Upper 32 bits of the 64-bit queue base
+                address in host memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="CreateAdminCplQCpl_7ht98jkcp"><title>CreateAdminCplQCpl</title> <p>In
+    response to receiving a CreateAdminCplQReq IPC message and after
+    performing any associated operations, the Admin Command Manager will send
+    this message to the PCIe Manager.</p> <table id="_8ht98jkcp">
+        <title>CreateAdminCplQcpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>14</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>exception</name>
+
+              <description>
+                <p>Exception</p>
+
+                <p>An exception occurred while processing
+                the command, the status field contains the appropriate status
+                value.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p><b otherprops="bold">Completion Status</b></p>
+
+                <p>1h Invalid queue ID.</p>
+
+                <p>2h Maximum queue size exceeded. An
+                attempt was made to create an I/O Completion Queue with a
+                number of entries that exceeds the maximum supported by the
+                controller, specified in CAP.MQES.</p>
+
+                <p>8h Invalid interrupt vector.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="CreateAdminSubQReq_9ht98jkcp"><title>CreateAdminSubQReq</title> <p>This message is sent from the PCIe Manager to the Admin
+    Command Manager to create the admin submission queue when the host sets
+    the CC.EN bit to ‘1’.</p> <table id="_aht98jkcp">
+        <title>CreateAdminSubQreq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>14</single>
+              </position>
+
+              <name>interruptEnable</name>
+
+              <description>
+                <p>Interrupt Enable</p>
+
+                <p>Specifies if an interrupt should be
+                generated when completions are posted to the specified
+                completion queue.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>completionQueueID</name>
+
+              <description>
+                <p>Completion Queue ID</p>
+
+                <p>This field indicates the identifier of
+                the Completion Queue to utilize for any command completion
+                entries associated with this Submission Queue. The value of 0h
+                (Admin Completion Queue) will not be specified.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>submissionQueueID</name>
+
+              <description>
+                <p>Submission Queue Identifier</p>
+
+                <p>Identifier given to the queue being
+                created. This value will not exceed the value reported in the
+                Number of Queues feature for I/O Completion Queues.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>queueSize</name>
+
+              <description>
+                <p>Queue Size</p>
+
+                <p>Zero based value specifying the size of
+                the completion queue in entries.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>queueAddrLower</name>
+
+              <description>
+                <p>Queue Base Address (lower)</p>
+
+                <p>Lower 32 bits of the 64-bit queue base
+                address in host memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>queueAddrUpper</name>
+
+              <description>
+                <p>Queue Base Address (upper)</p>
+
+                <p>Upper 32 bits of the 64-bit queue base
+                address in host memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="CreateAdminSubQCpl_bht98jkcp"><title>CreateAdminSubQCpl</title> <p>In
+    response to receiving a CreateAdminSubQReq IPC message and after
+    performing any associated operations, the Admin Command Manager will send
+    this message to the PCIe Manager.</p> <table id="_cht98jkcp">
+        <title>CreateAdminSubQcpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>14</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>exception</name>
+
+              <description>
+                <p>Exception</p>
+
+                <p>An exception occurred while processing
+                the command, the status field contains the appropriate status
+                value.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h Completion Queue Invalid. The
+                Completion Queue identifier specified in the command does not
+                exist.</p>
+
+                <p>1h Invalid queue ID.</p>
+
+                <p>2h Maximum queue size exceeded. An
+                attempt was made to create an I/O Submission Queue with a
+                number of entries that exceeds the maximum supported by the
+                controller, specified in CAP.MQES.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DeleteSubQReq_dht98jkcq"><title>DeleteSubQReq</title> <p>When
+    the host sets the NVM Express CC.EN bit to ‘0’, the PCIe Manager will
+    determine which queues are affected based on its mode of operation and
+    send this message to the Admin Command Manager.</p> <table id="_eht98jkcq">
+        <title>DeleteSubQreq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>14</single>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>startSubQueueID</name>
+
+              <description>
+                <p>Starting Submission Queue ID</p>
+
+                <p>This field indicates the starting range
+                of the Submission Queue(s) to be deleted.</p>
+
+                <p>The value of 0h (Admin Submission Queue)
+                shall not be specified.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>endSubQueueID</name>
+
+              <description>
+                <p>Ending Submission Queue ID</p>
+
+                <p>This field indicates the ending range of
+                the Completion Queue(s) to be deleted. This range is
+                inclusive. If a startCplQueueID of 0 and endCplQueueID of 128
+                is used, this will delete all 129 Completion Queues. To delete
+                just one queue, the startCplQueueID and endCplQueueID values
+                should be the same.</p>
+
+                <p>The value of 0h (Admin Submission Queue)
+                shall not be specified.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>reason</name>
+
+              <description>
+                <p>Reason Code</p>
+
+                <p>This field indicates the reason why the
+                Submission Queue Range is being deleted.</p>
+
+                <p>0h PCIe Fundamental Reset</p>
+
+                <p>1h PCIe Hot Reset</p>
+
+                <p>2h Function Level Reset</p>
+
+                <p>3h NVMe Controller Reset</p>
+
+                <p>4h NVMe Port Shutdown</p>
+
+                <p>5h NVMe Controller Disable</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DeleteSubQCpl_fht98jkcq"><title>DeleteSubQCpl</title> <p>In
+    response to receiving a DeleteSubQReq IPC message and after performing any
+    associated operations, the Admin Command Manager will send this message to
+    the PCIe Manager.</p> <table id="_ght98jkcq">
+        <title>DeleteSubQcpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>14</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>exception</name>
+
+              <description>
+                <p>Exception</p>
+
+                <p>An exception occurred while processing
+                the command. The status field contains the appropriate status
+                value.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>1h Invalid queue ID range.</p>
+
+                <p>f000h Firmware Activate has
+                occurred.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="QueueMapCreateReq_hht98jkcq"><title>QueueMapCreateReq</title> <p>Message sent from the Admin Command Manager to all of
+    the Data Managers to create a mapping between a Submission queue and a
+    Completion queue.</p> <table id="_iht98jkcq">
+        <title>QueueMapCreateReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field specifies the PCIe port that
+                the queue mapping is associated with.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>14</single>
+              </position>
+
+              <name>adminQueue</name>
+
+              <description>
+                <p>Administration Queue</p>
+
+                <p>Specifies that this
+                submission/completion queue pair are for administration
+                purposes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>interruptEnable</name>
+
+              <description>
+                <p>Interrupt Enable</p>
+
+                <p>Specifies if an interrupt should be
+                generated when completions are posted to the specified
+                completion queue.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>submissionQueueID</name>
+
+              <description>
+                <p>Submission Queue Engine ID</p>
+
+                <p>This field specifies the ID of the
+                submission queue engine for which a mapping is being
+                added.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>completionQueueID</name>
+
+              <description>
+                <p>Completion Queue Engine ID</p>
+
+                <p>This field specifies the ID of the
+                completion queue engine to which the specified submission
+                queue engine is mapped.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="QueueMapCreateCpl_jht98jkcq"><title>QueueMapCreateCpl</title> <p>Message sent from the Data Manager to the Admin Command
+    Manager in response to a QueueMapCreateReq IPC message.</p> <table id="_kht98jkcq">
+        <title>QueueMapCreateCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="QueueMapDelReq_lht98jkcq"><title>QueueMapDelReq</title> <p>Message sent from the Admin Command Manager to the Data
+    Manager to delete a mapping between a Submission Queue and a Completion
+    Queue.</p> <table id="_mht98jkcr">
+        <title>QueueMapDelReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field specifies the PCIe port that
+                the queue mapping is associated with.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>subQueueID</name>
+
+              <description>
+                <p>Submission Queue Engine ID</p>
+
+                <p>This field specifies the ID of the
+                submission queue engine for which the mapping is being
+                deleted.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="QueueMapDelCpl_nht98jkcr"><title>QueueMapDelCpl</title> <p>Message sent from the Data Manager to the Admin Command
+    Manager in response to a QueueMapDelReq IPC message.</p> <table id="_oht98jkcr">
+        <title>QueueMapDelCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h NVM Express commands were aborted due
+                to the queue deletion request.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="UpdateMemPgSzReq_pht98jkcr"><title>UpdateMemPgSzReq</title> <p>Message sent from the PCIe Manager to the Admin Command
+    Manager in response to a change in the NVM Express Controller
+    Configuration Register’s Memory Page Size field.</p> <table id="_qht98jkcr">
+        <title>UpdateMemPgSzReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>mps</name>
+
+              <description>
+                <p>Memory Page Size.</p>
+
+                <p>This field indicates the size of the
+                memory page size as (2 ^(12+mps)). Thus the minimum page size
+                is 4KB and the maximum host memory page size is 128MB.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="UpdateMemPgSzCpl_rht98jkcr"><title>UpdateMemPgSzCpl</title> <p>Message sent from the Admin Command Manager to the PCIe
+    Manager in response to a UpdateMemPgSzReq IPC message.</p> <table id="_sht98jkcr">
+        <title>UpdateMemPgSzCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="UpdatePCIHdr_tht98jkcs"><title>UpdatePCIHdr</title> <p>Messages
+    sent from the PCIe Manager to the Admin Command Manager and then
+    propagated to the Data Managers. IPC messages notify that the PCIe Control
+    header field has changed. The header only affects requests generated by
+    the queues indicated by the inclusive range startQueue and endQueue. This
+    is the same information that can be found in the CAR_SQExPCIECTL and
+    CAR_CQExPCIECTL registers.</p> <table id="_uht98jkcs">
+        <title>UpdatePcihdr</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port.</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>startQueue</name>
+
+              <description>
+                <p>Starting Queue ID.</p>
+
+                <p>This is the starting Queue ID range for
+                which the PCIe Control header has changed.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>endQueue</name>
+
+              <description>
+                <p>Ending Queue ID.</p>
+
+                <p>This is the last Queue ID for which the
+                PCIe Control header has changed.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>rid</name>
+
+              <description>
+                <p>Requester ID.</p>
+
+                <p>This field contains the Requester ID
+                (RID) header field value used in PCIe requests issued by this
+                interrupt vector.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>attr</name>
+
+              <description>
+                <p>Header Attribute.</p>
+
+                <p>This field contains the Attribute (Attr)
+                header field value used in PCIe requests issued by this
+                interrupt vector.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>19</lsb>
+                </double>
+              </position>
+
+              <name>at</name>
+
+              <description>
+                <p>Address Type.</p>
+
+                <p>This field contains the Address Type
+                (AT) header field value used in PCIe requests issued by this
+                interrupt vector.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>21</single>
+              </position>
+
+              <name>th</name>
+
+              <description>
+                <p>TLP Processing Hints Present.</p>
+
+                <p>This field contains the TLP Processing
+                Hints Present (TH) header field value used in PCIe requests
+                issued by this interrupt vector.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>22</lsb>
+                </double>
+              </position>
+
+              <name>ph</name>
+
+              <description>
+                <p>TLP Processing Hints.</p>
+
+                <p>When the TLP Processing Hints Present
+                (TH) bit is set in this register, this field contains the
+                Processing Hints (PH) field used in PCIe requests issued by
+                this interrupt vector.</p>
+
+                <p>When the TH bit is cleared, the value of
+                this field is ignored.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>st</name>
+
+              <description>
+                <p>TLP Steering Tag.</p>
+
+                <p>When the TLP Processing Hints Present
+                (TH) bit is set in this register, this field contains the
+                Steering Tag (ST) field used in PCIe requests issued by this
+                interrupt vector.</p>
+
+                <p>When the TH bit is cleared, the value of
+                this field is ignored.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="NotifyPCIeMgr_vht98jkcs"><title>NotifyPCIeMgr</title> <p>When a
+    CmdReady64 DWORD 16 Status bits 23:16, CmdReady128 DWORD 32 Status Bits
+    23:16, DmaCpl DWORD 2 Status bits 7:0 are a non-zero value, the receiving
+    manager must notify the PCIe Manager of this occurrence. DWords 1 to 5 are
+    from the NVM Express Specification Get Log Page Command Error Information
+    (Log Identifier 0x01).</p> <table id="_wht98jkcs">
+        <title>NotifyPcieMgr</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port.</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Status</p>
+
+                <p>This field encodes the status of the
+                command.</p>
+
+                <p>0h (PciePoisoned) PCIe poisoned</p>
+
+                <p>1h (PcieCTo) PCIe completion timeout</p>
+
+                <p>2h (PcieUR) PCIe completion with status
+                UR</p>
+
+                <p>3h (PcieCA) PCIe completion with status
+                CA</p>
+
+                <p>4h (PcieCRS) PCIe completion with status
+                CRS</p>
+
+                <p>5h (PcieDown) PCIe Link Down.</p>
+
+                <p>6h (FatalError) Fatal Error detected.
+                Will set NVME register CSTS.CFS field.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>managerID</name>
+
+              <description>
+                <p>Manager ID</p>
+
+                <p>This field encodes the ID of the
+                hardware functional unit that reported the error.</p>
+
+                <p>0h (EgressDMA) Egress DMA</p>
+
+                <p>1h (IngressDMA) Ingress DMA</p>
+
+                <p>2h (EgressSecDMA) Egress Sector DMA</p>
+
+                <p>3h (IngressSecDMA) Ingress Sector
+                DMA</p>
+
+                <p>4h (CmdRdy64) Command Ready</p>
+
+                <p>5h (CplQUpdateCpl) Completion Queue
+                Manager</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>subQueueID</name>
+
+              <description>
+                <p>NVMe Error Log Submission Queue ID</p>
+
+                <p>This field indicates the Submission
+                Queue Identifier of the command that the error information is
+                associated with.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>cmdID</name>
+
+              <description>
+                <p>NVMe Error Log Command ID</p>
+
+                <p>This field indicates the Command
+                Identifier of the command that the error is associated
+                with.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>statusCode</name>
+
+              <description>
+                <p>NVMe Error Log Status Code</p>
+
+                <p>This field indicates the Status Code
+                that the command completed with.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>paramErrorLoc</name>
+
+              <description>
+                <p>NVMe Error Log Parameter Error
+                Location</p>
+
+                <p>This field indicates the byte and bit of
+                the command parameter that the error is associated with, if
+                applicable. If the parameter spans multiple bytes or bits,
+                then the location indicates the first byte and bit of the
+                parameter.</p>
+
+                <p>Bits 7:0 Byte in command that contained
+                the error. Valid values are 0 to 63.</p>
+
+                <p>Bits 10:8 Bit in command that contained
+                the error. Valid values are 0 to7.</p>
+
+                <p>Bits 15:11 Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4:3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>lba</name>
+
+              <description>
+                <p>NVMe Error Log LBA</p>
+
+                <p>This field indicates the first LBA that
+                experienced the error condition, if applicable.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>namespace</name>
+
+              <description>
+                <p>NVMe Error Log Namespace</p>
+
+                <p>This field indicates the namespace that
+                the error is associated with, if applicable.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="NotifyGlobalError_xht98jkcs"><title>NotifyGlobalError</title> <p>When a Global Error occurs, a firmware manager may need
+    to be notified that an error occurred. To prevent multiple writers to a
+    register, the Admin Command Manager will send this message to notify the
+    appropriate firmware manager. For example, the PCIe Manager needs to be
+    notified of any PCIe or Host I/F errors and any fatal errors that will
+    prevent the controller from resuming.</p> <table id="_yht98jkcs">
+        <title>NotifyGlobalError</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>errNodeID</name>
+
+              <description>
+                <p>Global Error Node ID</p>
+
+                <p>Node ID of the originating global
+                error.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>errStatus</name>
+
+              <description>
+                <p>Global Error Status of Node</p>
+
+                <p>Global error status register value that
+                is reported for the failing node.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="LogUpdate_zht98jkcs"><title>LogUpdate</title> <p>This
+    message is used by any manager to add a log entry to the error log. The 64
+    bytes specified by the <i>logEntry</i> field is
+    added to the error log unchanged.</p> <table id="_10ht98jkcs">
+        <title>LogUpdate</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>logIdentifier</name>
+
+              <description>
+                <p>Log Identifier</p>
+
+                <p>This field specifies which log that the
+                log entry should be added to.</p>
+
+                <p>01h Error Information.</p>
+
+                <p>C0h - FFh Vendor specific.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>30</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Error Status</p>
+
+                <p>If the <i>asyncEvent</i> field is set to ‘1’
+                this field has the following meaning:</p>
+
+                <p>0h Invalid Submission Queue.</p>
+
+                <p>1h Invalid Doorbell Write Value.</p>
+
+                <p>2h Diagnostic Failure.</p>
+
+                <p>3h Persistent Internal Device Error.</p>
+
+                <p>4h Transient Internal Device Error.</p>
+
+                <p>5h Firmware Image Load Error.</p>
+
+                <p>All other values are reserved.</p>
+
+                <p>If the <i>asynchEvent</i> field is set to ‘0’
+                this field has the following meaning:</p>
+
+                <p>0h No error.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>asyncEvent</name>
+
+              <description>
+                <p>AsyncEvent</p>
+
+                <p>If set to ‘1’ the value specified in the
+                <i>status</i> field corresponds to
+                an asynchronous event Error Status. If set to ‘0’ the <i>status</i> field corresponds to a
+                generic error status.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>16:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>logEntry</name>
+
+              <description>
+                <p>Log Entry</p>
+
+                <p>Entry entry to be appended to the error
+                log page.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FwUpdtReq_11ht98jkcs"><title>FwUpdtReq</title> <p>This
+    message is used to perform firmware activate and firmware upload.</p>
+    <table id="_12ht98jkcs">
+        <title>FwUpdtReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>fwSlot</name>
+
+              <description>
+                <p>Firmware Slot</p>
+
+                <p>Number to be stored or activated.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>19</lsb>
+                </double>
+              </position>
+
+              <name>activateAction</name>
+
+              <description>
+                <p>Firmware activation requested</p>
+
+                <p>0h Store firmware to the slot specified
+                in fwSlot field without activation.</p>
+
+                <p>1h Store firmware to the slot specified
+                in fwSlot field and activate the firmware.</p>
+
+                <p>2h Activate firmware specified in fwSlot
+                field.</p>
+
+                <p>3h Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>22</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>fwVersion</name>
+
+              <description>
+                <p>Firmware Version</p>
+
+                <p>Firmware Version for firmware
+                upload.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>23</single>
+              </position>
+
+              <name>fwUpdateSectionId</name>
+
+              <description>
+                <p>Firmware Update Section ID</p>
+
+                <p>Firmware Update Section ID in DDR (one
+                per PCIe port) from which update is done</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>29:24</single>
+              </position>
+
+              <name>rsvd29_24</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>30</lsb>
+                </double>
+              </position>
+
+              <name>type</name>
+
+              <description>
+                <p>Update Type</p>
+
+                <p>0h: Firmware activate.</p>
+
+                <p>1h: Firmware upload</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FwUpdtCpl_13ht98jkcs"><title>FwUpdtCpl</title> <p>This
+    message is sent in response to a FwUpdtReq message.</p> <table id="_14ht98jkcs">
+        <title>FwUpdtCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SetIntrVecReq_15ht98jkcs"><title>SetIntrVecReq</title> <p>A
+    message sent from the Admin Manager to the PCIe Command Manager to update
+    the Interrupt IMVXCTL setting.</p> <table id="_16ht98jkct">
+        <title>SetIntrVecReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port.</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>9</single>
+              </position>
+
+              <name>type</name>
+
+              <description>
+                <p>Set Interrupt Vector type</p>
+
+                <p>This field specifies set interrupt
+                vector type.</p>
+
+                <p>0h Enable/Disable Interrupt vector</p>
+
+                <p>1h Update coalescing setting</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>10</single>
+              </position>
+
+              <name>enable</name>
+
+              <description>
+                <p>Interrupt Vector Enable</p>
+
+                <p>Indicates whether to enable/disable the
+                interrupt vector</p>
+
+                <p>0h Disable</p>
+
+                <p>1h Enable</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>11</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>intrVectorNumber</name>
+
+              <description>
+                <p>Interrupt Vector Number</p>
+
+                <p>Interrupt vector number that needs to
+                update coalescing setting.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>aggregationTimeLmt</name>
+
+              <description>
+                <p>Aggregation Time Limit</p>
+
+                <p>Specifies the recommended maximum time
+                in 100 microsecond Increments that a controller may delay an
+                interrupt due to interrupt coalescing. A value of 0h
+                corresponds to no delay (that is, disabling this
+                capability).</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>aggregationEventLmt</name>
+
+              <description>
+                <p>Aggregation Event Limit</p>
+
+                <p>Specifies the desired minimum number of
+                completion queue entries to aggregate per interrupt vector
+                before signaling an interrupt to the host.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SetIntrVecCpl_17ht98jkct"><title>SetIntrVecCpl</title> <p>Message
+    sent from the Admin Command Managers to the PCIe manager in response to
+    the SetIntrVecReq message.</p> <table id="_18ht98jkct">
+        <title>SetIntrVecCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="WriteSuperBlkReq_19ht98jkct"><title>WriteSuperBlkReq</title> <p>This
+    message is sent to the Control Manager to write the superblock data to
+    flash.</p> <table id="_1aht98jkct">
+        <title>WriteSuperBlkReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>opState</name>
+
+              <description>
+                <p>Operation State</p>
+
+                <p>0h Write superblock in close state.</p>
+
+                <p>1h Write superblock in open state.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="WriteSuperBlkCpl_1bht98jkct"><title>WriteSuperBlkCpl</title> <p>This
+    message is sent in response to a WriteSuperBlkReq message.</p> <table id="_1cht98jkct">
+        <title>WriteSuperBlkCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="MemAllocReq_1dht98jkct"><title>MemAllocReq</title> <p>This
+    message is used to send a memory allocation request to the Control Manger.
+    Memory may be allocated from DDR or BRAM as determined by the <i>memType</i> field.</p> <table id="_1eht98jkct">
+        <title>MemAllocReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>memType</name>
+
+              <description>
+                <p>Memory Type</p>
+
+                <p>0h Allocate memory from BRAM.</p>
+
+                <p>1h Allocate memory from DDR memory.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>rsvd</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>numMemLines</name>
+
+              <description>
+                <p>Number of Memory Lines</p>
+
+                <p>Number of memory lines to be allocated.
+                Each memory line consists of 64 bytes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="MemAllocCpl_1fht98jkct"><title>MemAllocCpl</title> <p>This
+    message is sent in response to a MemAllocReq message.</p> <table id="_1ght98jkct">
+        <title>MemAllocCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PowerCpl_1hht98jkct"><title>PowerCpl</title> <p>Message sent
+    to the control manager in response to the PowerReq message.</p> <table id="_1iht98jkct">
+        <title>PowerCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SelfTestReq_1jht98jkct"><title>SelfTestReq</title> <p>This
+    message may be issued to different managers to request they perform a
+    self-test procedure.</p> <table id="_1kht98jkcu">
+        <title>SelfTestReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SelfTestCpl_1lht98jkcu"><title>SelfTestCpl</title> <p>This
+    message is sent in response to a SelfTestReq message.</p> <table id="_1mht98jkcu">
+        <title>SelfTestCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="CriticalWarning_1nht98jkcu"><title>CriticalWarning</title> <p>This
+    message is sent to the Admin Command Manager to update the state of the
+    SMART Critical Warnings.</p> <table id="_1oht98jkcu">
+        <title>CriticalWarning</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>criticalWarning</name>
+
+              <description>
+                <p>Critical Warning</p>
+
+                <p>This field indicates critical warnings
+                for the state of the controller. Each bit corresponds to a
+                critical warning type; multiple bits may be set. The bits in
+                this field are assigned as follows:</p>
+
+                <p>0 - If set to ‘1’ then the available
+                spare space has fallen below the threshold.</p>
+
+                <p>1 - If set to ‘1’, then the temperature
+                has exceeded a critical threshold.</p>
+
+                <p>2 - If set to ‘1’, then the device
+                reliability has been degraded due to significant media related
+                errors or any internal error that degrades device
+                reliability.</p>
+
+                <p>3 - If set to ‘1’, then the media has
+                been placed in read-only mode.</p>
+
+                <p>4 - If set to ‘1’, then the volatile
+                memory backup device has failed. This field is only valid if
+                the controller has a volatile memory backup solution.</p>
+
+                <p>7:5 - Reserved.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="TemperatureUpdate_1pht98jkcu"><title>TemperatureUpdate</title> <p>This message may be sent to any manager in order to
+    inform it of the current temperature of the system.</p> <table id="_1qht98jkcu">
+        <title>TemperatureUpdate</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>temperature</name>
+
+              <description>
+                <p>Temperature</p>
+
+                <p>Temperature of the device, including
+                NVM, in degrees Kelvin.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="MediaError_1rht98jkcu"><title>MediaError</title> <p>This
+    message is sent to the Admin Command Manager in order to update the SMART
+    Media Errors counter.</p> <table id="_1sht98jkcu">
+        <title>MediaError</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>mediaErrors</name>
+
+              <description>
+                <p>Media Errors</p>
+
+                <p>The number of media errors being
+                reported by this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DebugMediaError_1tht98jkcu"><title>DebugMediaError</title> <p>This
+    message is sent from the Admin Command Manager to request that the
+    destination manager send a MediaError message back to the Admin Manager
+    with information specified in this message.</p> <table id="_1uht98jkcu">
+        <title>DebugMediaError</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>CriticalWarningDw0</name>
+
+              <description>
+                <p>DWORD 0 of MediaError</p>
+
+                <p>Specifies the value in DWORD0 of
+                MediaError message needed by the Admin Manager.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DebugCriticalWarning_1vht98jkcu"><title>DebugCriticalWarning</title> <p>This message is sent from the Admin Manager to request
+    that the destination manager send a CriticalWarning message back to the
+    Admin Manager with information specified in this message.</p> <table id="_1wht98jkcv">
+        <title>DebugCriticalWarning</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>CriticalWarningDw0</name>
+
+              <description>
+                <p>DWORD 0 of Critical Warning</p>
+
+                <p>Specifies the value in DWORD0 of
+                Critical Warning message needed by the Admin Manager.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DebugLogUpdate_1xht98jkcv"><title>DebugLogUpdate</title> <p>This
+    message is sent from the Admin Manager to request that the destination
+    manager send a LogUpdate message back to the Admin Manager with
+    information specified in this message.</p> <table id="_1yht98jkcv">
+        <title>DebugLogUpdate</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>17:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>LogUpdateDw</name>
+
+              <description>
+                <p>DWORD’s of LogUpdate</p>
+
+                <p>Specifies the value in DWORD’s of
+                LogUpdate message needed by the Admin Manager.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DebugGeneric_1zht98jkcv"><title>DebugGeneric</title> <p>This
+    message is sent from the Admin Manager to request that the destination
+    manager send a message back to the Admin Manager with information
+    specified in this message.</p> <table id="_20ht98jkcv">
+        <title>DebugGeneric</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>numDw</name>
+
+              <description>
+                <p>Number of DWord useful in Debug
+                Information</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>17:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>debugInfo</name>
+
+              <description>
+                <p>Debug Information</p>
+
+                <p>Specifies the value in DWORD’s of
+                debugging message needed by the Admin Manager.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ResetReq_21ht98jkcv"><title>ResetReq</title> <p>When the
+    host sets the NVM Express CC.EN bit to ‘0’ or performs a Fundamental, Hot,
+    or Functional Level Reset, the PCIe Manager will determine which queues
+    are affected based on its mode of operation and send this message to the
+    Admin Command Manager.</p> <table id="_22ht98jkcv">
+        <title>ResetReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>14</single>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reason</name>
+
+              <description>
+                <p>Reason Code</p>
+
+                <p>This field indicates the reason for the
+                reset.</p>
+
+                <p>0h PCIe Fundamental Reset</p>
+
+                <p>1h PCIe Hot Reset</p>
+
+                <p>2h Function Level Reset</p>
+
+                <p>3h NVMe Controller Disable</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ResetCpl_23ht98jkcv"><title>ResetCpl</title> <p>In response
+    to receiving a ResetReq IPC message and after performing any associated
+    operations the Admin Command Manager will send this message to the PCIe
+    Manager.</p> <table id="_24ht98jkcv">
+        <title>ResetCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>14</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>15</single>
+              </position>
+
+              <name>exception</name>
+
+              <description>
+                <p>Exception</p>
+
+                <p>An exception occurred while processing
+                the command, the status field contains the appropriate status
+                value.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>1h Invalid queue ID range.</p>
+
+                <p>f000h Firmware Activate has
+                occurred.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ReloadFwReq_25ht98jkcv"><title>ReloadFwReq</title> <p>This
+    message is sent by the PCIe Manager to the Control Manager to initiate a
+    Firmware Reload due to a reset request from the Host.</p> <table id="_26ht98jkcv">
+        <title>ReloadFwReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>13</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>14</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reloadCode</name>
+
+              <description>
+                <p>Reload Code</p>
+
+                <p>This code determines whether what
+                managers firmware to reload.</p>
+
+                <p>0h - Reserved</p>
+
+                <p>1h - Reload firmware for all managers
+                except PCIe Manager.</p>
+
+                <p>2h - Reload firmware for PCIe
+                Manager</p>
+
+                <p>others - Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ReloadFwCpl_27ht98jkcv"><title>ReloadFwCpl</title> <p>This
+    message is sent by the Control Manager in response to a ReloadFwReq.</p>
+    <table id="_28ht98jkcv">
+        <title>ReloadFwCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ROMImageEnableReq_29ht98jkcv"><title>ROMImageEnableReq</title> <p>This message is sent from the Admin Command Manager to
+    the PCIe Manager when it receives the ROM Image Enable NVM Express vendor
+    specific command from the host.</p> <table id="_2aht98jkcw">
+        <title>RomimageEnableReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>enable</name>
+
+              <description>
+                <p>Enable/Disable</p>
+
+                <p>This field indicates whether to enable
+                or disable the option ROM image.</p>
+
+                <p>1b: Enable</p>
+
+                <p>0b: Disable</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>rsvd31_17</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ROMImageEnableCpl_2bht98jkcw"><title>ROMImageEnableCpl</title> <p>This message is sent from the PCIe Manager to the Admin
+    Command Manager in response to a ROMImageEnableReq IPC message.</p> <table id="_2cht98jkcw">
+        <title>RomimageEnableCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashBadBlockReq_2dht98jkcw"><title>FlashBadBlockReq</title> <p>This
+    message is sent from the Admin Command Manager to upload the flash bad
+    block to the controller memory.</p> <table id="_2eht98jkcw">
+        <title>FlashBadBlockReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>startInstance</name>
+
+              <description>
+                <p>Starting Instance</p>
+
+                <p>Starting instance of the flash bad block
+                to be transferred. ‘0’ means beginning of the flash bad block
+                entry list.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufAddrLow</name>
+
+              <description>
+                <p>Buffer Address Low</p>
+
+                <p>Buffer address lower 32-bit. Flash bad
+                block information should be transferred to controller memory
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufAddrHigh</name>
+
+              <description>
+                <p>Buffer Address High</p>
+
+                <p>Buffer address higher 32-bit.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufSizeLimit</name>
+
+              <description>
+                <p>Buffer Size Limit</p>
+
+                <p>Buffer size limit in bytes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6:5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashBadBlockCpl_2fht98jkcw"><title>FlashBadBlockCpl</title> <p>This
+    message is sent to the Admin Command Manager in response to a
+    FlashBadBlockReq IPC message.</p> <table id="_2ght98jkcw">
+        <title>FlashBadBlockCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="StatisticsInfoReq_2hht98jkcw"><title>StatisticsInfoReq</title> <p>This message is sent from the Admin Command Manager to
+    upload the statistics information to the controller memory.</p> <table id="_2iht98jkcw">
+        <title>StatisticsInfoReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>infoType</name>
+
+              <description>
+                <p>infoType</p>
+
+                <p>Statistics information type.</p>
+
+                <p>01h: Flash Statistics Information</p>
+
+                <p>02h: Global Statistics Information</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>dataType</name>
+
+              <description>
+                <p>dataType</p>
+
+                <p>Data type of the flash statistics
+                information.</p>
+
+                <p>06h: Garbage Collection Valid Data Frame
+                Count</p>
+
+                <p>07h: Write Credit</p>
+
+                <p>08h: Write Amplification</p>
+
+                <p>09h: Spare Percentage</p>
+
+                <p>0ah: Free Block Count</p>
+
+                <p>Data type of the global statistics
+                information.</p>
+
+                <p>01h: Cycles Counts</p>
+
+                <p>02h: Pending IPC: Messages sent and
+                Messages Queued</p>
+
+                <p>03h: IPC Message States</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufAddrLow</name>
+
+              <description>
+                <p>Buffer Address Low</p>
+
+                <p>Buffer address lower 32-bit. Flash bad
+                block information should be transferred to controller memory
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufAddrHigh</name>
+
+              <description>
+                <p>Buffer Address High</p>
+
+                <p>Buffer address higher 32-bit<b otherprops="bold">.</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>bufSizeLimit</name>
+
+              <description>
+                <p>Buffer Size Limit</p>
+
+                <p>Buffer size limit in bytes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="StatisticsInfoCpl_2jht98jkcw"><title>StatisticsInfoCpl</title> <p>This message is sent to the Admin Command Manager in
+    response to a StatisticsInfoReq IPC message.</p> <table id="_2kht98jkcw">
+        <title>StatisticsInfoCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SetBadBlkReq_2lht98jkcw"><title>SetBadBlkReq</title> <p>This
+    message is used by the bad block download request from the host.</p>
+    <table id="_2mht98jkcw">
+        <title>SetBadBlkReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p><b otherprops="bold">Flash Address</b></p>
+
+                <p>Address of the flash block that is
+                bad.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="SetBadBlkCpl_2nht98jkcw"><title>SetBadBlkCpl</title> <table id="_2oht98jkcx">
+        <title>SetBadBlkCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h - The operation was completed
+                successfully.</p>
+
+                <p>Others - Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="NssrReq_2pht98jkcx"><title>NssrReq</title> <p>This message
+    is sent to the Control Manager by the PCIe Manager in order to initiate an
+    NVM Subsystem Reset. Since issuing this request causes an NVM Subsystem
+    Reset, there is no associated completion message.</p> <table id="_2qht98jkcx">
+        <title>NssrReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

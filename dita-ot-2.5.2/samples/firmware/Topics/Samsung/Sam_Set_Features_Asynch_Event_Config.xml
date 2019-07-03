@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Set_Features_Asynch_Config" xml:lang="en-US">
+  <title>Asynchronous Event Configuration (feature
+  identifier 0x0B)</title>
+
+  <body>
+    <p>This feature controls the write atomicity
+    setting.</p>
+
+    <fig id="Asynchronous_Event_Configuration_Command_2iht97qqbp">
+      <title>Asynchronous Event Configuration Command
+      Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Set_Feature_Asynchronous_Event.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_2jht97qqbq">
+      <title>Asynchronous Event Configuration Command
+      Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady64</b>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager stores this value locally so that it may be
+            returned by the corresponding feature get command. The value set
+            is used as a mask to determine if Asynchronous Event Completions
+            should be sent to the host when specific SMART/Health Critical
+            Warnings occur.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b>
+            </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

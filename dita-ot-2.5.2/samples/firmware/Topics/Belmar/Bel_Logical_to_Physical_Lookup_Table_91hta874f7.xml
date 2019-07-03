@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Logical_to_Physical_Lookup_Table_91hta874f7" xml:lang="en-US">
+  <title>Logical to Physical Lookup Table</title>
+
+  <body>
+    <p>The controller maintains a lookup table in
+    controller memory to translate the logical address (data frame address) to
+    the physical flash address. The structure used for a Data Frame Lookup
+    Table entry is described in <xref href="../Logical_to_Physical_Lookup_Table_Entry_rxht7esfhy.xml"/>.
+    The controller supports an 8, 16, or 32KB physical page size.</p>
+
+    <p>The Lookup Manager finds the exact location where
+    the data frame is located using the lookup table entry (<i>l2p_entry_t</i>). A lookup table entry contains
+    the flash address that points to a physical page containing the data
+    frame, and the data frame start offset specifies the offset within the
+    physical page where this data frame begins.</p>
+
+    <section id="Lookup_Table_Entry_Structure_92hta874f7"><title>Lookup Table Entry Structure</title><p>A lookup table entry contains all the information
+    needed to find the physical location of a data frame.</p><fig id="Lookup_Table_Entry_Structure_93hta874f7">
+        <title>Lookup Table Entry Structure</title>
+
+        <codeblock>
+typedef struct l2p_entry_s
+{
+
+    u32 lockBit : 1;
+    u32 pageSpan : 1;
+    u32 multiPlane : 1;
+    u32 cacheValid : 1;
+    u32 dataFrameNumber : 12;
+    u32 partialDataFrameBitmap : 8;
+    u32 writeUncBitmap : 8;
+    u32 dataFrameStartOffset : 14;
+    u32 skipPageCount : 7;
+    u32 eccContextIndex : 4;
+    u32 startEccChunkNum : 4;
+    u32 numEccChunks : 3;
+    u32 flashAddr;
+}l2p_entry_t;</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>lockBit</pt>
+
+          <pd>Lock bit to lock the lookup table entry until the data frame is
+          written to flash.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>pageSpan</pt>
+
+          <pd>Flag to indicate data frame is spanned across two physical
+          pages.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>multiPlane</pt>
+
+          <pd>Flag to indicate multi-plane read operation can be performed for
+          this data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>cacheValid</pt>
+
+          <pd>Flag to indicate whether the data is in flash or in DDR data
+          frame buffer. If this bit is valid, flashAddr points to a location
+          in DDR containing the following information: logicalAddr, flashAddr,
+          dataFrameBuffAddr.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dataFrameNumber</pt>
+
+          <pd>Data frame number in a virtual page. This is used by obsolete
+          data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>partialDataFrameBitmap</pt>
+
+          <pd>Partial data frame bitmap vector in case of 512 byte host
+          LBAs.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>writeUncBitmap</pt>
+
+          <pd>Write uncorrectable bitmap vector in case of 512-byte host
+          LBAs.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dataFrameStartOffset</pt>
+
+          <pd>Offset within physical page where this data frame begins.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>skipPageCount</pt>
+
+          <pd>Number of physical pages to skip in virtual page to get the next
+          portion of the data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>eccContextIndex</pt>
+
+          <pd>ECC context used to write this data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>startEccChunkNum</pt>
+
+          <pd>Starting ECC chunk number within physical page.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>numEccChunks</pt>
+
+          <pd>Number of ECC chunks involved for this data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashAddr</pt>
+
+          <pd>This field contains the flash physical address.</pd>
+        </plentry>
+      </parml><p>When a 4KB physical page size is used, the
+    physical address specified in the Data Frame lookup table entries
+    represents a packed physical flash page address. When an 8KB or 16KB
+    physical page size is used, the lower one or two bits are used to specify
+    the index of the Data Frame within the physical flash page. <xref href="Bel_WriteReq_7thta874f4.xml#WriteReq_7thta874f4/Write_Request_Control_Write_Cache_Disabl_7vhta874f4"/>
+    depicts the relationship between the <i>physicalAddress</i> field in the Data Frame
+    Lookup Table entries and the Data Frames within a physical flash
+    page.</p><p>A number of library functions has been
+    created to convert between the different flash address formats and to
+    extract relevant information from the flash address, such as the channel #
+    and target #, etc. The API for this library is described in <xref href="../Flash_Address_Translation_2nht7esfer.xml"/>.</p></section>
+  </body>
+</topic>

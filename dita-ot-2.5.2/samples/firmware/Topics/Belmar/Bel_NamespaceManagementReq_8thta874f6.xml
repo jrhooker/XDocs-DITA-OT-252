@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="NamespaceManagementReq_8thta874f6" xml:lang="en-US">
+  <title>NamespaceManagementReq</title>
+
+  <body>
+    <section id="Create_Namespace_8uhta874f7"><title>Create Namespace</title> <p>The
+    Create Namespace request is used to read namespace configuration data from
+    the controller memory. The Lookup manager uses host LBA size to update
+    namespace utilization.</p> <fig id="Create_Namespace_Control_Flow_8vhta874f7">
+        <title>Create Namespace Control Flow</title>
+
+        <image href="../../Graphics/Lookup_Mgr/createNamespace.svg" placement="break" width="5.5in"/>
+      </fig> <table id="_8whta874f7">
+        <title>Create Namespace Control Flow</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colwidth="5*"/>
+
+          <colspec colname="c2" colwidth="23*"/>
+
+          <colspec colname="c3" colwidth="72*"/>
+
+          <thead>
+            <row>
+              <entry>No.</entry>
+
+              <entry>Message</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CmdReady64</b>
+              </p></entry>
+
+              <entry><p>The command
+              is received by one of the Data Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CmdReady</b>
+              </p></entry>
+
+              <entry><p>The Data
+              Manager forwards the command to the Admin Command Manager for
+              processing.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteLockReq</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a write lock request for the LBA range for
+              the specified namespace ID.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">LockCpl</b>
+              </p></entry>
+
+              <entry><p>The Locking
+              Manager responds with a lock completion message when the lock is
+              granted.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">NamespaceManagementReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager updates namespace data in controller memory and
+              issues a namespace management request to the Lookup Manager
+              0.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">NamespaceManagementCpl</b> </p></entry>
+
+              <entry><p>Since
+              namespace utilization is reset during deletion and the host
+              cannot create namespace before deleting it, there’s no need to
+              reset namespace utilization during creation. The Lookup Manager
+              0 sends a namespace management completion message to the Admin
+              Command Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataWriteReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues a request to the Lookup Manager to save
+              the namespace information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashWrite</b>
+              </p></entry>
+
+              <entry><p>A FlashWrite
+              is issued to store the namespace information to
+              flash.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashOpCpl</b>
+              </p></entry>
+
+              <entry><p>When the
+              flash write operation completes, the Flash Interface responds
+              with a FlashOpCpl message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+              </p></entry>
+
+              <entry><p>Lookup
+              Manager responds to the <b otherprops="bold">ConfigDataWriteReq</b> message with a <b otherprops="bold">ConfigDataOpCpl</b>
+              message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteSuperBlkReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command sends writeSuperBlk message to the Control Manager to
+              save the superblock with updated namespace
+              information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashWrite</b>
+              </p></entry>
+
+              <entry><p>A FlashWrite
+              is issued to store the superblock data to flash.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">13</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashOpCpl</b>
+              </p></entry>
+
+              <entry><p>When the
+              flash write operation completes the Flash Interface responds
+              with a FlashOpCpl message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">14</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteSuperBlkCpl</b> </p></entry>
+
+              <entry><p>The Control
+              Manager responds to the Admin Command Manager with <b otherprops="bold">WriteSuperBlkCpl</b> message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">15</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataReadyReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues config data ready messages to all Data
+              Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry/>
+
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p>The Data
+              Managers re-read the namespace information from controller
+              memory.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">16</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+              </p></entry>
+
+              <entry><p>The Data
+              Managers respond to the Admin Command Manager with config data
+              completion messages.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">17</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">LockRelease</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager releases the LBA write lock.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">18</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a completion queue update request to the
+              Completion Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">19</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b> </p></entry>
+
+              <entry><p>The
+              Completion Manager replies back to the Admin Command Manager
+              when the completion has been successfully sent to the
+              host.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></section>
+
+    <section id="Delete_Namespace_8xhta874f7"><title>Delete Namespace</title> <p>The
+    Delete Namespace request obsoletes all logical addresses in a specified
+    namespace ID.</p> <fig id="Delete_Namespace_Control_Flow_8yhta874f7">
+        <title>Delete Namespace Control Flow</title>
+
+        <image href="../../Graphics/Lookup_Mgr/deleteNamespace.svg" placement="break" width="5.5in"/>
+      </fig> <table id="_8zhta874f7">
+        <title>Delete Namespace Control Flow</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colwidth="5*"/>
+
+          <colspec colname="c2" colwidth="23*"/>
+
+          <colspec colname="c3" colwidth="72*"/>
+
+          <thead>
+            <row>
+              <entry>No.</entry>
+
+              <entry>Message</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CmdReady64</b>
+              </p></entry>
+
+              <entry><p>The command
+              is received by one of the Data Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CmdReady</b>
+              </p></entry>
+
+              <entry><p>The Data
+              Manager forwards the command to the Admin Command Manager for
+              processing.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteLockReq</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a write lock request for the LBA range for
+              the specified namespace ID.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">LockCpl</b>
+              </p></entry>
+
+              <entry><p>The Locking
+              Manager responds with a lock completion message when the lock is
+              granted.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">NamespaceManagementReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager updates namespace data in controller memory and
+              issues a namespace management request to Lookup Manager
+              0.</p></entry>
+            </row>
+
+            <row>
+              <entry/>
+
+              <entry/>
+
+              <entry><p>Lookup
+              Manager 0 clears namepsace utilization data and sends namespace
+              management request to Lookup Manager 1 to clear its namespace
+              utilization data.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">GCCtrlReq</b>
+              </p></entry>
+
+              <entry><p>The Lookup
+              Manager issues a GCCtrl request to the Wearleveling Managers to
+              pause garbage collection.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">GCCtrlCpl</b>
+              </p></entry>
+
+              <entry><p>The
+              Wearleveling Managers respond with GCCtrl completion message to
+              the Lookup Manager 0.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">XorOp</b>
+              </p></entry>
+
+              <entry><p>The Lookup
+              Manager issues a XorOp request to the XOR Engine to clear lookup
+              table entries.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">XorOpCpl</b>
+              </p></entry>
+
+              <entry><p>XOR Engine
+              responds with XorOpCpl to the Lookup Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">GCCtrlReq</b>
+              </p></entry>
+
+              <entry><p>The Lookup
+              Manager issues a GCCtrl request to the Wearleveling Managers to
+              resume garbage collection.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">GCCtrlCpl</b>
+              </p></entry>
+
+              <entry><p>The
+              Wearleveling Managers respond with GCCtrl completion message to
+              Lookup Manager 0.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">NamespaceManagementCpl</b> </p></entry>
+
+              <entry><p>Lookup
+              Manager 0 resets namespace utilization for specified namespace
+              ID and sends a namespace management completion message to the
+              Admin Command Manager </p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">13</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataWriteReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues a request to the Lookup Manager to save
+              the namespace information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">14</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+              </p></entry>
+
+              <entry><p>The Lookup
+              Manager responds to the <b otherprops="bold">ConfigDataWriteReq</b> message with a <b otherprops="bold">ConfigDataOpCpl</b>
+              message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">15</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteSuperBlkReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command sends writeSuperBlk message to the Control Manager to
+              save the superblock with updated namespace
+              information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">16</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashWrite</b>
+              </p></entry>
+
+              <entry><p>A FlashWrite
+              is issued to store the superblock data to flash.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">17</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">FlashOpCpl</b>
+              </p></entry>
+
+              <entry><p>When the
+              flash write operation completes, the Flash Interface responds
+              with a FlashOpCpl message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">18</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">WriteSuperBlkCpl</b> </p></entry>
+
+              <entry><p>The Control
+              Manager responds to the Admin Command Manager with <b otherprops="bold">WriteSuperBlkCpl</b> message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">19</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataReadyReq</b> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues config data ready messages to all Data
+              Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry/>
+
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p>The Data
+              Managers re-read the namespace information from controller
+              memory.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">20</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+              </p></entry>
+
+              <entry><p>The Data
+              Managers respond to the Admin Command Manager with config data
+              completion messages.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">21</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">LockRelease</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager releases the LBA write lock.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">22</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a completion queue update request to the
+              Completion Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">23</b> </p></entry>
+
+              <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b> </p></entry>
+
+              <entry><p>The
+              Completion Manager replies back to the Admin Command Manager
+              when the completion has been successfully sent to the
+              host.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

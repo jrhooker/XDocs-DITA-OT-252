@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="NVM_Express_I_O_Command_State_Transition_4uht98nxze" xml:lang="en-US">
+  <title>NVM Express I/O Command State
+  Transitions</title>
+
+  <body>
+    <p>The Data Manager employs two state machines that
+    operate on the <xref href="Sam_Data_Manager_Data_Structures_4eht98nxzd.xml#Data_Manager_Data_Structures_4eht98nxzd/Command_State_Structure_4kht98nxzd">Command
+    State Structure</xref> and the <xref href="Sam_Data_Manager_Data_Structures_4eht98nxzd.xml#Data_Manager_Data_Structures_4eht98nxzd/Data_Frame_State_Structure_4mht98nxzd">Data
+    Frame State Structure</xref>. The following sections describe the state
+    transitions of these structures as NVM Express I/O commands that are
+    processed by the Data Manager. The following list describes the states for
+    the Command State Structure.</p>
+
+    <ul>
+      <li id="d1e1490"><p>IDLE</p> <ul>
+          <li id="d1e1497"><p>After
+          initialization, all Command State Structures and Data Frame State
+          Structure are un-allocated and in the IDLE state. When an NVM
+          Express command is received by the Data Manager, the submission
+          engine ID is used to determine if the command is an admin command
+          (received via the admin submission queue) or an I/O command. The
+          Command State Structure transitions to the <i>INIT_NVM_IO_REQ</i> state for NVM Express
+          I/O commands and to the <i>INIT_NVM_ADMIN_REQ</i> state for NVM
+          Express admin commands.</p></li>
+        </ul></li>
+
+      <li id="d1e1511"><p>INIT_NVM_IO_REQ</p> <ul>
+          <li id="d1e1518"><p>Once the
+          Command State Structure has been initialized, the Data Frame LBA
+          range is calculated and a lock request message is sent to the
+          Locking Manager to request a lock for the Data Frame LBA range
+          associated with the command. The Command State Structure now
+          transitions to the <i>WAIT_FOR_LOCK</i>
+          state.</p></li>
+        </ul></li>
+
+      <li id="d1e1529"><p>WAIT_FOR_LOCK</p> <ul>
+          <li id="d1e1536"><p>When the
+          lock is granted and a PRP list is not required by the command, the
+          Command State Structure transitions to the <i>PROCESS_DATA_FRAMES</i> state. In this
+          state, the I/O request is broken down in to Data Frame requests that
+          are sent to the FTL for processing. Each Data Frame request has an
+          associated Data Frame State Structure that is used to maintain the
+          context for the request. If a PRP list is required by the command,
+          the Command State Structure transitions to the <i>WAIT_FOR_PRP_BUFFER</i> state.</p></li>
+        </ul></li>
+
+      <li id="d1e1550"><p>WAIT_FOR_PRP_LIST</p> <ul>
+          <li id="d1e1557"><p>Once the
+          PRP list buffer has been obtained, an ingress DMA request is issued
+          to transfer the PRP list from host memory to the PRP list buffer.
+          When the DMA transfer completes, the Command State Structure
+          transitions to the <i>PROCESS_DATA_FRAMES</i> state.</p></li>
+        </ul></li>
+
+      <li id="d1e1568"><p>PROCESS_DATA_FRAMES</p> <ul>
+          <li id="d1e1575"><p>Once all
+          of the Data Frame requests have been issued to the FTL, the Command
+          State Structure transitions to the <i>WAIT_FOR_DATA_FRAMES</i> state.</p></li>
+        </ul></li>
+
+      <li id="d1e1587"><p>WAIT_FOR_DATA_FRAMES</p> <ul>
+          <li id="d1e1594"><p>When all
+          of the Data Frame requests associated with the command have been
+          completed, the Command State Structure transitions to the <i>WAIT_FOR_CQ_UPDATE_CPL</i> state and a
+          completion queue update message is sent to the Completion Queue
+          Manager.</p></li>
+        </ul></li>
+
+      <li id="d1e1605"><p>WAIT_FOR_CQ_UPDATE_CPL</p> <ul>
+          <li id="d1e1612"><p>Once the
+          Completion Queue Manager has updated the specified completion queue
+          in host memory, it responds to the Data Manager with a completion
+          queue update completion message. When the Data Manager receives the
+          completion queue update completion message and a PRP list was not
+          required by the command, the Command State Structure transitions to
+          the <i>IDLE</i> state and is freed. If a
+          PRP list was required by the command, the PRP list buffer is freed,
+          the Command State Structure transitions to the <i>IDLE</i> state and is freed.</p></li>
+        </ul></li>
+
+      <li id="d1e1626"><p>WAIT_FOR_PRP_LIST</p> <ul>
+          <li id="d1e1633"><p>A Command
+          State Structure enters this state if the associated NVM Express
+          command requires a PRP list and a request to fetch the PRP list from
+          host memory has been successfully issued.</p></li>
+        </ul></li>
+
+      <li id="d1e1641"><p>WAIT_FOR_PRP_LIST_ADDR</p> <ul>
+          <li id="d1e1648"><p>If an NVM
+          Express command requires multiple PRP lists, a Command State
+          Structure enters this state when a request has been successfully
+          issued to read the address of the next PRP list from the last entry
+          of the current PRP list.</p></li>
+        </ul></li>
+
+      <li id="d1e1656"><p>FETCH_PRP_LIST_ADDR</p> <ul>
+          <li id="d1e1663"><p>If a Data
+          Network request to fetch the PRP list address could not be issued
+          due to too many outstanding Data Network requests, the Command State
+          Structure enters this state. This state is also entered if a new PRP
+          list is required but the current PRP list has Data Frame State
+          Structures that reference it.</p></li>
+        </ul></li>
+
+      <li id="d1e1671"><p>FETCH_UPPER_PRP_LIST</p> <ul>
+          <li id="d1e1678"><p>This
+          state is entered when the upper 4KB of an 8KB PRP list is required
+          but the current PRP list has Data Frame State Structures that
+          reference it. This state is only meaningful when using an 8KB host
+          memory page.</p></li>
+        </ul></li>
+
+      <li id="d1e1687"><p>REFRESH_COMMAND_STATE_CACHE</p> <ul>
+          <li id="d1e1694"><p>This
+          state is entered when a Data Network request could not be issued to
+          read a Command State Structure from controller memory due to too
+          many outstanding Data Network requests.</p></li>
+        </ul></li>
+
+      <li id="d1e1702"><p>SEND_CPL</p>
+      <ul>
+          <li id="d1e1709"><p>This
+          state is generally entered when sending a completion IPC message to
+          an administration request. It is a short-lived state but useful when
+          debugging.</p></li>
+        </ul></li>
+
+      <li id="d1e1717"><p>MEMCPY</p>
+      <ul>
+          <li id="d1e1724"><p>A Command
+          State Structure enters this state when a memory copy operation is
+          performed. The Command State Structure remains in this state until
+          the memory copy operation is complete, at which time it transitions
+          to the state specified when the memory copy operation was
+          initiated.</p></li>
+        </ul></li>
+
+      <li id="d1e1732"><p>READ_CLEAN_DATA_FRAME_ADDR</p> <ul>
+          <li id="d1e1739"><p>This
+          state is entered as part of the initialization sequence to read the
+          address of the clean Data Frame from controller memory. The clean
+          Data Frame is filled with zeros and used to return zero data to the
+          host when a request is issued to read a Data Frame that has never
+          before been written.</p></li>
+        </ul></li>
+
+      <li id="d1e1747"><p>READ_NAMESPACE_CONFIG</p> <ul>
+          <li id="d1e1754"><p>This
+          state is entered as part of the initialization sequence to read the
+          namespace configuration information from controller memory.</p></li>
+        </ul></li>
+    </ul>
+
+    <p>When the Command State Structure enters the <i>PROCESS_DATA_FRAME</i> state, Data Frame State
+    Structures are allocated, a Data Frame buffer is allocated from the Buffer
+    Manager, and based on the NVM Express command (read or write) the Data
+    Frame State Structures are transitioned to the <i>WAIT_FOR_FLASH_READ</i>, <i>WAIT_FOR_FLASH_RMW_READ</i>, or <i>WAIT_FOR_ISECTDMA</i> state. The following list
+    describes the states for the Data Frame State Structure.</p>
+
+    <ul>
+      <li id="d1e1780"><p>WAIT_FOR_FLASH_READ</p> <ul>
+          <li id="d1e1787"><p>At some
+          point later in time, a read completion message is received from the
+          FTL, the Data Frame State Structure transitions to the <i>WAIT_FOR_ESECTDMA</i> state, and an
+          egress sector DMA request is sent to the Egress Sector DMA Manager
+          to transfer the data from the Data Frame buffer to host
+          memory.</p></li>
+        </ul></li>
+
+      <li id="d1e1798"><p>WAIT_FOR_ESECTDMA</p> <ul>
+          <li id="d1e1805"><p>When the
+          egress sector DMA completion is received, the Data Frame buffer is
+          freed. The Data Frame State Structure transitions to the <i>IDLE</i> state and is freed.</p></li>
+        </ul></li>
+
+      <li id="d1e1816"><p>WAIT_FOR_ISECTDMA</p> <ul>
+          <li id="d1e1823"><p>When the
+          ingress sector DMA completion is received, a write request message
+          is sent to the FTL and the Data Frame State Structure transitions to
+          the <i>WAIT_FOR_FLASH_WRITE</i>
+          state.</p></li>
+        </ul></li>
+
+      <li id="d1e1834"><p>WAIT_FOR_FLASH_WRITE</p> <ul>
+          <li id="d1e1841"><p>At some
+          point later in time, a write completion message is received from the
+          FTL; the Data Frame State Structure transitions to the <i>IDLE</i> state and is freed. Ownership of
+          the Data Frame buffer has been passed to the FTL, thus, the Data
+          Frame buffer is not freed by the Data Manager for write
+          requests.</p></li>
+        </ul></li>
+
+      <li id="d1e1852"><p>WAIT_FOR_FLASH_RMW_READ</p> <ul>
+          <li id="d1e1859"><p>At some
+          point later in time, a read completion message is received from the
+          FTL, the Data Frame State Structure transitions to the <i>WAIT_FOR_ISECTDMA</i> state and an
+          ingress sector DMA request is issued to the Ingress Sector DMA
+          Manager to transfer the data from host memory to the Data Frame
+          buffer.</p></li>
+        </ul></li>
+
+      <li id="d1e1871"><p>WAIT_FOR_FIRST_PRP_ENTRY</p> <ul>
+          <li id="d1e1878"><p>A request
+          has been issued to move a Data Frames first PRP entry from a PRP
+          list in controller memory.</p></li>
+        </ul></li>
+
+      <li id="d1e1886"><p>WAIT_FOR_SECOND_PRP_ENTRY</p> <ul>
+          <li id="d1e1893"><p>A request
+          has been issued to move a Data Frames second PRP entry from a PRP
+          list in controller memory.</p></li>
+        </ul></li>
+
+      <li id="d1e1901"><p>WAIT_FOR_BOTH_PRP_ENTRIES</p> <ul>
+          <li id="d1e1908"><p>A request
+          has been issued to move a Data Frames first and second PRP entries
+          from a PRP list in controller memory.</p></li>
+        </ul></li>
+
+      <li id="d1e1916"><p>REQUEST_PRP_LIST_ENTRY</p> <ul>
+          <li id="d1e1923"><p>A Data
+          Frame enters this state when a Data Network request to fetch a PRP
+          list entry from controller memory could not be issued due to too
+          many outstanding Data Network requests.</p></li>
+        </ul></li>
+    </ul>
+
+    <section id="Command_State_Structure_State_Transition_4vht98nxze"><title>Command State Structure State Transitions</title>
+    <p><xref href="#NVM_Express_I_O_Command_State_Transition_4uht98nxze/Command_State_Structure_State_Transition_4wht98nxze"/>
+    depicts the state transitions for the <xref href="#Data_Manager_Data_Structures_4eht98nxzd/Command_State_Structure_4kht98nxzd">Command
+    State Structure</xref> when an NVM Express I/O command is received by the
+    Data Manager and no PRP lists are required to complete the command.</p>
+    <fig id="Command_State_Structure_State_Transition_4wht98nxze">
+        <title>Command State Structure State Transition
+        Diagram</title>
+
+        <image href="Command State Structure State Transition Diagram.svg" placement="break" width="6in"/>
+      </fig> <p><xref href="#NVM_Express_I_O_Command_State_Transition_4uht98nxze/Command_State_Structure_with_PRP_List_St_4xht98nxze"/>
+    depicts the state transitions for the Command State Structure when an NVM
+    Express I/O command that requires a PRP list is received by the Data
+    Manager.</p> <fig id="Command_State_Structure_with_PRP_List_St_4xht98nxze">
+        <title>Command State Structure with PRP List
+        State Transition Diagram</title>
+
+        <image href="Command State Structure State Transition Diagram With PRP List.svg" placement="break" width="6in"/>
+      </fig> <p>After initializing the Command State
+    Structure and obtaining a lock for the required Data Frames, the Data
+    Manager will obtain a buffer from the Buffer Manager that will be used to
+    hold the PRP list associated with the command. The allocated buffer is
+    maintained for the lifetime of the command. Only one PRP list buffer is
+    allocated per Command State Structure, even if the command requires
+    multiple PRP lists. The Data Managers will fetch additional PRP lists from
+    the host system's memory on an as-needed basis.</p></section>
+
+    <section id="Data_Frame_State_Structure_State_Transit_4yht98nxze"><title>Data Frame State Structure State
+    Transitions</title> <p><xref href="#NVM_Express_I_O_Command_State_Transition_4uht98nxze/Read_Write_Data_Frame_State_Structure_St_4zht98nxze"/>
+    depicts the state transitions for the Data Frame State Structure after an
+    NVM Express read or write command has been received and the Command State
+    Structure is in the <i>PROCESS_DATA_FRAMES</i>
+    state.</p> <fig id="Read_Write_Data_Frame_State_Structure_St_4zht98nxze">
+        <title>Read/Write Data Frame State Structure
+        State Transition Diagram</title>
+
+        <image href="Read Write Data Frame State Structure State Transition Diagram.svg" placement="break" width="6in"/>
+      </fig> <p>When a request is issued to write less than
+    a Data Frame's worth of data, the controller is required to perform a
+    read/modify/write of a Data Frame. The Data Frame State Transition Diagram
+    for this case is depicted in <xref href="#NVM_Express_I_O_Command_State_Transition_4uht98nxze/RMW_Data_Frame_State_Structure_State_Tra_50ht98nxze"/>.</p>
+    <fig id="RMW_Data_Frame_State_Structure_State_Tra_50ht98nxze">
+        <title>RMW Data Frame State Structure State
+        Transition Diagram</title>
+
+        <image href="RMW Command State Structure State Transition Diagram.svg" placement="break" width="6in"/>
+      </fig> <p>Read/write commands that utilize PRP lists
+    require a slightly different Data Frame State Transitions. To perform an
+    ingress or egress sector DMA of a Data Frame to or from the host, each
+    Data Frame requires up to two PRP entries. These entries must be moved
+    from the PRP list in controller memory to the <xref href="Sam_Data_Manager_Data_Structures_4eht98nxzd.xml#Data_Manager_Data_Structures_4eht98nxzd/Data_Frame_State_Structure_4mht98nxzd">Data
+    Frame State Structure</xref> itself to be used later as the host memory
+    addresses in the sector DMA request IPC message. Depending on the size and
+    alignment of the transfer, either the first or both PRP entries are
+    fetched from controller memory. If the Data Frame spans two PRP lists, it
+    is said to be a split Data Frame. A split Data Frame requires two Data
+    Frames to be fetched, the first from the current PRP list and the second
+    from the next PRP list. For this reason there is a <i>WAIT_FOR_SECOND_PRP_ENTRY</i> state.</p> <p><xref href="#NVM_Express_I_O_Command_State_Transition_4uht98nxze/Read_With_PRP_List_Data_Frame_State_Stru_51ht98nxze"/>
+    depicts the Data Frame State Structure state transitions for a Data Frame
+    read that utilizes a PRP list. Which PRP wait state is entered is
+    dependent on the transfer size and alignment.</p> <fig id="Read_With_PRP_List_Data_Frame_State_Stru_51ht98nxze">
+        <title>Read With PRP List Data Frame State
+        Structure State Transition Diagram</title>
+
+        <image href="Read Data Frame State Structure With PRP List State Transition Diagram.svg" placement="break" width="6in"/>
+      </fig> <p>The state transitions for a write Data
+    Frame that utilizes a PRP list is similar to the read Data Frame state
+    transitions except that the move of the PRP list entries is performed
+    directly before the ingress sector DMA request is issued.</p></section>
+  </body>
+</topic>

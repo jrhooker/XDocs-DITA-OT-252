@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="base" id="axom" xml:lang="en-US">
+  <title>Automatic Xtensa Overlay Manager</title>
+
+  <body>
+    <p>There are two overlay managers available for use: the Automatic Xtensa
+    Overlay Manager (AXOM) which is supported in RF-2014.0 or newer toolset
+    and there is also the PMC overlay manager which was created before Xtensa
+    support was available. Integration with AXOM is an update to the overall
+    overlay mechanism and comes with a couple benefits:<ul>
+        <li><p>Tensilica support of the overlay manager </p></li>
+      </ul><ul>
+        <li><p>GDB compatibility for debugging overlay code </p></li>
+      </ul></p>
+
+    <p>There are also some important restrictions when using this manager:</p>
+
+    <p><ul>
+        <li><p>Cannot use '-ipa' compiler flag on overlay code source files
+        </p></li>
+      </ul><ul>
+        <li><p>The Xtensa manager does not support placement of data in
+        overlays</p></li>
+      </ul></p>
+
+    <p>Xtensa documentation also warns of the following restrictions, which
+    might cause unexpected behaviors:</p>
+
+    <ul>
+      <li><p>Functions which the compiler may invoke on its own (such as
+      functions in libgcc or some C library functions such as memcpy) should
+      not be used within overlays </p></li>
+    </ul>
+
+    <ul>
+      <li><p>Constructor and destructor functions should be placed into
+      overlay code with caution. </p></li>
+    </ul>
+
+    <ul>
+      <li><p>Interrupt and exception handling code must not be resident to an
+      overlay and they should also not call any overlay function.</p></li>
+    </ul>
+
+    <p>Please see the Xtensa System Software Reference Manual, Chapter 5, for
+    a more in-depth description of AXOM. The following subsections will be
+    focused on describing how the Xtensa overlay manager differs from the PMC
+    overlay manager.</p>
+
+    <section><title>Switching between Managers</title> <p>Integration with the
+    Xtensa overlay manager was designed such that it is possible to switch
+    between using it and PMC overlay manager. An updateLinkerScripts command
+    line argument is used to turn off the Xtensa overlay manager, thus
+    enabling the PMC manager. The following command is used to turn off the
+    Xtensa manager:</p><codeblock>perl updateLinkerScripts.pl -axom=off</codeblock><p>and
+    alternatively the following command can be used to turn on the Xtensa
+    manager:</p><codeblock>perl updateLinkerScripts.pl -axom=on</codeblock></section>
+  </body>
+</topic>

@@ -1,0 +1,6626 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="xd_c00249e58e488cac-139b99d7-14672fe45ae--8000" xml:lang="en-US">
+  <title>Overview</title>
+
+  <body>
+    <p>The following sections describe the format of the
+    IPC messages used to communicate between the firmware and flash
+    interface.</p>
+
+    <section id="FlashGlobalRegUpdate_3htq39e2v"><title>FlashGlobalRegUpdate</title> <p>This message is sent to update flash interface global
+    registers.</p> <table id="_4htq39e2w">
+        <title>FlashGlobalRegUpdate</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="6">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (MultiPlaneReadInitiate) Multi Plane
+                Read Initiate</p>
+
+                <p>3 (Write) Flash Write</p>
+
+                <p>4 (Erase) Flash Block Erase</p>
+
+                <p>5 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>6 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for
+                  flashGlobalRegUpdateReq request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for
+                  flashGlobalRegUpdateReq request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is performed as a side effect of a
+                request message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for
+                  flashGlobalRegUpdateReq request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>numOfEccChunksPerPage</name>
+
+              <description>
+                <p>Number Of ECC Chunks per Page</p>
+
+                <p>Number of ECC chunks per page.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>eccContextInfo</name>
+
+              <description>
+                <p>ECC Context Information</p>
+
+                <p>This field has the ECC context
+                information containing (LLR0, LLR1, MAXITER, and CRI)</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize0</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 0.</p>
+
+                <note>
+                  <p>ECC context 0 is reserved for RAW mode
+                  operation and protected data size will be 0d.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize1</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize2</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 2.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize3</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 3.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize4</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 4.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize5</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 5.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize6</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 6.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize7</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 7.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize8</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 8.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize9</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 9.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize10</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 10.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize11</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 11.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize12</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 12.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize13</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 13.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize14</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 14.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>protectedDataSize15</name>
+
+              <description>
+                <p>Protected Data Size</p>
+
+                <p>Shows the number of bytes protected
+                within the flash page for ECC context 15.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>14</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dummyBusyTime</name>
+
+              <description>
+                <p>Dummy Busy Time</p>
+
+                <p>This field specifies the dummy busy time
+                (tDBSY) in units of Flash I/O clock cycles.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>changeColumnSetup</name>
+
+              <description>
+                <p>Change Column Setup Time To Data In/Out
+                or Next Command</p>
+
+                <p>This field specifies the chane column
+                setup time to data in/out or next command (tCCS) in units of
+                Flash I/O clock cycles.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15</value>
+
+              <position>
+                <single>0</single>
+              </position>
+
+              <name>FlashProgramCmd</name>
+
+              <description>
+                <p>Flash Program Command Value</p>
+
+                <p>This field controls the Flash command
+                value used for the flash program operation. 0 (p80h) Use a
+                command value of 80H when performing the program operation. 1
+                (p81h) Use a command value of 81H when performing the program
+                operation.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>1</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DFBuffHandle_5htq39e2w"><title>DfBuffHandle</title> <p>Bit
+    field definition for data buffer handle that is used in flash read and
+    write requests in the following sections.</p> <table id="_6htq39e2w">
+        <title>DfbuffHandle</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="0">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuffLineAddr</name>
+
+              <description>
+                <p>Data Frame Buffer Controller Memory
+                Address</p>
+
+                <p>This field contains the controller
+                memory line base address used by BdtF2CXfer and BdtC2FXfer
+                bulk data transfers.</p>
+
+                <p>The memory line address is equal to the
+                37-bit controller memory byte address of the memory line
+                shifted right six bits.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuffLineOffset</name>
+
+              <description>
+                <p>Data Frame Buffer Line Offset</p>
+
+                <p>This field contains DWord aligned
+                controller memory offset within memory line.</p>
+
+                <p>The actual controller memory address for
+                the data transfer is equal to the value of
+                dataFrameBuffLineOffset added with dataFrameBuffLineAddr
+                shifted left six bits.</p>
+
+                <p>Controller memory address =</p>
+
+                <p>dataFrameBuffLineOffset +
+                (dataFrameBuffLineAddr &lt;&lt; 6) Flash Channel Queue</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>length</name>
+
+              <description>
+                <p>Length</p>
+
+                <p>Number of bytes to be transferred
+                between controller memory and flash interface.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>24</single>
+              </position>
+
+              <name>dfBuffOperation</name>
+
+              <description>
+                <p>Data Frame Buffer Operation</p>
+
+                <p>0 No operation performed before or after
+                flash operation</p>
+
+                <p>1 Allocate/Release a buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>25</single>
+              </position>
+
+              <name>dfBuffType</name>
+
+              <description>
+                <p>Data Frame Buffer Type</p>
+
+                <p>0 Preferred Buffer</p>
+
+                <p>1 Candidate Buffer</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>26</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DFBuffHandle_5htq39e2w"><title>ReadHeader</title> <p/> <table id="_6htq39e2w">
+        <title>ReadHeader</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="0">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>2</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>PlaneNum</name>
+
+              <description>
+                <p>Plane Number</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>6</msb>
+
+                  <lsb>3</lsb>
+                </double>
+              </position>
+
+              <name>numBuffers</name>
+
+              <description>
+                <p>Number of buffers</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>7</single>
+              </position>
+
+              <name>lastBufferSpan</name>
+
+              <description>
+                <p>Last buffer spans to next plane.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>numECCChunk</name>
+
+              <description>
+                <p>Number of ECC Chunks</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>startECCChunk</name>
+
+              <description>
+                <p>Starting ECC Chunk number</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>30</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>startDumpCount</name>
+
+              <description>
+                <p><b otherprops="bold">Start dump count</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>hdrSig</name>
+
+              <description>
+                <p>Header signature (Always 1)</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="DFBuffHandle_5htq39e2w"><title>WriteHeader</title> <p/> <table id="_6htq39e2w">
+        <title>WriteHeader</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="0">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>2</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>PlaneNum</name>
+
+              <description>
+                <p>Plane Number</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>6</msb>
+
+                  <lsb>3</lsb>
+                </double>
+              </position>
+
+              <name>numBuffers</name>
+
+              <description>
+                <p>Number of buffers</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>7</single>
+              </position>
+
+              <name>lastBufferSpan</name>
+
+              <description>
+                <p>Last buffer spans to next plane.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>numECCChunk</name>
+
+              <description>
+                <p>Number of ECC Chunks</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>30</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>hdrSig</name>
+
+              <description>
+                <p>Header signature(Always 1)</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashRead_7htq39e2w"><title>FlashRead</title> <p>This
+    message is sent from the processors to the flash interface to read one or
+    more data frames from the flash. The size of the message is limited to 16
+    DWORDs and the format of the first two DWORDs is fixed for HW use.</p>
+    <table id="_8htq39e2w">
+        <title>FlashRead</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="1">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (MultiPlaneReadInitiate) Multi Plane
+                Read Initiate</p>
+
+                <p>3 (Write) Flash Write</p>
+
+                <p>4 (Erase) Flash Block Erase</p>
+
+                <p>5 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>6 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>scramblerSeed</name>
+
+              <description>
+                <p>ScramblerSeed</p>
+
+                <p>This field contains a seed value used by
+                the scrambler.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>eccContextIndex</name>
+
+              <description>
+                <p>ECC Context Index</p>
+
+                <p>Index to the ECC contexts with different
+                code rates.</p>
+
+                <p>0 ECC bypass mode. Raw flash
+                operation</p>
+
+                <p>1-15 for supported ECC code rates</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>25</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>numDFBuffHandles</name>
+
+              <description>
+                <p>Number of Data Frame Buffer Handles</p>
+
+                <p>This field contains the total number of
+                dfBuffHandleare valid in the flash read request including
+                flashContReq.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>26</lsb>
+                </double>
+              </position>
+
+              <name>totalECCChunk</name>
+
+              <description>
+                <p>Total Number of ECC Chunks</p>
+
+                <p>The total number of ECC chunks to be
+                transferred.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>startPageOffset</name>
+
+              <description>
+                <p>Start Page Offset</p>
+
+                <p>The byte offset from the beginning of
+                the flash page to start reading from. This should be aligned
+                to ECC Chunk.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>startDumpCount</name>
+
+              <description>
+                <p>Start Dump Count</p>
+
+                <p>Number of bytes to be dumped from
+                StartPageOffset before moving data to the controller
+                memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>firstPlaneMsg</name>
+
+              <description>
+                <p>First Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the first plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>lastPlaneMsg</name>
+
+              <description>
+                <p>Last Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the last plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>pageReadTime</name>
+
+              <description>
+                <p>Page Read Time</p>
+
+                <p>This field specifies the page read time
+                in units of Flash controller clock cycles</p>
+
+                <note>
+                  <p>Read Polling time is fixed in
+                  Microcode.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9:8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff0Handle</name>
+
+              <description>
+                <p>Data Buffer 0 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11:10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff1Handle</name>
+
+              <description>
+                <p>Data Buffer 1 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13:12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff2Handle</name>
+
+              <description>
+                <p>Data Buffer 2 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff3Handle</name>
+
+              <description>
+                <p>Data Buffer 3 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashRead_7htq39e2w"><title>FlashMultiPlaneReadInitiate</title> For a
+    Multi-plane read, NAND device needs to queue the planes before transfer
+    data out from the cache register. So each plane is addressed twice, first
+    set of command, send to all planes to queue the data. Second set of
+    command, send again to same planes for actual data out. This requires the
+    Micro code to save the all message data involved in multi-plane operation
+    to issue second set of commands. Due to limited DRAM availability in Micro
+    code it is not possible to store the all message data.
+    FlashMultiPlaneReadInitiate message is sent from the processors to the
+    flash interface to send first set of commands and flashRead message is
+    used to send second set of commands to NAND device. <table id="_8htq39e2w">
+        <title>FlashMultiPlaneReadInitiate</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="2">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (MultiPlaneReadInitiate) Multi Plane
+                Read Initiate</p>
+
+                <p>3 (Write) Flash Write</p>
+
+                <p>4 (Erase) Flash Block Erase</p>
+
+                <p>5 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>6 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>numPlane</name>
+
+              <description>
+                <p>Number Of Planes</p>
+
+                <p>This field indicates number of planes
+                involved in multi-plane operation sequence.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>firstPlaneMsg</name>
+
+              <description>
+                <p>First Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the first plane in single plane or
+                multiplane operation. Refer to for more information. .</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>lastPlaneMsg</name>
+
+              <description>
+                <p>Start Page Offset</p>
+
+                <p>The byte offset from the beginning of
+                the flash page to start reading from. This should be aligned
+                to ECC Chunk.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>pageReadTime</name>
+
+              <description>
+                <p>Page Read Time</p>
+
+                <p>This field specifies the page read time
+                in units of Flash controller clock cycles</p>
+
+                <note>
+                  <p>Read Polling time is fixed in
+                  Microcode.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read for different planes.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashRead_7htq39e2w"><title>FlashMultiPlaneRead</title><table id="_8htq39e2w">
+        <title>FlashMultiPlaneRead</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="13*"/>
+
+          <colspec colname="c2" colwidth="9*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="62*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="2">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (MultiPlaneReadInitiate) Multi Plane
+                Read Initiate</p>
+
+                <p>3 (Write) Flash Write</p>
+
+                <p>4 (Erase) Flash Block Erase</p>
+
+                <p>5 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>6 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read for different planes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>maxIter</name>
+
+              <description>
+                <p>Max Iter</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>LLR0</name>
+
+              <description>
+                <p>LLR0</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>LLR1</name>
+
+              <description>
+                <p>LLR1</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>eccContextIndex</name>
+
+              <description>
+                <p>ECC ContextIndex</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>scramblerSeed</name>
+
+              <description>
+                <p>Scrambler Seed</p>
+
+                <p>This field contains a seed value used by
+                the scrambler .</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>readRetry</name>
+
+              <description>
+                <p>Read retry option</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>numPlane</name>
+
+              <description>
+                <p>Number Of Planes</p>
+
+                <p>This field indicates number of planes
+                involved in multi-plane operation sequence.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <single>28</single>
+              </position>
+
+              <name/>
+
+              <description>
+                <p/>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>29</lsb>
+                </double>
+              </position>
+
+              <name>buffType</name>
+
+              <description>
+                <p>Buffer Type</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>pageReadTime</name>
+
+              <description>
+                <p>Page Read Time</p>
+
+                <p>This field specifies the page read time
+                in units of Flash controller clock cycles</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>readHdrCount</name>
+
+              <description>
+                <p>Read request header length</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>firstDFOffset</name>
+
+              <description>
+                <p>First data frame offset</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>lastDFLength</name>
+
+              <description>
+                <p><b otherprops="bold">Last Data Frame length</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>readHeader0</name>
+
+              <description>
+                <p>Read Header</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameBuffer0</name>
+
+              <description>
+                <p>Data frame buffer line address
+                associated with readHeader0</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>readHeader1/dataFrameBuffer1</name>
+
+              <description>
+                <p>Depending on number of buffers in
+                readHeader0, this field contains another read header or data
+                frame buffer line address.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>readHeader2/dataFrameBuffer2</name>
+
+              <description>
+                <p>Depending on number of buffers in
+                readHeaderx, this field contains another read header or data
+                frame buffer line address</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashRead_7htq39e2w"><title>FlashMultiPlaneWrite</title><table id="_8htq39e2w">
+        <title>FlashMultiPlaneWrite</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="13*"/>
+
+          <colspec colname="c2" colwidth="9*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="62*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="2">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (MultiPlaneReadInitiate) Multi Plane
+                Read Initiate</p>
+
+                <p>3 (Write) Flash Write</p>
+
+                <p>4 (Erase) Flash Block Erase</p>
+
+                <p>5 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>6 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash read
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read for different planes.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>eccContextIndex</name>
+
+              <description>
+                <p>ECC ContextIndex</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>scramblerSeed</name>
+
+              <description>
+                <p>Scrambler Seed</p>
+
+                <p>This field contains a seed value used by
+                the scrambler .</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>numPlane</name>
+
+              <description>
+                <p>Number Of Planes</p>
+
+                <p>This field indicates number of planes
+                involved in multi-plane operation sequence.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>pageProgramTime</name>
+
+              <description>
+                <p>Page Read Time</p>
+
+                <p>This field specifies the page read time
+                in units of Flash controller clock cycles</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>writeHdrLength</name>
+
+              <description>
+                <p>write request header length</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>WriteHeader0</name>
+
+              <description>
+                <p>Write Header</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameBuffer0</name>
+
+              <description>
+                <p>Data frame buffer address associated
+                with WriteHeader0</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>writeHeader1/dataFrameBuffer1</name>
+
+              <description>
+                <p>Depending on number of buffer in
+                writeHeaderX, this field contains another write header or data
+                frame buffer line address.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>writeHeader2/dataFrameBuffer2</name>
+
+              <description>
+                <p>Depending on number of buffer in
+                writeHeaderX, this field contains another write header or data
+                frame buffer line address</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>writeHeader3/dataFrameBuffer3</name>
+
+              <description>
+                <p>Depending on number of buffer in
+                writeHeaderX, this field contains another write header or data
+                frame buffer line address</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashCont_dhtq39e2y"><title>FlashCont</title> <table id="_ehtq39e2y">
+        <title>FlashCont</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="5">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (Write) Flash Write</p>
+
+                <p>3 (Erase) Flash Block Erase</p>
+
+                <p>4 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>5 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>readHeader/writeHeader/dataFrameBuffer</name>
+
+              <description>
+                <p>Depending on number of buffers in
+                readHeaderX/WriteHeaderX, this field contain another read
+                header/write header or data frame buffer line address.</p>
+
+                <p/>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashWrite_9htq39e2x"><title>FlashWrite</title> <p>This
+    message is sent from the processors to the flash interface to write one or
+    more data frames to the flash. The size of message is limited to 16 DWORDs
+    and the format of the first two DWORDs is fixed for HW use.</p> <table id="_ahtq39e2x">
+        <title>FlashWrite</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="3">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (Write) Flash Write</p>
+
+                <p>3 (Erase) Flash Block Erase</p>
+
+                <p>4 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>5 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>scramblerSeed</name>
+
+              <description>
+                <p>ScramblerSeed</p>
+
+                <p>This field contains a seed value used by
+                the scrambler.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>eccContextIndex</name>
+
+              <description>
+                <p>ECC Context Index</p>
+
+                <p>Index to the ECC contexts with different
+                code rates.</p>
+
+                <p>0 ECC bypass mode. Raw flash
+                operation</p>
+
+                <p>1-15 for supported ECC code rates</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>25</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>numDFBuffHandles</name>
+
+              <description>
+                <p>Number of Data Frame Buffer Handles</p>
+
+                <p>This field contains the total number of
+                dfBuffHandles are valid in the flash write request including
+                flashContReq.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>26</lsb>
+                </double>
+              </position>
+
+              <name>totalECCChunk</name>
+
+              <description>
+                <p>Total Number of ECC Chunks</p>
+
+                <p>The total number of ECC chunks to be
+                transferred.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>firstPlaneMsg</name>
+
+              <description>
+                <p>First Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the first plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>lastPlaneMsg</name>
+
+              <description>
+                <p>Last Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the last plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>pageProgTime</name>
+
+              <description>
+                <p>Flash Program Time</p>
+
+                <p>This field specifies the page program
+                operation time in units of Flash controller clock cycles.</p>
+
+                <note>
+                  <p>Program Polling time is fixed in
+                  Microcode.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9:8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff0Handle</name>
+
+              <description>
+                <p>Data Buffer 0 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11:10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff1Handle</name>
+
+              <description>
+                <p>Data Buffer 1 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13:12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff2Handle</name>
+
+              <description>
+                <p>Data Buffer 2 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff3Handle</name>
+
+              <description>
+                <p>Data Buffer 3 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashErase_bhtq39e2y"><title>FlashErase</title> <p>This
+    message is used to send single-plane or multi-plane flash block erase
+    requests to the flash interface. The size of message is limited to 16
+    DWORDs and the format of the first two DWORDs is fixed for HW use.</p>
+    <table id="_chtq39e2y">
+        <title>FlashErase</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="4">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (Write) Flash Write</p>
+
+                <p>3 (Erase) Flash Block Erase</p>
+
+                <p>4 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>5 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash erase
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash erase
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash erase
+                  request.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>flashAddr</name>
+
+              <description>
+                <p>Flash Address</p>
+
+                <p>This field encodes the physical flash
+                address of the page to be read.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>firstPlaneMsg</name>
+
+              <description>
+                <p>First Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the first plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>lastPlaneMsg</name>
+
+              <description>
+                <p>Last Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the last plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>blockEraseTime</name>
+
+              <description>
+                <p>Block Erase Time</p>
+
+                <p>This field specifies the block erase
+                time in units of Flash controller clock cycles.</p>
+
+                <note>
+                  <p>Erase Polling time is fixed in
+                  Microcode.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashCont_dhtq39e2y"><title>FlashCont</title> <p>This
+    message is used when there are more than 4 data frames requested for
+    either a write or read request. In order to support higher flash pages or
+    multi-plane operations, a new additional message, FlashContReq, is added.
+    FlashContReq is continuation of FlashReadReq or FlashWriteReq.
+    FlashContReq and FlashReadReq/ FlashWriteReq are sent as chained
+    (compound) messages with single completion.</p> <table id="_ehtq39e2y">
+        <title>FlashCont</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="5">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message type</p>
+
+                <p>This field encodes the request message
+                type. The value of this field is microcode specific.</p>
+
+                <p>Valid values for FlashChReq messages are
+                zero through 253. Values outside this range are reserved.</p>
+
+                <p>1 (Read) Flash Read</p>
+
+                <p>2 (Write) Flash Write</p>
+
+                <p>3 (Erase) Flash Block Erase</p>
+
+                <p>4 (Continuous) Flash Continuous
+                Request</p>
+
+                <p>5 (gblRegUpdate) Global Register
+                Update</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>cntxt</name>
+
+              <description>
+                <p>Flash Channel Queue</p>
+
+                <p>This field encodes the Flash channel
+                queue associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>16</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>chan</name>
+
+              <description>
+                <p>Flash Channel</p>
+
+                <p>This field encodes the Flash channel
+                associated with this message request.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>20</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>xorCalcID</name>
+
+              <description>
+                <p>XOR Calculator ID</p>
+
+                <p>This field specifies the XOR calculator
+                flow ID.</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <p>The XOR Calculator ID field is
+                translated when processed by the XOR calculator. When received
+                by a Flash channel processor, this field contains the XOR
+                context ID.</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>xorCalcStripeLast</name>
+
+              <description>
+                <p>Last Request of a XOR Calculator Flow ID
+                Stripe</p>
+
+                <p>This field indicates whether this is the
+                last request of a Flow ID stripe.</p>
+
+                <p>0 (NOTLAST) First or middle operation of
+                a Flow ID stripe</p>
+
+                <p>1 (LAST) Last operation of a Flow ID
+                stripe</p>
+
+                <p>The value of this field is ignored then
+                the XORCalcOp field value is set to NOP.</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>xorCalcOp</name>
+
+              <description>
+                <p>XOR Calculation Operation</p>
+
+                <p>This field encodes whether a XOR
+                calculator operation is perform as a side effect of request
+                message processing.</p>
+
+                <p>0 (NOP) No operation</p>
+
+                <p>1 (XORCALC) XOR calculator operation</p>
+
+                <note>
+                  <p>This field is reserved for flash cont
+                  requests.</p>
+                </note>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>18</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>chMsgNodeAddr</name>
+
+              <description>
+                <p>Chained Message Node Address</p>
+
+                <p>This field contains the node address of
+                the next request message in the message chain. A value of zero
+                in this field indicates that this is the last message of a
+                message chain.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>19</single>
+              </position>
+
+              <name>chain</name>
+
+              <description>
+                <p>Chained Message</p>
+
+                <p>When this bit is set, the request
+                message is part of a chained message and is not the last
+                message in the message chain. The address of the next request
+                message in the message chain is specified by the chMsgNodeAddr
+                field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>27</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of Flash
+                completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>28</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>29</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>firstPlaneMsg</name>
+
+              <description>
+                <p>First Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the first plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>lastPlaneMsg</name>
+
+              <description>
+                <p>Last Plane Message</p>
+
+                <p>When this bit is set, the request
+                message is belongs to the last plane in single plane or
+                multiplane operation. Refer to for more information.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>Reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9:8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff4Handle</name>
+
+              <description>
+                <p>Data Buffer 4 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11:10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff5Handle</name>
+
+              <description>
+                <p>Data Buffer 5 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13:12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff6Handle</name>
+
+              <description>
+                <p>Data Buffer 6 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15:14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff7Handle</name>
+
+              <description>
+                <p>Data Buffer 7 Controller Memory Address
+                and Length</p>
+
+                <p>This field contains the controller
+                memory address and length of data transferred to this
+                buffer.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FlashOpCpl_fhtq39e2z"><title>FlashOpCpl</title> <p>This
+    message is used to notify flash operation completion, whether single-plane
+    or multi-plane, from flash interface to the firmware. For flash read
+    requests, when data buffers are allocated by the flash interface, it can
+    only send three data buffer pointers in flashOpCpl message. If the
+    firmware is reading more than three data frames data, and using
+    auto-allocation buffer option, FlashOpCplCOnt is needed.</p> <table id="_ghtq39e2z">
+        <title>FlashOpCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="1">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message Type</p>
+
+                <p>This field encodes the completion
+                message type.</p>
+
+                <p>1 FlashOpCpl</p>
+
+                <p>2 FlashOpCplCont</p>
+
+                <p>3 - 253 Microcode specific</p>
+
+                <p>254 (FlashEccCpl) Flash ECC
+                Completion</p>
+
+                <p>255 (Auto) Hardware auto generated
+                completion message</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Queue</p>
+
+                <p>This field specifies the index of the
+                Flash completion outbound message queue to be used by this
+                message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Status</p>
+
+                <p>This field encodes the status of the
+                operation:</p>
+
+                <p>0 (OK) Operation completed without
+                error</p>
+
+                <p>1 (Disabled) Unit is disabled</p>
+
+                <p>2 (Malformed) Malformed request</p>
+
+                <p>3 (FatalError) Fatal Error</p>
+
+                <p>4 (EccErr) Uncorrectable ECC error
+                detected</p>
+
+                <p>5 (CrcErr) CRC mismatch</p>
+
+                <p>6 (ScramblerErr) Scrambler seed
+                mismatch</p>
+
+                <p>7 (XferSzErr) Transfer size error</p>
+
+                <p>8 (FlashErr) Flash error</p>
+
+                <p>9 (DIErr) Data integrity error</p>
+
+                <p>10 (ProcError) Processing Error</p>
+
+                <p>11 (PollingError) Polling Error</p>
+
+                <p>12 (Aborted) Operation aborted</p>
+
+                <p>13 (TargetError) Target Error</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>20</single>
+              </position>
+
+              <name>erasedPage</name>
+
+              <description>
+                <p>Erased Page</p>
+
+                <p>This bit is set if the percentage of
+                bits in the ECC Chunk prior to LDPC correction that had a
+                value of one was greater than the threshold specified by the
+                erased page ECC chunk threshold (ERASEDTH) field in the ECC
+                Control (ECCCTL) register.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>21</lsb>
+                </double>
+              </position>
+
+              <name>retries</name>
+
+              <description>
+                <p>Number Retries</p>
+
+                <p>If the status field indicates completion
+                without error, then this field contains the total number poll
+                retries required before it was determined that the flash
+                operation completed. In all other cases, the contents of this
+                field are undefined.</p>
+
+                <p>A value of zero in this field indicates
+                that no retries were required and that the Flash device
+                indicated completion the first time it was polled.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>eccErrors</name>
+
+              <description>
+                <p>Total Number of ECC Bit Errors</p>
+
+                <p>If the completion is associated with a
+                Flash read request and the status field indicates completion
+                without error, then this field contains the total number of
+                ECC bit errors that were detected in the flash page. In all
+                other cases, the contents of this field are zero.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>uncErrBitVector</name>
+
+              <description>
+                <p>Uncorrectable Error Bit Vector</p>
+
+                <p>If an uncorrectable ECC error was
+                detected in any ECC Chunk, UncErrBitVector contains a bit
+                vector for each potential ECC Chunk. A bit in this vector is
+                set if an uncorrectable error was detected in the
+                corresponding ECC Chunk.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>This field contains opaque data that is
+                passed from the request to the corresponding completion.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff0</name>
+
+              <description>
+                <p>Data Buffer 0 Controller Memory
+                Address</p>
+
+                <p>This field contains the controller
+                memory line address that points to the start of data frame
+                0.</p>
+
+                <p>The memory line address is equal to the
+                37-bit controller memory byte address of the memory line
+                shifted right six bits.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff1</name>
+
+              <description>
+                <p>Data Buffer 1 Controller Memory
+                Address</p>
+
+                <p>This field contains the controller
+                memory line address that points to the start of data frame
+                1.</p>
+
+                <p>The memory line address is equal to the
+                37-bit controller memory byte address of the memory line
+                shifted right six bits.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff2</name>
+
+              <description>
+                <p>Data Buffer 2 Controller Memory
+                Address</p>
+
+                <p>This field contains the controller
+                memory line address that points to the start of data frame
+                2.</p>
+
+                <p>The memory line address is equal to the
+                37-bit controller memory byte address of the memory line
+                shifted right six bits.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dfBuff3</name>
+
+              <description>
+                <p>Data Buffer 3 Controller Memory
+                Address</p>
+
+                <p>This field contains the controller
+                memory line address that points to the start of data frame
+                3.</p>
+
+                <p>The memory line address is equal to the
+                37-bit controller memory byte address of the memory line
+                shifted right six bits.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table> <p>.</p></section>
+
+    <section id="FlashOpCpl_fhtq39e2z"><title>FlashMemWrite</title> <p>The
+    FlashMemWrite message is used to initialize the I-RAM and D_RAM of enabled
+    Flash Channel Processors. This message is processed normal even when the
+    Message Network is disabled(MNDIS) at the Flash Channel Controller
+    end.</p> <table id="_ghtq39e2z">
+        <title>FlashMemWrite</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct opcode="255">
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>msgType</name>
+
+              <description>
+                <p>Message Type</p>
+
+                <p>This field must be set to a value of 255
+                in a flashMemWriterequest message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>numDwords</name>
+
+              <description>
+                <p>Number of DWords contained in the
+                message request</p>
+
+                <p>This field specifies the number of valid
+                DWords in this message request. The values zero as well as 13
+                through 16 are reserved and causes the message to be
+                discarded.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p><b otherprops="bold"><b>Reserved</b></b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>multicastVector</name>
+
+              <description>
+                <p><b>Flash
+                Channel Processor Multicast Vector</b></p>
+
+                <p>Each bit in this field corresponds to a
+                flash channel processor (i.e., bit zero corresponds to flash
+                channel processor zero, bit one corresponds to flash channel
+                processor one, and son on). When a bit in this field set, the
+                message request is sent to the corresponding Flash channel
+                processor.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>1</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>2</lsb>
+                </double>
+              </position>
+
+              <name>flashChProcAddr</name>
+
+              <description>
+                <p>Flash Channel Processor Address</p>
+
+                <p>This field specifies the starting DWord
+                address location in Flash Channel Processor address space
+                (i.e.,D-Mem or I-Mem) where the data DWords contained in this
+                message are written.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord0</name>
+
+              <description>
+                <p>Data DWord 0</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord1</name>
+
+              <description>
+                <p>Data DWord 1</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord2</name>
+
+              <description>
+                <p>Data DWord 2</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord3</name>
+
+              <description>
+                <p>Data DWord 3</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord4</name>
+
+              <description>
+                <p>Data DWord 4</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord5</name>
+
+              <description>
+                <p>Data DWord 5</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord6</name>
+
+              <description>
+                <p>Data DWord 6</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord7</name>
+
+              <description>
+                <p>Data DWord 7</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>11</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord8</name>
+
+              <description>
+                <p>Data DWord 8</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord9</name>
+
+              <description>
+                <p>Data DWord 9</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>13</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord10</name>
+
+              <description>
+                <p>Data DWord 10</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>14</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataDWord11</name>
+
+              <description>
+                <p>Data DWord 11</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>15</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table> <p>.</p></section>
+  </body>
+</topic>

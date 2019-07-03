@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Sys_Config_Del_Nmspc" xml:lang="en-US">
+  <title>Delete Namespace</title>
+
+  <body>
+    <p>User applications issue Delete Namespace commands to
+    remove an existing namespace in the flash media. To avoid error
+    situations, user applications should obtain the current namespace
+    information using the Identify command.</p>
+
+    <fig id="NVM_Express_Vendor_Specific_Command_Dele_59ht97qqbw">
+      <title>NVM Express Vendor Specific Command Delete
+      Namespace Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Admin_Delete_Namespace.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_5aht97qqbw">
+      <title>NVM Express Vendor Specific Command Delete
+      Namespace Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth=".5in"/>
+
+        <colspec colname="c2" colwidth="1.5in"/>
+
+        <colspec colname="c3" colwidth="4in"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady64</b>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">WriteLockReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Manager sends a write lock request for entire LBA range for each
+            namespace ID</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">LockCpl</b>
+            </p></entry>
+
+            <entry><p>The Locking
+            Manager responds with a lock completion message when the lock is
+            granted</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">NamespaceManagementReq</b> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues namespace update requests to all Mapping
+            Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Mapping
+            Managers reload the namespace information from controller
+            memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">NamespaceManagementCpl</b> </p></entry>
+
+            <entry><p>The Mapping
+            Managers respond to the Admin Command Manager with namespace
+            update completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Admin
+            Manager deletes the specified namespace and updates namespace PM
+            data.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Admin
+            Manager updates superblock.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMWriteReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Manager issues a request to Mapping Manager 0 to save the
+            namespace information.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashWrite</b>
+            </p></entry>
+
+            <entry><p>A FlashWrite
+            is issued to store the namespace information to flash.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashOpCpl</b>
+            </p></entry>
+
+            <entry><p>When the flash
+            write operation completes, the Flash Interface responds with a <b>FlashOpCpl</b> message.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMOpCpl</b>
+            </p></entry>
+
+            <entry><p>The Mapping
+            Manager 0 responds to the <b otherprops="bold">PMWriteReq</b> message with a <b otherprops="bold">PMOpCpl</b>
+            message</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">WriteSuperBlkReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Manager sends write superblock request to the Control
+            Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashWrite</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager issues a flash write request.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">13</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashOpCpl</b>
+            </p></entry>
+
+            <entry><p>The Flash
+            Interface responds to the flash write request.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">14</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">WriteSuperBlkCpl</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager sends a write superblock completion to the Admin
+            Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">15</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues namespace update requests to all Data
+            Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Data
+            Managers reload the namespace information from controller
+            memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">16</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyCpl</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Managers respond to the Admin Command Manager with namespace
+            update completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">17</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">LockRelease</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager releases the LBA write lock.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">18</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">19</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b>
+            </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Admin_Command_Manager_1ht97qqbf" xml:lang="en-US">
+  <title><ph audience="PMCInternal">Samsung </ph>Admin Command Manager</title>
+
+  <body>
+    <p>The Admin Command Manager is responsible for the
+    processing of all NVM Express administration commands, NVM Express CC.MPS
+    register updates, and the creation of the admin submission/completion
+    queues when the NVM Express CC.EN bit is set. It also deletes the admin
+    and I/O submission/completion queues when the NVM Express CC.EN bit is
+    cleared by the host.</p>
+
+    <p>All commands received by the Data Managers from NVM
+    Express admin submission queues will be forwarded to the Admin Command
+    Manager for processing. It is the responsibility of the Admin Command
+    Manager to perform any locking (via the Locking Manager or by masking the
+    inbound IPC request queue from the Data Managers) required in order to
+    prevent the concurrent processing of admin commands.</p>
+
+    <p>The Admin Command Manager has direct IPC connections
+    to the ingress/egress DMA engines and to the Completion Queue Manager.
+    This allows data to be transferred to and from the host and completions to
+    NVM Express requests to be sent without intervention from other
+    managers.</p>
+
+    <p>The Admin Command Manager has two inbound IPC ports
+    used to receive IPC messages from other managers. The first port is used
+    to receive admin command requests from other managers in the system (that
+    is, the PCIe Manager and the Data Managers). The second port is used to
+    receive completions to admin requests sent from the Admin Command Manager
+    to the other managers. This architecture allows the Admin Command Manager
+    to perform atomic command processing by masking the inbound admin command
+    request port while still allowing the reception of completions from other
+    managers.</p>
+
+    <p><xref href="#Admin_Command_Manager_1ht97qqbf/Admin_Command_Manager_Flow_3ht97qqbg"/>
+    depicts an example of the IPC message flow through the Admin Command
+    Manager. In this example is an NVM Express admin command that does not
+    require the use of the ingress or egress DMA engines to have been issued
+    by the host.</p>
+
+    <fig id="Admin_Command_Manager_Flow_3ht97qqbg">
+      <title>Admin Command Manager Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Admin_Command_Manager_Flow.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <ol>
+      <li id="d1e115"><p>The Submission
+      Manager sends NVM Express Commands to the Data Managers.</p></li>
+
+      <li id="d1e121"><p>The Data
+      Managers forward all commands received via NVM Express admin submission
+      queues to the Admin Command Manager for processing.</p> <ul>
+          <li id="d1e128"><p>Also some
+          non-admin commands such as the NVM Express Flush, Write
+          Uncorrectable, and Dataset Management commands.</p></li>
+        </ul></li>
+
+      <li id="d1e136"><p>Depending on
+      the command, the Admin Command Manager will issue admin requests to
+      other managers.</p></li>
+
+      <li id="d1e142"><p>These managers
+      perform the requested operation and send a completion back to the Admin
+      Command Manager.</p></li>
+
+      <li id="d1e148"><p>When the Admin
+      Command Manager has received completions for all the requests that were
+      issued, an NVM Express completion is sent to the Completion
+      Manager.</p></li>
+
+      <li id="d1e155"><p>When the
+      completion has been successfully sent to the host, the Completion
+      Manager replies to the Admin Command Manager with a completion queue
+      update completion message.</p></li>
+    </ol>
+
+    <p>After receiving the <i>CmdReady64</i> IPC message from the Data
+    Manager, the Admin Command Manager may mask all inbound <i>CmdReady64</i> IPC ports from the Data Managers
+    (labeled as #2 in <xref href="#Admin_Command_Manager_1ht97qqbf/Admin_Command_Manager_Flow_3ht97qqbg"/>)
+    in order to prevent multiple NVM Express admin commands from being
+    executed concurrently, while still being able to receive completions to
+    admin requests issued via the request completions port (labeled as #4 in
+    <xref href="#Admin_Command_Manager_1ht97qqbf/Admin_Command_Manager_Flow_3ht97qqbg"/>).</p>
+  </body>
+</topic>

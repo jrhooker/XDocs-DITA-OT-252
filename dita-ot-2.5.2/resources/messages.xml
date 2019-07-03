@@ -9,7 +9,7 @@ See the accompanying LICENSE file for applicable license.
   <!-- Start of Ant Messages -->
   <message id="DOTA001F" type="FATAL">
     <reason>"%1" is not a recognized transformation type.</reason>
-    <response>Supported transformation types are eclipsehelp, eclipsehelp-mchp, exportpreprocess, html5, htmlhelp, javahelp, mchp-firmware, pdf, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-feedback-mobile, webhelp-mobile, webhelp-responsive, webhelpCommons, xhtml, xhtml-mchp.</response>
+    <response>Supported transformation types are eclipsehelp, eclipsehelp-mchp, exportpreprocess, html5, htmlhelp, javahelp, mchp-csrreg, mchp-firmware, mchp-firmware-h, pdf, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-feedback-mobile, webhelp-mobile, webhelp-responsive, webhelpCommons, xhtml, xhtml-mchp.</response>
   </message>
   
   <message id="DOTA002F" type="FATAL">

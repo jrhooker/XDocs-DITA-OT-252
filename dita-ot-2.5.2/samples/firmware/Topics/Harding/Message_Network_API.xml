@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="xd_63d69dfe0307fc66--5b44bbd1-14d20526240--7fb5" xml:lang="en-US">
+  <title>Message Network</title>
+
+  <body>
+    <p>The Message Network library provides two API’s: one basic and one
+    advanced. The basic API provides the low-level building blocks that are
+    used by the advanced API. The following sections describe both API’s and
+    give examples of how to use them.</p>
+
+    <section id="Basic_Message_Network_API_Usage_1pht7esfem"><title>Basic
+    Message Network API Usage</title><p>In order to use the Basic Message
+    Network, API applications should include
+    <filepath>.../include/ipc.h</filepath> and
+    <filepath>.../include/ipcmap.h</filepath>, declare space for the inbound
+    message buffers, and call <cmdname>void IPCInit(const IPC_CONFIG
+    *map)</cmdname> passing in a pointer to the auto-generated IPC
+    configuration map. See <xref href="../Message_Network_Configuration_15ht7esfei.xml"/>
+    for more details. <xref href="#Message_Network_1oht7esfem/Skeleton_Message_Network_Initialization__1qht7esfen"/>
+    shows an example of Message Network initialization code. Assume that the
+    manager running this code is named DMGR0.</p><fig id="Skeleton_Message_Network_Initialization__1qht7esfen">
+        <title>Skeleton Message Network Initialization Code</title>
+
+        <codeblock>#include &lt;ipc.h&gt;
+#include &lt;ipcmap.h&gt;
+
+// Declare space for the inbound message buffers
+// The name of this variable should match what is used
+// by the IPC configuration map
+unsigned char my_var_name[DMGR0_MAX_MSG];
+
+int main(void)
+{
+     // Initialize the IPC message network for this node
+     IPCInit(map);
+
+     return(0);
+}</codeblock>
+      </fig><p>In order to transmit a message, a message buffer pointer must
+    first be obtained by calling <cmdname>u32 IPCOut-boundGet(s32
+    qID)</cmdname>. Assuming a message buffer pointer was available, the
+    message buffer should be populated by calling <cmdname>u32
+    IPCWriteData(s32 qID</cmdname>, u32 handle, u32 data) and then posted to
+    the destination by calling <xref href="#Message_Network_1oht7esfem/void_IPCOutboundPost-s32_qID__u32_handle-">
+    void IPCOutboundPost(s32 qID, u32 handle)</xref>. <xref href="#Message_Network_1oht7esfem/Sending_an_IPC_Message_1rht7esfen"/>
+    shows a simple function for sending an IPC message.</p><fig id="Sending_an_IPC_Message_1rht7esfen">
+        <title>Sending an IPC Message</title>
+
+        <codeblock>void sendMsg(int qID)
+{
+     unsigned int handle;
+
+     // Get a message buffer pointer
+     if((handle = IPCOutboundGet(qID)) != IPC_EMPTY)
+     {
+          unsigned int temp;
+          // Write the message data
+          temp = IPCWriteData(qID, handle, 0x55);
+          temp = IPCWriteData(qID, temp, 0xaa);
+          IPCWriteData(qID, temp, 0x11);
+          // Post the message
+          IPCOutboundPost(qID, handle);
+     }
+     else
+          printf("Error getting buffer handle!\n");
+}</codeblock>
+      </fig><p>A message is received by calling <xref href="#Message_Network_1oht7esfem/void_IPCInboundGet-s32_qID__u32_handle-">
+    void *IPCInboundGet(s32 qID, u32 *handle)</xref>. If a message is
+    available, a pointer to the message buffer will be returned. If no
+    messages are available, a value of 0x00000000 will be returned. Once a
+    received message has been processed, the message buffer pointer should be
+    freed by calling <xref href="#Message_Network_1oht7esfem/void_IPCInboundFree-u32_handle-"> void
+    IPCInboundFree(u32 handle)</xref>.</p><fig>
+        <title>Receiving an IPC Message</title>
+
+        <codeblock>void recvMsg(int qID)
+{
+     unsigned int          *buffer;
+     unsigned int          handle;
+
+     // Get a message buffer pointer
+     if((buffer = IPCInboundGet(qID, &amp;handle)) != IPC_EMPTY_PTR)
+     {
+          //
+          // Process message here
+          //
+          IPCInboundFree(handle);
+     }
+     else
+          printf("No messages available!\n");
+}</codeblock>
+      </fig><p>To check a number of inbound ports for received messages, <xref href="#Message_Network_1oht7esfem/void_IPCInboundGetAny-u32_mask__u32_handle__s32_qID-">
+    void *IPCInboundGetAny(u32 mask, u32 *handle, s32 *qID)</xref> should be
+    called. This function uses a mask to determine which inbound ports should
+    be included in the receive. If one of the unmasked ports contains a
+    message, the ID of the port will be written to the variable pointed to by
+    the qID parameter and a pointer to the message buffer will be returned. If
+    no messages are available, 0xFFFF_FFFF will be returned. To maintain
+    fairness, unmasked inbound ports are checked in a round-robin
+    fashion.</p><p>If enabled, the outbound and inbound ports are capable of
+    generating interrupts to the processor when they contain valid message
+    handles. Interrupts for each inbound/outbound message queue may be
+    masked/unmasked individually by calling <xref href="#Message_Network_1oht7esfem/u32_IPCInboundIntMask-u32_mask__s32_qID-">
+    u32 IPCInboundIntMask(u32 mask, s32 qID)</xref> or <xref href="#Message_Network_1oht7esfem/u32_IPCOutboundIntMask-u32_mask__s32_qID-">
+    u32 IPCOutboundIntMask(u32 mask, s32 qID)</xref>, respectively. Interrupt
+    mappings and example interrupt initialization code may be found in <xref href="../Interrupts_1bhsg9zajw.xml"/>.</p></section>
+
+    <section id="Advanced_Message_Network_API_Usage_1sht7esfen"><title>Advanced Message
+    Network API Usage</title><p>The advanced message network API allows
+    outbound messages to be queued if there are no outbound message buffers
+    available. These queued messages may then be sent at a later time when
+    outbound message buffers become available. The API also maintains
+    statistics on the number of messages that were sent and the number of
+    times messages could not be sent due to a lack of message buffer resources
+    and supports callback notifications when queued messages are eventually
+    sent.</p><p>In order to use the Advanced Message Network API, applications
+    should perform all of the initialization steps mentioned in <xref href="#Message_Network_1oht7esfem/Basic_Message_Network_API_Usage_1pht7esfem"/>
+    in addition to declaring each outbound IPC using the <xref href="#Message_Network_1oht7esfem/IPC_DCL_OUTBOUND-u32_qID__sendMsgName-">
+    IPC_DCL_OUTBOUND(u32 qID, sendMsgName)</xref> macro. <xref href="#Message_Network_1oht7esfem/Advanced_Message_Network_Initialization__1tht7esfen"/>
+    shows an example of Message Network initialize code. Assume that the
+    manager running this code is named DMGR0.</p><fig id="Advanced_Message_Network_Initialization__1tht7esfen">
+        <title>Advanced Message Network Initialization Code</title>
+
+        <codeblock>#include &lt;ipc.h&gt;
+#include &lt;ipcmap.h&gt;
+
+// Declare the outbound IPC
+IPC_DCL_OUTBOUND(OB_DMGR02PCIE_IDX, IPCSendMessage);
+
+// Declare space for the inbound message buffers
+// The name of this variable should match what is used
+// by the IPC configuration map
+unsigned char my_var_name[DMGR0_MAX_MSG];
+
+int main(void)
+{
+     // Initialize the IPC message network for this node
+     IPCInit(map);
+     
+     return(0);     
+}</codeblock>
+      </fig><p>Because the firmware has been written in a non-blocking
+    fashion, it must keep context information for each outstanding operation.
+    This context information contains all of the information required to send
+    any type of message required by the manager. When sending a message, if no
+    outbound message buffers are available, it is not the message contents
+    that are queued, but rather the message context information. In order to
+    queue the context data structure, it must contain an element of type
+    <parmname>ipc_list_t</parmname>. The <parmname>ipc_list_t</parmname>
+    structure is shown in <xref href="#Message_Network_1oht7esfem/IPC_LIST_Structure_1uht7esfen"/>.</p><fig id="IPC_LIST_Structure_1uht7esfen">
+        <title>IPC_LIST Structure</title>
+
+        <codeblock>typedef struct ipc_list {
+     list_head_t    list;
+     u32            msgType;
+     cpl_callback_t cplCallback;
+     void           *cplCallbackParam;
+     void           *messageData;
+} ipc_list_t;</codeblock>
+      </fig><p>The <parmname>list</parmname> element is used to queue the
+    structure when no outbound message buffers are available. The
+    <parmname>msgType</parmname> element is used to specify the type of the
+    message when messages of different types are sent through the same IPC
+    channel. If a message is queued and the <parmname>cplCallback</parmname>
+    element is non-zero, it will be called by passing
+    <parmname>cplCallbackParam</parmname> as a parameter when the message is
+    actually sent.</p><p>Messages are sent by using the <xref href="#Message_Network_1oht7esfem/IPC_SEND_MESSAGE-sendMsgName._qID._ipc_list_t_listPtr._u32_type._ipc_cpl_callback_t_callback._void_param._void_messageData-">
+    IPC_SEND_MESSAGE(sendMsgName, qID, ipc_list_t *listPtr, u32 type,
+    ipc_cpl_callback_t callback, void *param, void *messageData)</xref> macro.
+    The first parameter to this macro is the function that will be called to
+    actually send the message. The second parameter is the IPC ID that was
+    used to declare the IPC. The third parameter is a pointer to the
+    <i>ipc_list_t</i> structure contained within the context data structure.
+    The fourth parameter is the message type; this should match the message
+    <i>opcode</i>, since it will be used by the send function to determine
+    which type of message to send. The next two parameters are pointers to the
+    callback function and the callback parameter, respectively. These two
+    parameters may be NULL if the callback function is not required. The last
+    parameter is a pointer to the user data structure that contains the
+    information required to send the message.</p><p>Sending a message requires
+    two things. First, the <cmdname>IPC_SEND_MESSAGE()</cmdname> macro should
+    be used to send the message, and second, a function must be written to
+    perform the actual sending of the message. <xref href="#Message_Network_1oht7esfem/Declaring_the_Send_Message_Function_1vht7esfen"/>
+    shows an example of such a function. In this case two different message
+    types are supported.</p><fig id="Declaring_the_Send_Message_Function_1vht7esfen">
+        <title>Declaring the Send Message Function</title>
+
+        <codeblock>u32 IPCSendMessage(u32 handle, u32, qID, ipc_list_t *listPtr)
+{
+    PAGE_STATE    * pageState = list-&gt;messageData;
+    u32           addr;
+    switch(list-&gt;msgType)
+    {
+    case PAGE_FRAME_ALLOC_REQ:
+        addr = IPCWriteData(OB_DMGR02PFMGR_IDX, outBuffer,
+                         PAGE_FRAME_ALLOC_REQ_DW0(1, PF_DONT_CARE));
+        addr = IPCWriteData(OB_DMGR02PFMGR_IDX, addr, (u32) pageState); // TAG0
+        IPCOutboundPost(OB_DMGR02PFMGR_IDX, outBuffer);
+        break;
+    case PAGE_FRAME_FREE:
+        addr = IPCWriteData(OB_DMGR02PFMGR_IDX, outBuffer, PAGE_FRAME_FREE_DW0(1));
+        addr = IPCWriteData(OB_DMGR02PFMGR_IDX, addr, pageState-&gt;pageFrameAddr);
+        IPCOutboundPost(OB_DMGR02PFMGR_IDX, outBuffer);
+        break;
+    }
+}</codeblock>
+      </fig><p>The send message function performs the actual sending of the
+    message. This function accepts three parameters. The first is the name
+    given to the IPC when it was declared. The second is a handle to the
+    outbound message buffer, and the third is a pointer to the
+    <i>ipc_list_t</i> structure. It’s worth noting that this function is not
+    called directly by user code, but rather via the <xref href="#Message_Network_1oht7esfem/IPC_SEND_MESSAGE-sendMsgName._qID._ipc_list_t_listPtr._u32_type._ipc_cpl_callback_t_callback._void_param._void_messageData-">
+    IPC_SEND_MESSAGE(sendMsgName, qID, ipc_list_t *listPtr, u32 type,
+    ipc_cpl_callback_t callback, void *param, void *messageData)</xref> macro
+    and is only called when the handle parameter is valid; that is, a valid
+    outbound message buffer has been obtained. The
+    <cmdname>container_of</cmdname> macro is used to obtain a pointer to the
+    context data structure that is the parent structure of the
+    <i>ipc_list_t</i> structure. In other words, the structure that contains
+    the <i>ipc_list_t </i>structure. The <parmname>msgType</parmname> element
+    of the <i>ipc_list_t</i> structure is used to determine the type of
+    message to send. As mentioned before, the context data structure contains
+    all of the information required to send the actual message.</p><p>At some
+    point, the firmware must check to see if there are any messages pending to
+    be sent and if outbound IPC message buffers are available to send them.
+    This is accomplished by using the <xref href="#Message_Network_1oht7esfem/u32_IPCProcessPending-void-"> u32
+    IPCProcessPending(void)</xref> function, although typically this function
+    is called by the firmware infrastructure and not by the user
+    code.</p><p>When queued messages are sent and a callback was specified in
+    the <xref href="#Message_Network_1oht7esfem/IPC_SEND_MESSAGE-sendMsgName._qID._ipc_list_t_listPtr._u32_type._ipc_cpl_callback_t_callback._void_param._void_messageData-">
+    IPC_SEND_MESSAGE(sendMsgName, qID, ipc_list_t *listPtr, u32 type,
+    ipc_cpl_callback_t callback, void *param, void *messageData)</xref> macro,
+    the callback function will be called passing the
+    <parmname>param</parmname> value as a parameter. This is useful if
+    something needs to occur only after the message has been sent; for
+    example, freeing a data structure that contains data required to send a
+    message.</p></section>
+
+    <section id="Application_Programming_Interface_1wht7esfen"><title>Application
+    Programming Interface</title><p>The following sections describe the
+    Message Network library APIs. Applications using these APIs should include
+    <filepath>.../include/ipc.h</filepath> and
+    <filepath>.../include/ipcmap.h</filepath> and link against
+    <filepath>.../lib/libEFC.a</filepath>.</p><sectiondiv id="void_IPCInit-const_IPC_CONFIG_map-"><b><apiname>void IPCInit(const
+    IPC_CONFIG *map)</apiname></b><p>Initialize the inter-processor
+    communication network based on the configuration map passed in via the map
+    parameter.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>map</parmname></pt>
+
+          <pd>Pointer to the IPC configuration map</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_nrz_5h2_qn">
+        <li id="d1e2367"><p>N/A</p></li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCOutboundGet-s32_qID-"><b><apiname>u32 IPCOutboundGet(s32
+    qID)</apiname></b><p> Get the next available message buffer handle from
+    the specified outbound IPC port.</p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the outbound IPC port.</pd>
+        </plentry>
+      </parml><b otherprops="bold">Returns:</b><ul id="ul_ysl_pm2_qn">
+        <li id="d1e2408"><p>Handle to a message buffer on success, else
+        -1.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCOutboundPost-s32_qID__u32_handle-"><b><apiname>void
+    IPCOutboundPost(s32 qID, u32 handle) </apiname></b><p>Post a message
+    buffer handle to the specified outbound port.</p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the outbound IPC port</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>buffer</parmname></pt>
+
+          <pd>Handle to the message buffer to be posted</pd>
+        </plentry>
+      </parml><b otherprops="bold">Returns:</b><ul id="ul_ctl_pm2_qn">
+        <li>N/A</li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCWriteData-s32_qID__u32_handle__u32_data-"><b><apiname>u32
+    IPCWriteData(s32 qID, u32 handle, u32 data)</apiname></b><p>Write
+    <i>data</i> to the message buffer address specified by <i>handle</i> using
+    outbound IPC port <i>qID</i>.</p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the outbound IPC port</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>handle</parmname></pt>
+
+          <pd>Handle to the message buffer</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>data</parmname></pt>
+
+          <pd>32-bit data to be written</pd>
+        </plentry>
+      </parml><b otherprops="bold">Returns:</b><ul id="ul_itl_pm2_qn">
+        <li><p>Handle to the next DWord of data in the message
+        buffer.</p></li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCInboundHandleGet-s32_qID-"><b><apiname>u32
+    IPCInboundHandleGet(s32 qID)</apiname></b><p>Get the next available
+    message buffer handle from the specified inbound IPC port.</p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the inbound IPC port</pd>
+        </plentry>
+      </parml><b otherprops="bold">Returns:</b><ul>
+        <li><p>Handle to a message buffer on success, else -1.</p></li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCInboundHandlePeek-s32_qID-"><b><apiname>u32
+    IPCInboundHandlePeek(s32 qID)</apiname></b><p>Peek at the next available
+    message buffer handle from the specified inbound IPC port. The handle is
+    not removed from the specified IPC queue.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the inbound IPC port</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul>
+        <li><p>Handle to a message buffer on success, else -1.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCHandle2Ptr-u32_handle-"><b><apiname>void *IPCHandle2Ptr(u32
+    handle)</apiname></b><p>Convert a message buffer handle to a
+    pointer.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>handle</parmname></pt>
+
+          <pd>Handle to the message buffer</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul>
+        <li id="d1e2637"><p>Pointer to the message buffer.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCInboundGet-s32_qID__u32_handle-"><b><apiname>void
+    *IPCInboundGet(s32 qID, u32 *handle)</apiname></b><p>Receive the next
+    message buffer pointer queued at the inbound side of the IPC message
+    queue.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the inbound message queue</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>handle</parmname></pt>
+
+          <pd>Pointer to a variable to receive the message buffer handle</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_i5l_pm2_qn">
+        <li id="d1e2686"><p>Pointer to a message buffer on success, else
+        0xFFFF_FFFF.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCInboundFree-u32_handle-"><b><apiname>void IPCInboundFree(u32
+    handle)</apiname></b><p>Free a message buffer handle that was previously
+    received by calling <xref href="#Message_Network_1oht7esfem/void_IPCInboundGet-s32_qID__u32_handle-">
+    void *IPCInboundGet(s32 qID, u32 *handle) or u32 IPCInboundHandleGet(s32
+    qID)</xref>.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>handle</parmname></pt>
+
+          <pd>Handle to the message buffer being freed</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul>
+        <li>N/A</li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCOutboundIntMask-u32_mask__s32_qID-"><b><apiname>u32
+    IPCOutboundIntMask(u32 mask, s32 qID)</apiname></b><p>Mask or unmask
+    outbound IPC interrupts.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>mask</parmname></pt>
+
+          <pd>Bit mask: bits set to 1 mask interrupts and bits set to 0 unmask
+          interrupts</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>Outbound queue ID</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_q5l_pm2_qn">
+        <li id="d1e2769"><p>Previous mask value.</p></li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCInboundIntMask-u32_mask__s32_qID-"><b><apiname>u32
+    IPCInboundIntMask(u32 mask, s32 qID)</apiname></b><p>Mask or unmask
+    inbound IPC interrupts.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>mask</parmname></pt>
+
+          <pd>Bit mask: bits set to 1 mask interrupts and bits set to 0 unmask
+          interrupts.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>Inbound queue ID.</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_v5l_pm2_qn">
+        <li id="d1e2818"><p>Previous mask value.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCInboundGetAny-u32_mask__u32_handle__s32_qID-"><b><apiname>void
+    *IPCInboundGetAny(u32 mask, u32 *handle, s32
+    *qID)</apiname></b><p>Receives the next message buffer pointer from any
+    one of the unmasked inbound IPC ports.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>mask</parmname></pt>
+
+          <pd>Bitmask of inbound ports to include in the read</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>handle</parmname></pt>
+
+          <pd>Pointer to a variable to receive the message buffer handle.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the inbound IPC port from where the message buffer pointer
+          was read.</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_cvl_pm2_qn">
+        <li id="d1e2874"><p>Pointer to a message buffer on success, else
+        0xFFFF_FFFF.</p></li>
+      </ul></sectiondiv><sectiondiv id="void_IPCInboundHandleGetAny-u32_mask__s32_qID-"><b><apiname>void
+    *IPCInboundHandleGetAny(u32 mask, s32 *qID)</apiname></b><p>Receive the
+    next message buffer handle from any one of the unmasked inbound IPC
+    ports.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>mask</parmname></pt>
+
+          <pd>Bitmask of inbound ports to include in the read</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the inbound IPC port from where the message buffer handle
+          was read.</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_hvl_pm2_qn">
+        <li id="d1e2923"><p>Handle to a message buffer on success, else
+        0xFFFF_FFFF.</p></li>
+      </ul></sectiondiv><sectiondiv id="bool_IPCInboundTest-u32_mask__s32_qID-"><b><parmname>bool
+    IPCInboundTest(u32 mask, s32 *qID)</parmname></b><p>Test if message buffer
+    handles are ready to be read from the unmasked inbound IPC ports.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>mask</parmname></pt>
+
+          <pd>Bitmask of inbound ports to include in the test.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>Pointer to a variable that will hold the ID of the inbound IPC
+          port from where a message buffer handle should be read.</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_nvl_pm2_qn">
+        <li id="d1e2972"><p>0 No message buffer handles available for
+        reception.</p></li>
+
+        <li id="d1e2978"><p>1 Messages are available, qID contains the ID of
+        port that should be read next using <xref href="#Message_Network_1oht7esfem/u32_IPCInboundHandleGet-s32_qID-">
+        u32 IPCInboundHandleGet(s32 qID)</xref>.</p></li>
+      </ul></sectiondiv><sectiondiv id="IPC_DCL_OUTBOUND-u32_qID__sendMsgName-"><b><apiname>IPC_DCL_OUTBOUND(u32
+    qID, sendMsgName)</apiname></b><p>Macro used to declare the outbound port
+    of an IPC. Each outbound IPC port needs to be declared at least
+    once.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>ID of the outbound IPC port.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>sendMsgName</parmname></pt>
+
+          <pd>Function called to send a message using the specified outbound
+          port</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_tvl_pm2_qn">
+        <li id="d1e3026"><p>N/A</p></li>
+      </ul></sectiondiv><sectiondiv id="IPC_SEND_MESSAGE-sendMsgName._qID._ipc_list_t_listPtr._u32_type._ipc_cpl_callback_t_callback._void_param._void_messageData-"><b><apiname>IPC_SEND_MESSAGE(sendMsgName,
+    qID, ipc_list_t *listPtr, u32 type, ipc_cpl_callback_t callback, void
+    *param, void *messageData)</apiname></b><p>Macro used to send or queue a
+    message if outbound message buffers are unavailable. If the message was
+    sent, this macro returns 0. If the message could not be sent due to lack
+    of outbound message buffers this macro returns -1.</p><p><b otherprops="bold">Parameters:</b><parml>
+        <plentry>
+          <pt><parmname>sendMsgName</parmname></pt>
+
+          <pd>Function called to send a message using the specified outbound
+          port.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>qID</parmname></pt>
+
+          <pd>Name given to this outbound IPC port.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>listPtr</parmname></pt>
+
+          <pd>Pointer to <i>ipc_list_t</i> structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>type</parmname></pt>
+
+          <pd>Message type/opcode.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>callback</parmname></pt>
+
+          <pd>Pointer to callback function.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>param</parmname></pt>
+
+          <pd>Parameter to be passed to the callback function.</pd>
+        </plentry>
+
+        <plentry>
+          <pt><parmname>messageData</parmname></pt>
+
+          <pd>Pointer to the user data structure that contains the information
+          required to send the message.</pd>
+        </plentry>
+      </parml></p><p><b otherprops="bold">Returns:</b></p><ul id="ul_cwl_pm2_qn">
+        <li id="d1e3119"><p>0 Message was sent successfully.</p></li>
+
+        <li id="d1e3125"><p>-1 Message was queued due to lack of outbound
+        message buffers.</p></li>
+      </ul></sectiondiv><sectiondiv id="u32_IPCProcessPending-void-"><b><apiname>u32
+    IPCProcessPending(void)</apiname></b><p>Process any pending outbound IPC
+    messages. If the callback parameter to the <xref href="#Message_Network_1oht7esfem/IPC_SEND_MESSAGE-sendMsgName._qID._ipc_list_t_listPtr._u32_type._ipc_cpl_callback_t_callback._void_param._void_messageData-">
+    IPC_SEND_MESSAGE(sendMsgName, qID, ipc_list_t *listPtr, u32 type,
+    ipc_cpl_callback_t callback, void *param, void *messageData)</xref> macro
+    was not NULL when the message was queued the callback function will be
+    called passing the <parmname>param</parmname> value as a parameter when
+    the message is actually sent.</p><p><b otherprops="bold">Returns:</b></p><ul id="ul_gwl_pm2_qn">
+        <li id="d1e3150"><p>0 There were no pending IPC messages to
+        process.</p></li>
+
+        <li id="d1e3156"><p>1 Pending IPC messages were processed.</p></li>
+      </ul></sectiondiv></section>
+  </body>
+</topic>

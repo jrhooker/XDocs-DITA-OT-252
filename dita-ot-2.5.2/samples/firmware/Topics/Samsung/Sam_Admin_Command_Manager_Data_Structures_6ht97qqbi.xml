@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Admin_Command_Manager_Data_Structures_6ht97qqbi" xml:lang="en-US">
+  <title>Admin Command Manager Data Structures</title>
+
+  <body>
+    <p>The following sections describe the data structures
+    utilized by the Admin Command Manager.</p>
+
+    <section id="Configuration_Structure_7ht97qqbi"><title>Configuration Structure</title><p>General configuration information, such as the flash
+    configuration, namespace configuration, and DDR memory map configuration
+    are stored in a global variable of type <varname>admin_ctrl_mgr_config_t</varname> called
+    <varname>config</varname>. The <varname>admin_ctrl_mgr_config_t</varname>
+    structure is shown in <xref href="#Admin_Command_Manager_Data_Structures_6ht97qqbi/Admin_Manager_Configuration_Structure_8ht97qqbi"/>.</p><fig id="Admin_Manager_Configuration_Structure_8ht97qqbi">
+        <title>Admin Manager Configuration
+        Structure</title>
+
+        <codeblock>typedef struct admin_mgr_config
+{
+    command_state_t commandState;
+    queue_map_t subQMap[MAX_PCIE_PORTS][MAX_CPL_QUEUES];
+    u8 cplQCountPerIntrVec[MAX_PCIE_PORTS][MAX_CPL_QUEUES];
+    bool writeCacheEnable;
+    global_config_t globalConfig;
+    nsid_mapping_t nsidMapping[MAX_PCIE_PORTS][MAX_NAMESPACES];
+    namespace_config_t namespaceConfig[MAX_NAMESPACES];
+    ddr_mem_map_t memMap;
+    u32 memPageSize[MAX_PCIE_PORTS];
+    message_ctxt_t messageCtxt[NUM_MESSAGE_CTXT];
+    flash_config_t flashConfig;
+    u32 pcieHdr[MAX_PCIE_PORTS];
+    fw_buffer_control_t fwBufCtrl;
+    admin_pwr_on_ctrl_t pwrOnCtrl;
+    u32 dbgVar[16];
+} admin_mgr_config_t;</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>commandState</pt>
+
+          <pd>Current Command. Only one command at a time may be worked on by
+          the Admin Command Manager.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>subQMap</pt>
+
+          <pd>Submission to Completion Queue Mapping structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>cplQCountPerIntrVec</pt>
+
+          <pd>Number of CPLQ per interrupt vector.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>writeCacheEnable</pt>
+
+          <pd>Indicates write cache is enabled.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>globalConfig</pt>
+
+          <pd>Global system configurations.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>nsidMapping</pt>
+
+          <pd>Mapping of Host's NSID to Internal NSID.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>namespaceConfig</pt>
+
+          <pd>Namespace configuration information.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>memMap</pt>
+
+          <pd>DDR memory map.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>memPageSize</pt>
+
+          <pd>Host memory page size for all PCIe ports.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>messageCtxt</pt>
+
+          <pd>Message Contexts used for dynamic allocation.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashConfig</pt>
+
+          <pd>Flash configuration</pd>
+        </plentry>
+
+        <plentry>
+          <pt>pcieHdr</pt>
+
+          <pd>PCIe requester ID Header (includes Requester ID). The bit-fields
+          follow the S/C Queue (and Int Mgr Vect) PCIe Ctl register
+          definition.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>fwBufCtrl</pt>
+
+          <pd>Firmware buffer control.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>pwrOnCtrl</pt>
+
+          <pd>Admin Command Manager power on control.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dbgVar</pt>
+
+          <pd>Debugging variables.</pd>
+        </plentry>
+      </parml><p>During initialization, after the Admin
+    Control Manager has received the PowerReq IPC message from the Control
+    Manager, the global system configuration, the DDR memory map, and NVM
+    Express namespace information will be read from a fixed location in
+    controller memory and stored in the configuration structure.</p></section>
+  </body>
+</topic>

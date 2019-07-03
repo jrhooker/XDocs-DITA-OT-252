@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Firmware_Image_Download_12ht97qqbl" xml:lang="en-US">
+  <title>Firmware Image Download</title>
+
+  <body>
+    <p>The Firmware Image Download command is used to
+    download all or a portion of the firmware image for a future update to the
+    controller. The Firmware Image Download command may be issued while other
+    commands on the Admin Submission Queue or I/O Submission Queues are
+    outstanding. The Firmware Image Download command copies the new firmware
+    image (in whole or in part) to the controller.</p>
+
+    <p>The firmware image may be constructed of multiple
+    pieces that are individually downloaded with separate Firmware Image
+    Download commands. Each Firmware Image Download command includes a DWord
+    Offset and Number of DWords that indicates a DWord range. The host ensures
+    that firmware pieces do not have DWord ranges that overlap. Firmware
+    portions may be issued out of order to the controller.</p>
+
+    <p>The new firmware image is not applied as part of the
+    Firmware Image Download command. It is applied following a reset, where
+    the image to apply and the firmware slot it should be committed to is
+    indicated with the Firmware Activate command.</p>
+
+    <fig id="NVM_Express_Firmware_Download_Command_Co_13ht97qqbl">
+      <title>NVM Express Firmware Download Command
+      Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Firmware_Download.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_14ht97qqbl">
+      <title>NVM Express Firmware Download Command
+      Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CmdReady64</cmdname>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CmdReady</cmdname>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">IngressDMA</cmdname>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues ingress DMA requests to transfer the
+            firmware image to controller memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">DMACpl</cmdname>
+            </p></entry>
+
+            <entry><p>The DMA engine
+            responds with DMA completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CplQueueUpdate</cmdname> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CplQueueUpdateCpl</cmdname> </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Obsolete_Data_Frame_Request_b5hta88ui4" xml:lang="en-US">
+  <title>Obsolete Data Frame Request</title>
+
+  <body>
+    <p>ObsoleteDataFrameReq is received to obsolete or
+    invalidate the previously written data frames. Obsolete data frame request
+    control flow is shown in <xref href="#Obsolete_Data_Frame_Request_b5hta88ui4/Obsolete_Data_Frame_Request_Control_Flow_b6hta88ui4"/>.</p>
+
+    <fig id="Obsolete_Data_Frame_Request_Control_Flow_b6hta88ui4">
+      <title>Obsolete Data Frame Request Control
+      Flow</title>
+
+      <image href="Graphics/bel_obsolete_data_frame.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_b7hta88ui4">
+      <title>Obsolete Data Frame Request Control
+      Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="25*"/>
+
+        <colspec colname="c3" colwidth="70*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Operation</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ObsoleteDataFrameReq</b> </p></entry>
+
+            <entry><p>The Lookup
+            Manager sends the ObsoleteDataFrameReq to the Wearleveling Manager
+            to obsolete data frame. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Allocate
+            obsoleteDataFrameState structure. If there are no free state
+            structures, mask inbound queue and return from poll function
+            without poping IPC message. Inbound queue is unmasked when one of
+            obsoleteDataFrameState structures is freed.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            operation</b> </p></entry>
+
+            <entry><p>The following
+            information is extracted from the ObsoleteDataFrameReq:</p> <ul>
+                <li id="d1e1514"><p>flashAddr - Flash address of the data
+                frame.</p></li>
+
+                <li id="d1e1520"><p>dataFrameNum - Data frame number within
+                virtual page.</p></li>
+              </ul></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Calculate
+            virtual block information address from the flash
+            address.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">dataNetworkMoveIn</b>
+            </p></entry>
+
+            <entry><p>Send a data
+            network movein request to read the block information from the
+            controller memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">dataNetworkCpl</b>
+            </p></entry>
+
+            <entry><p>Data network
+            responds with dataNetwokCpl for dataNetworkMoveIn</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process data
+            network completion. If data network completion received with
+            exception bit, Wearleveling Manager is halted with LOG_ERR.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process
+            virtual block information. If block state is GARBAGE_COLLECTION,
+            there is no action required as garbage collection process will
+            obsolete this data frame. Release obsoleteDataFrameState structure
+            and exit.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Calculate
+            valid data frame bitmap address and bit position to clear from the
+            flashAddr and data frame number.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">memXorPosted</b>
+            </p></entry>
+
+            <entry><p>Clear bit in
+            valid data frame bitmap using memXorPosted.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process the
+            block state again before performing the next operation. If block
+            state is ACTIVE, decrement valid data frame count in block open
+            state structure and remaining operation will take place when the
+            block is closed. Release obsoleteDataFrameState structure and
+            exit</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Decrement
+            valid data frame count in obsolete data frame state structure.</p>
+            <p>Calculate the virtual block priority. Refer
+            to <xref href="Bel_Priority_Based_Algorithm_bhhta88ui5.xml">Priority
+            Based Algorithm</xref> for more detail regarding priority
+            calculation.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">moveOutPosted</b>
+            </p></entry>
+
+            <entry><p>Write updated
+            block information to the controller memory using
+            moveOutPosted</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Calculate the
+            priority list address based on its priority.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ListOp</b>
+            </p></entry>
+
+            <entry><p>Send a message
+            to the list engine to move the block from one priority list to
+            another priority list.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ListOpCpl</b>
+            </p></entry>
+
+            <entry><p>List Engine
+            responds with listOpCpl for ListOp.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process list
+            engine completion. If list engine status is not OK, the
+            Wearleveling Manager is halted with LOG_ERR.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Release
+            obsoleteDataFrameState structure</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

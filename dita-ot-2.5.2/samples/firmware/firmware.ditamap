@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN"
+"/SysSchema/dita/dtd/bookmap/dtd/bookmap.dtd">
+<bookmap base="Princeton" id="xd_44a95342451dd7ca--403f0573-13dad6fc273--8000"
+         xml:lang="en-US">
+  <!--This file is just a test file to show the team how to generate .h files. When the main ditamap is checked back in, 
+I will edit it to draw this ditamap and others like it in place of the current chapter.-->
+
+  <title>Flash Interface IPC Messages</title>
+
+  <bookmeta>
+    <pmc_iso audience="PMCInternal">
+      <pmc_title>Flash Interface IPC Messages</pmc_title>
+
+      <pmc_subtitle/>
+
+      <pmc_abstract>
+        <p>This document describes format of flash interface IPC messages.</p>
+      </pmc_abstract>
+
+      <pmc_productnumber>PM8607, PM8609, PM8613</pmc_productnumber>
+
+      <pmc_document_id>PMC-2133470</pmc_document_id>
+
+      <pmc_issue_date>15 May 2015</pmc_issue_date>
+
+      <pmc_dev_status dev_status="Preliminary"/>
+
+      <pmc_doc_status/>
+
+      <pmc_issuenum>3</pmc_issuenum>
+
+      <pmc_footertext>
+        <p>Proprietary and Confidential to PMC-Sierra, Inc.</p>
+      </pmc_footertext>
+
+      <pmc_patents>
+        <p/>
+      </pmc_patents>
+
+      <pmc_revhistory>
+        <pmc_revision>
+          <pmc_rev_number>8</pmc_rev_number>
+
+          <pmc_date>2 June 2015</pmc_date>
+
+          <pmc_name>John Lloyd</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Updated Harding flash interface messages to support dynamic
+            ECC code rates.</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>7</pmc_rev_number>
+
+          <pmc_date>15 May 2015</pmc_date>
+
+          <pmc_name>Mahesh Prabhu</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added dump buffer Address parameters for DDR and BRAM in
+            FlashDynamicUpdate message</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>6</pmc_rev_number>
+
+          <pmc_date>09 March 2015</pmc_date>
+
+          <pmc_name>Mahesh Prabhu</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added poll timing parameters for read, write, erase and
+            miscellaneous commands.</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>5</pmc_rev_number>
+
+          <pmc_date>26 February 2015</pmc_date>
+
+          <pmc_name>Balan Rajendran</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added support for SLC mode Program/REad/Erase</p>
+
+            <p>2. Set/Get feature delay time is moved to global configuration
+            message</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>4</pmc_rev_number>
+
+          <pmc_date>04 December 2014</pmc_date>
+
+          <pmc_name>Balan Rajendran</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added Set Feature message format</p>
+
+            <p>2. Added Get Feature message format</p>
+
+            <p>3. Added more Flash timing Parameters</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>3</pmc_rev_number>
+
+          <pmc_date>11 September 2014</pmc_date>
+
+          <pmc_name>Balan Rajendran</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added Read Id message format</p>
+
+            <p>2. Added Read Parameter Page message format</p>
+
+            <p>3. Added Completion message with Data</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>2</pmc_rev_number>
+
+          <pmc_date>18 July 2014</pmc_date>
+
+          <pmc_name>Srinivas Yelisetti</pmc_name>
+
+          <pmc_revdescription>
+            <p>1. Added units for eccChunkSize and protectedDataSize
+            fields.</p>
+
+            <p>2. Added flashAddr format.</p>
+
+            <p>3. Added ZErrM information for flashOpCpl</p>
+
+            <p>4. Modified flashOpCpl to separate DWord3 so that flash write
+            and flash erase has single completion for multi plane
+            operation.</p>
+          </pmc_revdescription>
+        </pmc_revision>
+
+        <pmc_revision>
+          <pmc_rev_number>1</pmc_rev_number>
+
+          <pmc_date>11 July 2014</pmc_date>
+
+          <pmc_name>Srinivas Yelisetti</pmc_name>
+
+          <pmc_revdescription>
+            <p>Initial Version</p>
+          </pmc_revdescription>
+        </pmc_revision>
+      </pmc_revhistory>
+    </pmc_iso>
+  </bookmeta>
+
+  <frontmatter>
+    <booklists>
+      <toc/>
+    </booklists>
+  </frontmatter>
+
+  <chapter href="Topics/Belmar/Bel_Flash_Interface_Messages_1htq39e2v.xml"
+           navtitle="Flash Interface Messages"
+           product="PM8605 PM8607 PM8609 PM8613"/>
+</bookmap>

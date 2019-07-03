@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="System_Management_5tht98pzy3" xml:lang="en-US">
+  <title>System Management</title>
+
+  <body>
+    <p>The IPC messages in the following sections are
+    initiated by different managers in order to manage the system.</p>
+
+    <section id="PowerReq_5uht98pzy3"><title>PowerReq</title> <p>Message sent
+    from the Control Manager to indicate a power on state transition to the
+    Mapping Managers.</p> <table id="_5vht98pzy3">
+        <title>PowerReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="16*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>opState</name>
+
+              <description>
+                <p>Operational State</p>
+
+                <p>This field contains the operational
+                state to power on to:</p>
+
+                <p>00h (normal) Initial power on state for
+                normal operation.</p>
+
+                <p>01h (first) Initial power on state for
+                first time (virgin flash) operation.</p>
+
+                <p>02h (devEn) Final power on state
+                transition to enable the device.</p>
+
+                <p>03h (recovery) Initial power on state
+                for recovery after improper shutdown.</p>
+
+                <p>04h (shutdown) Normal shutdown
+                request.</p>
+
+                <p>05h (abruptShutdown) Abrupt shutdown
+                request.</p>
+
+                <p>06h (powerMode) Request the destination
+                manager observe the specified power state.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>28</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>powerState</name>
+
+              <description>
+                <p>Power State</p>
+
+                <p>Specifies the index of one of the Power
+                State Descriptors reported in the Identify Controller data
+                structure. This field is only valid if <i>opState</i> is set to 06h.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>29</single>
+              </position>
+
+              <name>pciePort</name>
+
+              <description>
+                <p>PCIe Port</p>
+
+                <p>This field contains the PCIe port on
+                which the request was received. This field is only valid for
+                shutdown requests, <i>opState</i> =
+                04h or <i>opState</i> = 05h.</p>
+
+                <p>0h (port0) PCIe port 0.</p>
+
+                <p>1h (port1) PCIe port 1.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>30</lsb>
+                </double>
+              </position>
+
+              <name>ccShn</name>
+
+              <description>
+                <p>CC.SHN field</p>
+
+                <p>This field contains the value in CC.HSN
+                field that indicates the status of shutdown processing that is
+                initiated by the host setting the CC.SHN field.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PMReadReq_5wht98pzy3"><title>PMReadReq</title> <p>This
+    message is sent to the FTL to request that a page of protocol metadata be
+    read from flash. A protocol metadata page is the same size as a Data
+    Frame.</p> <table id="_5xht98pzy3">
+        <title>PmreadReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameAddr</name>
+
+              <description>
+                <p>Data Frame Address</p>
+
+                <p>Address, in controller memory, of the
+                Data Frame where the protocol metadata should be placed.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>metaPageAddr</name>
+
+              <description>
+                <p>Page Address</p>
+
+                <p>Address of the protocol metadata
+                page.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4:3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PMWriteReq_5yht98pzy3"><title>PMWriteReq</title> <p>This
+    message is sent to the FTL to request that a page of protocol metadata be
+    written to flash. A protocol metadata page is the same size as a Data
+    Frame.</p> <table id="_5zht98pzy3">
+        <title>PmwriteReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>forceUnitAccess</name>
+
+              <description>
+                <p>Force Unit Access</p>
+
+                <p>If this field is set, data should be
+                written to non-volatile media immediately without combining
+                with other write access.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameAddr</name>
+
+              <description>
+                <p>Data Frame Address</p>
+
+                <p>Address, in controller memory, of the
+                Data Frame that contains the protocol metadata.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>metaPageAddr</name>
+
+              <description>
+                <p>Page Address</p>
+
+                <p>Address of the protocol metadata
+                page.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4:3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PMOpCpl_60ht98pzy3"><title>PMOpCpl</title> <p>This message
+    is sent from the FTL to the Data Manager in response to a PMReadReq or a
+    PMWriteReq IPC message.</p> <table id="_61ht98pzy3">
+        <title>PmopCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PMReadyReq_62ht98pzy3"><title>PMReadyReq</title> <p>This
+    message is sent from the Admin Command Manager to other managers in the
+    system to inform them that the protocol metadata located in controller
+    memory is valid.</p> <table id="_63ht98pzy3">
+        <title>PmreadyReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>metadataType</name>
+
+              <description>
+                <p>Metadata Type</p>
+
+                <p>The type of metadata being requested</p>
+
+                <p>0h System configuration</p>
+
+                <p>1h Firmware information</p>
+
+                <p>2h Protocol metadata</p>
+
+                <p>All other values are reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>metadataInfo</name>
+
+              <description>
+                <p>Metadata Info</p>
+
+                <p>Additional information specific to the
+                <i>metadataType.</i></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>metadataAddr</name>
+
+              <description>
+                <p>Metadata Address</p>
+
+                <p>Memory line pointer to the protocol
+                metadata in controller memory.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="PMReadyCpl_64ht98pzy4"><title>PMReadyCpl</title> <p>In
+    response to a PMReadyReq message, each manager should read the required
+    protocol metadata information from controller memory and reply with this
+    message.</p> <table id="_65ht98pzy4">
+        <title>PmreadyCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors</p>
+
+                <p>1h A correctable error occurred</p>
+
+                <p>2h An uncorrectable error occurred</p>
+
+                <p>All other values are reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

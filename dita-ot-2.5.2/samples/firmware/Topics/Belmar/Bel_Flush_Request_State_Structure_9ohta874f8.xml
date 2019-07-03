@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Flush_Request_State_Structure_9ohta874f8" xml:lang="en-US">
+  <title>Flush Request State Structure</title>
+
+  <body>
+    <p>Flush Request State Structure is used to maintain
+    context information for an outstanding flush request. Memory for this
+    structure is statically allocated as <varname otherprops="bold">flush_req_state_t</varname>.</p>
+
+    <fig id="Flush_Request_State_Structure_9phta874f8">
+      <title>Flush Request State Structure</title>
+
+      <codeblock>typedef struct flush_req_state
+{
+    u8 flushState;
+    u8 reason;
+    u8 flushCplCount;
+    u8 flushCplOutMsgQ;
+}flush_req_state_t;</codeblock>
+    </fig>
+
+    <parml>
+      <plentry>
+        <pt>flushState</pt>
+
+        <pd>Flush request state.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>reason</pt>
+
+        <pd>Reason for flush - Power Down, sleep or timer expired.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>flushCplCount</pt>
+
+        <pd>Expected number of flush completions from other managers.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>flushCplOutMsgQ</pt>
+
+        <pd>Message queue number to send flush cpl.</pd>
+      </plentry>
+    </parml>
+  </body>
+</topic>

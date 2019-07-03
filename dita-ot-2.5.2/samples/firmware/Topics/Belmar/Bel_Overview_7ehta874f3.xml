@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="Overview_7ehta874f3" base="Princeton" xml:lang="en-US">
+   <title>Overview</title>
+   <body>
+      
+
+      <p>The Lookup Manager is responsible for managing the Logical to
+      Physical mapping table entries (lookup table, L2P Table). It performs
+      read, read and lock, and update operations on the Lookup Table. The
+      logical address received with read/write/dataFrameWrite requests is used
+      as the index to the L2P table. The Lookup Manager is also responsible
+      for distributing the user data across all channels, targets, and LUNs.
+      It is also responsible for handling read/write errors from the flash
+      interface.</p>
+
+      <p>When WriteReq is received, the Lookup Manager reads and locks the
+      lookup table entry for a given logical address and assigns a flash
+      address for the current data frame. When enough data frames are
+      available to write one page frame, the Lookup Manager sends a
+      pageFrameWrite message to the Write Manager. When a flash completion is
+      received for page frame write, the Lookup Manager updates lookup table
+      entries for all data frames, releases the data frame buffer, and sends
+      write completions. If the old lookup table entry is valid, an
+      obsoleteDataFrame request will be sent to the Wearleveling
+      Managers.</p>
+
+      <p>When ReadReq is received, the Lookup Manager reads the lookup
+      table entry for a given logical address. If the lookup table entry is
+      not locked, a flash read request is sent to the flash interface to read
+      data frame data. Read completions are sent to the requester upon
+      receiving flash completions. If the lookup table entry is not valid,
+      read completion status is updated with a virgin bit.</p>
+
+      <p>When DataFrameWriteReq is received, the Lookup Manager assigns a
+      flash address for the current data frame. When enough data frames are
+      available to write one page frame, the Lookup Manager sends a
+      pageFrameWrite message to the Write Manager. When a flash completion is
+      received for a page frame write, the Lookup Manager updates lookup table
+      entries for all data frames and releases the data frame buffer.</p>
+
+      <p>In addition to the read//write requests, the Lookup Manager
+      processes Admin Command Manager requests, such as flush, namespace
+      management, dataset management, smart update etc, from the Admin Command
+      Manager.</p>
+
+      <p>To achieve maximum performance, two Lookup Managers (LOOKUP_MGR0
+      and LOOKUP_MGR1) are instantiated. Each Lookup Manager operates in an
+      non-blocking, asynchronous event-driven manner in order to hide the
+      latency associated with the flash accesses.</p>
+    </body>
+</topic>

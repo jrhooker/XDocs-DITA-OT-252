@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Command_Atomicity_4tht98nxze" xml:lang="en-US">
+  <title>Command Atomicity</title>
+
+  <body>
+    <p>Because multiple Data Managers operate on multiple
+    commands at the same time, it is necessary to enforce LBA range locking to
+    ensure that overlapping NVM Express read/write commands never return a mix
+    of old and new data. The Data Managers utilize the Locking Manager to
+    perform LBA range locking on NVM Express I/O commands.</p>
+
+    <p>As NVM Express I/O commands are received, the Data
+    Managers convert the host LBA range to a Data Frame LBA range and then
+    issue a LockReq message (see <xref href="Sam_Data_Frame_LBA_Range_and_Meta_Locking_2rht98jkcx.xml"/>) to the
+    Locking Manager to request that the specified range be locked. The <i>tag[0]</i> field of the lock request message is
+    used to store the address of the <xref href="Sam_Data_Manager_Data_Structures_4eht98nxzd.xml#Data_Manager_Data_Structures_4eht98nxzd/Command_State_Structure_4kht98nxzd">Command
+    State Structure</xref> that maintains the context for the command.</p>
+
+    <p>If the lock is granted, the Data Manager will
+    receive a LockCpl IPC message from the Locking Manager with a status of 0
+    and the <i>handle</i> field will contain a
+    handle that uniquely identifies the lock. This handle should be used to
+    release the lock.</p>
+
+    <p>If the lock is not granted, the Data Manager will
+    re-issue the lock request. If the <i>queue</i>
+    bit is set in a LockReq message, the Locking Manager will only report that
+    the lock was not granted if there was a resource allocation error; that
+    is, there were no available lock handles. Otherwise the lock request will
+    be queued until it can be granted.</p>
+  </body>
+</topic>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="SMART_Update_Request_bbhta88ui4" base="Princeton" xml:lang="en-US">
+   <title>SMART Update Request</title>
+   <body>
+        
+
+        <p>SMART update request is used to get the smart information
+        managed by the Wearleveling Manager. The Wearleveling Manager
+        maintains the following smart information</p>
+
+        <ul>
+          <li id="d1e2151">
+            <p>Reliable Warning</p>
+
+            <p>Indicates device has too many read or write errors.</p>
+
+            <p audience="PMCInternal">
+               <draft-comment translate="no">TBD When to set this flag?
+            How many read errors?.</draft-comment>
+            </p>
+          </li>
+
+          <li id="d1e2164">
+            <p>Read Only</p>
+
+            <p>Indicates device is in read-only mode. Wearleveling Manager
+            sets this bit when system free block count is zero.</p>
+          </li>
+
+          <li id="d1e2173">
+            <p>Available Spare</p>
+
+            <p>Represents percentage of the spare reserved for over
+            provisioning. The Wearleveling Manager reserves 25% of spare and
+            it is configurable.</p>
+          </li>
+
+          <li id="d1e2182">
+            <p>Available Spare Threshold</p>
+
+            <p>Represents threshold value to generate asynchronous event
+            when the available spare falls below this value. It’s value is
+            fixed in the Wearleveling Manager, 5 virtual blocks.</p>
+          </li>
+
+          <li id="d1e2191">
+            <p>Spare Warning</p>
+
+            <p>Indicates available spare falls below available spare
+            threshold. When the device free block count goes below available
+            spare threshold, spare warning bit will be set.</p>
+          </li>
+
+          <li id="d1e2201">
+            <p>Percent Used</p>
+
+            <p>Represents the percentage of device life used, based on the
+            actual device usage and the manufacturer’s prediction of device
+            life. A value of 100 indicates that the estimated endurance of the
+            device has been consumed, but it may not indicate a device
+            failure. The value is allowed to exceed 100. Percentages greater
+            than 254 shall be represented as 255. Percent used is taken from
+            the system average erase count.</p>
+          </li>
+        </ul>
+
+        <p>When SMART update request is received, the Wearleveling Manager
+        sends smart information maintained in local data structure with SMART
+        completion message.</p>
+      </body>
+</topic>

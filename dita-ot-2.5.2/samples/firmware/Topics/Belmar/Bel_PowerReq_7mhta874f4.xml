@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="PowerReq_7mhta874f4" xml:lang="en-US">
+  <title>PowerReq</title>
+
+  <body>
+    <p>At startup, the Control Manager and the Admin
+    Command Manager will load the system-specific and configuration data from
+    flash to controller memory and then send a <cmdname>PowerReq</cmdname>
+    message to the Lookup Manager (LOOKUP_MGR0) to inform that the config data
+    is valid. The Lookup Manager will then read the appropriate configuration
+    information from controller memory and begin its own initialization
+    process. During initialization, the Lookup Manager will read configuration
+    information from controller memory and store it in local variables for
+    later use. This configuration information includes flash configuration and
+    a DDR address map.</p>
+
+    <fig id="Power_Request_Control_Flow_7nhta874f4">
+      <title>Power Request Control Flow</title>
+
+      <image href="../../Graphics/Lookup_Mgr/Bel_Power_Req.svg" placement="break" width="388"/>
+    </fig>
+
+    <table id="_7ohta874f4">
+      <title>Power Request Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager sends the power up requests to the Admin Command Manager.
+            This message indicates if this is the first time the device
+            powered up, a normal power up, or a recovery power up.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends the power up requests to Lookup Manager0.
+            This message indicates if this is the first time the device
+            powered up, a normal power up, or a recovery power up</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>Lookup
+            Manager0 sends the power up requests to the Journal Manager to
+            load system data from snapshot. </p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry/>
+
+            <entry><p>The Journal
+            Manager performs the following functions based on operational
+            state:</p><p>First Time power on - Creates
+            snapshot partition.</p><p>Normal Power on -
+            Loads system data from snapshot partition.</p><p>Power on recovery - Finds last written snapshot
+            and loads system data.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b></p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>Journal
+            Manager sends a power completion message.</p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry><p> <b otherprops="bold">ConfigDataReadyReq</b> </p></entry>
+
+            <entry><p>The Lookup
+            Manager sends a config data ready request to Lookup Manager1.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+            </p></entry>
+
+            <entry><p>Lookup
+            Manager1 sends completion messages for <cmdname otherprops="bold">ConfigDataReadyReq</cmdname>.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ConfigDataReadyReq</b> </p></entry>
+
+            <entry><p>The Lookup
+            Manager sends a config data ready request to the Wearleveling
+            Managers[0.1]. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+            </p></entry>
+
+            <entry><p>The
+            Wearleveling Manager sends completion messages for <cmdname otherprops="bold">ConfigDataReadyReq</cmdname>.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ConfigDataReadyReq</b> </p></entry>
+
+            <entry><p>The Lookup
+            Manager sends config data ready request to the Write Manager.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ConfigDataOpCpl</b>
+            </p></entry>
+
+            <entry><p>The Write
+            Manager sends completion messages for <cmdname otherprops="bold">ConfigDataReadyReq</cmdname>.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>Lookup
+            Manager0 sends the power up requests to the Wearleveling Manager.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry/>
+
+            <entry><p>The
+            Wearleveling Manager performs the following functions based on
+            operational state:</p><p>First Time power on -
+            Creates flash block information and initializes block management
+            lists.</p><p>Normal Power on - Initializes
+            block management lists.</p><p>Power on recovery
+            - Scan all flash blocks to update block information and lookup
+            table and then perform block management list
+            initialization.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>Wearleveling
+            Manager sends a power completion message</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>Lookup
+            Manager0 sends a power completion message.</p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry/>
+
+            <entry><p>The Admin
+            Command Manager completes the remaining initialization.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a power completion message to the Control
+            Manager.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

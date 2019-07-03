@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Get_Log_Page_15ht97qqbm" xml:lang="en-US">
+  <title>Get Log Page</title>
+
+  <body>
+    <p>The following sections describe the control flows
+    for the supported log pages.</p>
+
+    <section id="Error_Information_log_identifier_01h__16ht97qqbm"><title>Error Information (log identifier 0x01)</title><p>This log page is used to describe extended error
+    information for a command that completed with error. Extended error
+    information is provided when the More (M) bit is set to ‘1’ in the Status
+    Field for the completion entry associated with the command that completed
+    with an error or as part of an asynchronous event with an Error status
+    type. This log page is global to the device.</p><p>This
+    error log may return the last <i>n</i> errors.
+    If the host specifies a data transfer of the size of <i>n</i> error logs, then the error logs for the
+    last <i>n</i> errors is returned. The ordering
+    of the entries is based on the time when the error occurred, with the most
+    recent error being returned as the first log.</p><fig id="Get_Error_Log_Information_Command_Contro_17ht97qqbm">
+        <title>Get Error Log Information Command
+        Control Flow</title>
+
+        <image href="Graphics/Admin Command Manager/Get_Log_Page_Error_Information.svg" placement="break" width="5.5in"/>
+      </fig><table id="_18ht97qqbm">
+        <title>Get Error Log Information Command
+        Control Flow</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colwidth="5*"/>
+
+          <colspec colname="c2" colwidth="23*"/>
+
+          <colspec colname="c3" colwidth="72*"/>
+
+          <thead>
+            <row>
+              <entry>No</entry>
+
+              <entry>Message</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdReady64</cmdname> </p></entry>
+
+              <entry><p>The command
+              is received by one of the Data Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdRCmdReadyeady</cmdname> </p></entry>
+
+              <entry><p>The Data
+              Manager forwards the command to the Admin Command Manager for
+              processing.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Manager gets current Error Log index from controller
+              memory.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Manager retrieves requested number of Error Log pages with the
+              oldest page on the top sequence to outgoing buffer.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Manager checks whether there is any outstanding Asynchronous
+              Event request, clears it if the request is for error
+              information, and sends an Asynchronous Event completion to the
+              host.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">EgressDMA</cmdname>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues a DMA request to transfer the error log
+              information to the host.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">DMACpl</cmdname>
+              </p></entry>
+
+              <entry><p>When the
+              data transfer is complete, the DMA responds with a DMA
+              completion message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdate</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a completion queue update request to the
+              Completion Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdateCpl</cmdname> </p></entry>
+
+              <entry><p>The
+              Completion Manager replies back to the Admin Command Manager
+              when the completion has been successfully sent to the
+              host.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></section>
+
+    <section id="Get_SMART_Health_Information_log_identif_19ht97qqbm"><title>Get SMART/Health Information (log identifier
+    0x02)</title><p>This log page is used to provide SMART
+    and general health information. The information provided is over the life
+    of the controller and is retained across power cycles. The log page will
+    be supported on a global basis. The log page may be supported on a per
+    namespace basis, as indicated in the Identify Controller data structure.
+    To request the global log page, the namespace specified is
+    0xFFFFFFFF.</p><p>Critical warnings regarding the
+    health of the device may be indicated via an asynchronous event
+    notification to the host. The warnings that result in an asynchronous
+    event notification to the host may be configured using Set Features.</p><p>Performance of the device may be calculated using
+    parameters returned as part of the SMART / Health Information log.
+    Specifically, the number of Read or Write commands, the amount of data
+    read or written, and the amount of controller busy time allows both I/Os
+    per second and bandwidth to be calculated.</p><fig id="Get_SMART_Health_Command_Control_Flow_1aht97qqbm">
+        <title>Get SMART/Health Command Control
+        Flow</title>
+
+        <image href="Graphics/Admin Command Manager/Get_Log_Page_Smart_Health.svg" placement="break" width="5.5in"/>
+      </fig><table id="_1bht97qqbm">
+        <title>Get SMART/Health Command Control
+        Flow</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colwidth="5*"/>
+
+          <colspec colname="c2" colwidth="23*"/>
+
+          <colspec colname="c3" colwidth="72*"/>
+
+          <thead>
+            <row>
+              <entry>No.</entry>
+
+              <entry>Message</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdReady64</cmdname> </p></entry>
+
+              <entry><p>The command
+              is received by one of the Data Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdReady</cmdname>
+              </p></entry>
+
+              <entry><p>The Data
+              Manager forwards the command to the Admin Command Manager for
+              processing.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Manager loads SMART information from controller memory to local
+              SRAM.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">SMARTUpdateReq</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues requests to each of the Data Managers to
+              obtain their SMART health information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">DMSMARTUpdateCpl</cmdname> </p></entry>
+
+              <entry><p>The Data
+              Managers respond with a SMART update completion message that
+              contains the requested information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">SMARTUpdateReq</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues a SMART update request to Mapping Manager
+              0.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">FMSMARTUpdateCpl</cmdname> </p></entry>
+
+              <entry><p>Mapping
+              Manager 0 responds to the Admin Command Manager with a message
+              that contains the requested information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager consolidates the SMART health information into a
+              single location in controller memory.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">PMWriteReq</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues a request to write the Data Frame buffer
+              that contains the SMART health information to flash to Mapping
+              Manager 0.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">FlashWrite</cmdname> </p></entry>
+
+              <entry><p>A write
+              operation is issued to the Flash Interface to save the SMART
+              health information.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">FlashOpCpl</cmdname> </p></entry>
+
+              <entry><p>The Flash
+              Interface responds to the flash write request.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">PMOpCpl</cmdname>
+              </p></entry>
+
+              <entry><p>Mapping
+              Manager 0 responds to the Admin Command Manager request to write
+              protocol metadata.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+              <entry><p> -
+              </p></entry>
+
+              <entry><p>The Admin
+              Manager checks whether there is any outstanding Asynchronous
+              Event request for SMART information. If yes, the Admin Manager
+              clears the request and issues Asynchronous Event completion to
+              the host.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">EgressDMA</cmdname>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues DMA requests to transfer the SMART health
+              information to host memory.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">DMACpl</cmdname>
+              </p></entry>
+
+              <entry><p>The DMA
+              responds to the Admin Command Manager when the transfer is
+              complete.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">13</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdate</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a completion queue update request to the
+              Completion Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">14</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdateCpl</cmdname> </p></entry>
+
+              <entry><p>The
+              Completion Manager replies back to the Admin Command Manager
+              when the completion has been successfully sent to the
+              host.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></section>
+
+    <section id="Firmware_Slot_Information_log_identifier_1cht97qqbm"><title>Firmware Slot Information (log identifier
+    0x03)</title><p>This log page is used to describe the
+    firmware revision stored in each firmware slot supported. The firmware
+    revision is indicated as an ASCII string. The log page also indicates the
+    active slot number. This log page is global to the device.</p><fig id="Get_Firmware_Slot_Information_Command_Co_1dht97qqbm">
+        <title>Get Firmware Slot Information Command
+        Control Flow</title>
+
+        <image href="Graphics/Admin Command Manager/Get_Log_Page_Error_Information.svg" placement="break" width="5.5in"/>
+      </fig><table id="_1eht97qqbm">
+        <title>Get Firmware Slot Information Command
+        Control Flow</title>
+
+        <tgroup cols="3">
+          <colspec colname="c1" colwidth="5*"/>
+
+          <colspec colname="c2" colwidth="23*"/>
+
+          <colspec colname="c3" colwidth="72*"/>
+
+          <thead>
+            <row>
+              <entry>No.</entry>
+
+              <entry>Message</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdReady64</cmdname> </p></entry>
+
+              <entry><p>The command
+              is received by one of the Data Managers.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CmdReady</cmdname>
+              </p></entry>
+
+              <entry><p>The Data
+              Manager forwards the command to the Admin Command Manager for
+              processing.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">EgressDMA</cmdname>
+              </p></entry>
+
+              <entry><p>The Admin
+              Command Manager issues DMA request to transfer the log page
+              information to the host.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">DMACpl</cmdname>
+              </p></entry>
+
+              <entry><p>When the
+              data transfer is complete, the DMA responds with a DMA
+              completion message.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdate</cmdname> </p></entry>
+
+              <entry><p>The Admin
+              Command Manager sends a completion queue update request to the
+              Completion Manager.</p></entry>
+            </row>
+
+            <row>
+              <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+              <entry><p> <cmdname otherprops="bold">CplQueueUpdateCpl</cmdname> </p></entry>
+
+              <entry><p>The
+              Completion Manager replies back to the Admin Command Manager
+              when the completion has been successfully sent to the
+              host.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

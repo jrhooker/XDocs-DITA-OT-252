@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="base" id="xtensa_memory_map_for_overlays" xml:lang="en-US">
+  <title>Memory Map for Overlays</title>
+
+  <body>
+    <p>For the Xtensa overlay manager, the memory map looks very similar to
+    the PMC manager shown here: <xref href="../Memory_Map_for_Overlays_tght7esfi4.xml#Memory_Map_for_Overlays_tght7esfi4/DDR_Map_for_Multiprocessor_tjht7esfi4"/></p>
+
+    <p>Xtensa is just simplified to no longer include overlay data or table
+    sections. This means that there is no longer any loading something to the
+    D-RAM but loading code sections to the I-RAM is the same. The only overlay
+    table now necessary is put into the D-RAM at runtime and gets its fields
+    updated by the overlay manager as overlays are mapped.</p>
+  </body>
+</topic>

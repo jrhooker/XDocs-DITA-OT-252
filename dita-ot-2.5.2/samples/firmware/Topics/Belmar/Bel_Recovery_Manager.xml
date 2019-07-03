@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Recovery_Manager" xml:lang="en-US">
+  <title><ph audience="PMCInternal">Belmar </ph>Recovery Manager</title>
+
+  <body>
+    <p>The recovery manager tries to recover the
+    uncorrectable read error by reading the ECC chuck with uncorrectable error
+    a specific number of times. Every read retry will cover one ECC chunk.
+    After read retry, if there is still uncorrectable error, we will send data
+    in the raw buffer to LDPC engine for soft decoding. </p>
+
+    <p>The flash address come from the Lookup manager when
+    read errors are caused by host read, or Wearlevelling manager when read
+    errors are caused by Garbage Collection data reclaim.</p>
+
+    <p>The Recovery Manager performs read retry and sends
+    the result back to the Lookup manager or the Wearlevelling manager.</p>
+  </body>
+</topic>

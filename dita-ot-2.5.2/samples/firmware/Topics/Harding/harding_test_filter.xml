@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="base" id="harding_test_filter" xml:lang="en-US">
+  <title>Test Harding Filter</title>
+
+  <body>
+    <p audience="PMCInternal" product="PM8616 PM8617">This text should be
+    filtered out of anything that isn't Harding.</p>
+
+    <p>If this document is not published using a Harding profile, then this
+    should be the only line shown.</p>
+  </body>
+</topic>

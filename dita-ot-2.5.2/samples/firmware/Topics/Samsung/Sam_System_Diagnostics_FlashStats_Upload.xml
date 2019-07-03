@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Sys_Diag_FlashStats_Up" xml:lang="en-US">
+  <title>Flash Statistics Upload (subcommand opcode
+  05h)</title>
+
+  <body>
+    <p>Use the Flash Statistics Upload command to upload
+    the flash statistics data from the device to the host.</p>
+
+    <fig id="NVM_Express_Vendor_Specific_Command_Flas_6kht97qqbz">
+      <title>NVM Express Vendor Specific Command Flash
+      Statistics Upload Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/System_Diag_Flash_Statistics_Upload.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_6lht97qqc0">
+      <title>NVM Express Vendor Specific Command Flash
+      Statistics Upload Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth=".5in"/>
+
+        <colspec colname="c2" colwidth="1.5in"/>
+
+        <colspec colname="c3" colwidth="4in"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady64</b>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>If the flash
+            statistics information is located in the controller memory, go to
+            step 5.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">StatisticsInfoReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a request to Mapping Manager 0.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>Mapping
+            Manager 0 collects the flash statistics information and puts it
+            into the provided controller memory buffer.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">StatisticsInfoCpl</b>
+            </p></entry>
+
+            <entry><p>The Mapping
+            Manager 0 sends completion to the Admin Command
+            Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">EgressDMA</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues Egress DMA requests to transfer the flash
+            statistics information to the host.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">DMACpl</b>
+            </p></entry>
+
+            <entry><p>The DMA engine
+            responds with DMA completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b>
+            </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

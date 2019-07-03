@@ -1,0 +1,1906 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="NVM_Express_Related_Messages_32ht98jkcy" xml:lang="en-US">
+  <title>NVM Express Related Messages</title>
+
+  <body>
+    <p>The IPC messages described in the following sections
+    are initiated based on the reception of NVM Express commands from
+    host.</p>
+
+    <section id="DMSMARTUpdateCpl_33ht98jkcy"><title>DMSMARTUpdateCpl</title> <p>This
+    message is sent by the Data Managers in response to a SMARTUpdateReq
+    message being received.</p> <table id="_34ht98jkcy">
+        <title>DmsmartupdateCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="18*"/>
+
+          <colspec colname="c4" colwidth="64*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataUnitsReadLower</name>
+
+              <description>
+                <p>Data Units Read Lower</p>
+
+                <p>Lower 32 bits of the count of the number
+                of 512 byte data units the host has read from the controller
+                since its last reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataUnitsReadUpper</name>
+
+              <description>
+                <p>Data Units Read Upper</p>
+
+                <p>Upper 32 bits of the count of the number
+                of 512 byte data units the host has read from the controller
+                since its last reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataUnitsWrittenLower</name>
+
+              <description>
+                <p>Data Units Written Lower</p>
+
+                <p>Lower 32 bits of the count of the number
+                of 512 byte data units the host has written to the controller
+                since its last reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataUnitsWrittenUpper</name>
+
+              <description>
+                <p>Data Units Written Upper</p>
+
+                <p>Upper 32 bits of the count of the number
+                of 512 byte data units the host has written to the controller
+                since its last reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>hostReadsLower</name>
+
+              <description>
+                <p>Host Reads Lower</p>
+
+                <p>Lower 32 bits of the count of the number
+                of host reads issued to the controller since its last
+                reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>hostReadsUpper</name>
+
+              <description>
+                <p>Host Reads Upper</p>
+
+                <p>Upper 32 bits of the count of the number
+                of host reads issued to the controller since its last
+                reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>7</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>hostWritesLower</name>
+
+              <description>
+                <p>Host Writes Lower</p>
+
+                <p>Lower 32 bits of the count of the number
+                of host writes issued to the controller since its last
+                reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>8</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>hostWritesUpper</name>
+
+              <description>
+                <p>Host Writes Upper</p>
+
+                <p>Upper 32 bits of the count of the number
+                of host writes issued to the controller since its last
+                reset.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>9</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>busyTime</name>
+
+              <description>
+                <p>Controller Busy Time</p>
+
+                <p>Time in seconds that the controller was
+                busy. The controller is busy when there is a command
+                outstanding to an I/O Queue (specifically, a command was
+                issued via an I/O Submission Queue Tail doorbell write and the
+                corresponding completion entry has not been posted yet to the
+                associated I/O Completion Queue).</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>10</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>mediaErrors</name>
+
+              <description>
+                <p>Media Errors</p>
+
+                <p>Uncorrectable read/write errors, CRC,
+                reference tag errors.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>12:11</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="CmdReady_35ht98jkcy"><title>CmdReady</title> <p>This message
+    is used to forward NVM Express commands received from the host interface
+    by the Data Managers to the Admin Command Manager.</p> <table id="_36ht98jkcy">
+        <title>CmdReady</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>8</single>
+              </position>
+
+              <name>admin</name>
+
+              <description>
+                <p>Admin Command</p>
+
+                <p>If this bit is set to a ‘1’, the
+                encapsulated NVM Express message was received via an NVM
+                Express admin submission queue. If this bit is set to ‘0’, the
+                encapsulated NVM Express message was received via an NVM
+                Express I/O submission queue.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>9</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>18:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>cmdReady64</name>
+
+              <description>
+                <p>CmdReady64</p>
+
+                <p>CmdReady64 message as received from the
+                submission queue engine.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="WriteReq_37ht98jkcy"><title>WriteReq</title> <p>This message
+    is sent from the Data Manager to request that a Data Frame be written to
+    the flash.</p> <table id="_38ht98jkcy">
+        <title>WriteReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>updatedHostLBA</name>
+
+              <description>
+                <p>Updated Host LBA Bit Vector</p>
+
+                <p>When the host LBA size is less than the
+                size of a Data Frame (i.e. 512B), this bit vector is used to
+                specify which host LBA’s within the Data Frame have been
+                updated by the host write. The LSB of this field represents
+                the first host LBA in the Data Frame.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>28</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>29</single>
+              </position>
+
+              <name>limitedRetry</name>
+
+              <description>
+                <p>Limited Retry</p>
+
+                <p>If set to ‘1’, the controller should
+                apply limited retry efforts. If cleared to ‘0’, the controller
+                should apply all available error recovery means to write the
+                data to the NVM.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>forceUnitAccess</name>
+
+              <description>
+                <p>Force Unit Access</p>
+
+                <p>If this field is set, data should be
+                written to non-volatile media with a host write command or
+                read from no-volatile media with a host read command before
+                indicating a command completion. There is no implied ordering
+                with other commands.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>allZero</name>
+
+              <description>
+                <p>All Zero</p>
+
+                <p>When set to ‘1’ this bit signifies that
+                the Data Frame contains all zeroes, when set to ‘0’ the Data
+                Frame contains data other than all zeroes. This bit is
+                populated from the AllZero bit in the DMACpl message; that is,
+                set to ‘1’ when all the data and metadata transferred by the
+                ingress DMA is zero.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>datasetManagement</name>
+
+              <description>
+                <p>Dataset Management</p>
+
+                <p>This field indicates attributes for the
+                dataset that the LBA(s) being written are associated with.
+                This value is taken directly from bits 7:0 of DWord 13 of the
+                NVMe write command.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>namespaceID</name>
+
+              <description>
+                <p>Namespace ID</p>
+
+                <p>ID of the namespace that this request
+                pertains to.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameAddr</name>
+
+              <description>
+                <p>Data Frame Address</p>
+
+                <p>Address, in controller memory, of the
+                Data Frame.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>logicalAddr</name>
+
+              <description>
+                <p>Data Frame Logical Address</p>
+
+                <p>Logical addresses of the Data Frame.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>6:5</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="WriteCpl_39ht98jkcy"><title>WriteCpl</title> <p>This message
+    is sent to the Data Manager in response to a WriteReq IPC message.</p>
+    <table id="_3aht98jkcy">
+        <title>WriteCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p><b otherprops="bold">Reserved</b></p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ReadReq_3bht98jkcy"><title>ReadReq</title> <p>This message
+    is sent from the Data Manager to request that a Data Frame be read from
+    the flash.</p> <table id="_3cht98jkcy">
+        <title>ReadReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>28</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>29</single>
+              </position>
+
+              <name>limitedRetry</name>
+
+              <description>
+                <p>Limited Retry</p>
+
+                <p>If set to ‘1’, the controller should
+                apply limited retry efforts. If cleared to ‘0’, the controller
+                should apply all available error recovery means to return the
+                data to the host.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>30</single>
+              </position>
+
+              <name>forceUnitAccess</name>
+
+              <description>
+                <p>Force Unit Access</p>
+
+                <p>This field indicates that the data read
+                shall be returned from non-volatile media. There is no implied
+                ordering with other commands.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>datasetManagement</name>
+
+              <description>
+                <p>Dataset Management</p>
+
+                <p>This field indicates attributes for the
+                dataset that the LBA(s) being written are associated with.
+                This value is taken directly from bits 7:0 of DWord 13 of the
+                NVMe write command.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>dataFrameAddr</name>
+
+              <description>
+                <p>Data Frame Address</p>
+
+                <p>Address, in controller memory, of the
+                Data Frame.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>logicalAddr</name>
+
+              <description>
+                <p>Data Frame Logical Address</p>
+
+                <p>Logical addresses of the Data Frame.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>5:4</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="ReadCpl_3dht98jkcz"><title>ReadCpl</title> <p>This message
+    is sent to the Data Manager in response to a ReadReq IPC message.</p>
+    <table id="_3eht98jkcz">
+        <title>ReadCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>3h The requested Data Frame has never
+                been written.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>writeUncVector</name>
+
+              <description>
+                <p>Host LBA Bit Vector</p>
+
+                <p>Each bit in this field represents a host
+                LBA in the Data Frame that has been marked as
+                uncorrectable.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>deAllocVector</name>
+
+              <description>
+                <p>Dealloc Bit Vector</p>
+
+                <p>Each bit in this field represents a host
+                LBA in the Data Frame which has been de-allocated.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="NamespaceManagementReq_3fht98jkcz"><title>NamespaceManagementReq</title> <p>This message is send from Admin Command Manager to
+    other managers to inform them of a create/delete namespace operation.</p>
+    <table id="_3ght98jkcz">
+        <title>NamespaceManagementReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="10*"/>
+
+          <colspec colname="c3" colwidth="17*"/>
+
+          <colspec colname="c4" colwidth="65*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>rsvd0</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <single>0</single>
+              </position>
+
+              <name>option</name>
+
+              <description>
+                <p>Create/Delete Option</p>
+
+                <p>To determine whether to create or delete
+                namespace</p>
+
+                <p>0h Create Namespace</p>
+
+                <p>1h Delete Namespace</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>1</lsb>
+                </double>
+              </position>
+
+              <name>rsvd1</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>NamdspaceID</name>
+
+              <description>
+                <p>NamespaceID</p>
+
+                <p>Namespace identifier number for
+                create/delete namespace</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>3:2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="NamespaceManagementCpl_3hht98jkcz"><title>NamespaceManagementCpl</title> <p>This message is sent in response to a
+    NamespaceManagementReq message.</p> <table id="_3iht98jkcz">
+        <title>NamespaceManagementCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FormatReq_3jht98jkcz"><title>FormatReq</title> <p>This
+    message is sent by the Admin Command Manager to when it receives the
+    Format NVM Express command or Format Flash Media Vendor Specific command
+    from the host.</p> <table id="_3kht98jkcz">
+        <title>FormatReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>outMsgQ</name>
+
+              <description>
+                <p>Outbound Message Port ID</p>
+
+                <p>ID of the outbound IPC port that should
+                be used when sending the completion to this message.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>formatType</name>
+
+              <description>
+                <p>Format Type</p>
+
+                <p>Flag to indicate which format to
+                perform</p>
+
+                <p>0h Format NVM</p>
+
+                <p>1h Format Flash Media</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>rsvd31_17</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>namespaceID</name>
+
+              <description>
+                <p>Namespace ID</p>
+
+                <p>Namespace ID from the NVM Express Format
+                NVM command.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>formatInfo</name>
+
+              <description>
+                <p>Format DWord</p>
+
+                <p>Format DWord10 of NVM Express Format NVM
+                command or DWord 13 of NVM Express Vendor Specific Format
+                Flash Media command.</p>
+
+                <p>Format NVM DWord10 if Format Type is
+                0h</p>
+
+                <p>Format Flash Media DWord13 if Format
+                Type is 1h</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>4:3</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information to be returned
+                when sending the completion to this message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="FormatCpl_3lht98jkcz"><title>FormatCpl</title> <p>This
+    message is sent to the Admin Command Manager in response to a FormatReq
+    IPC message.</p> <table id="_3mht98jkcz">
+        <title>FormatCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="9*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="66*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>status</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h The operation completed without
+                errors.</p>
+
+                <p>1h A correctable error occurred.</p>
+
+                <p>2h An uncorrectable error occurred.</p>
+
+                <p>All other values are reserved.</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>2:1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>tag</name>
+
+              <description>
+                <p>Tag</p>
+
+                <p>Opaque tag information from the request
+                message.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="LimitedRetryTimeout_3nht98jkcz"><title>LimitedRetryTimeout</title> <p>This message is sent to update the current value for
+    the limited retry timeout. This timeout applies to I/O commands that
+    indicate a time limit is required.</p> <table id="_3oht98jkcz">
+        <title>LimitedRetryTimeout</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>7</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>opCode</name>
+
+              <description>
+                <p>Message Opcode</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>8</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>16</lsb>
+                </double>
+              </position>
+
+              <name>timeout</name>
+
+              <description>
+                <p>Timeout</p>
+
+                <p>This timeout value is specified in 100
+                millisecond units.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

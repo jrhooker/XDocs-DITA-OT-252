@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="NVM_Express_Admin_Command_Processing_52ht98nxze" xml:lang="en-US">
+  <title>NVM Express Admin Command Processing</title>
+
+  <body>
+    <p>All NVM Express commands that are received via an
+    admin submission queue are forwarded to the <xref href="Sam_Admin_Command_Manager_1ht97qqbf.xml">
+    Admin Command Manager</xref> for processing. In response, the Admin
+    Command Manager may issue additional IPC messages to the Data Manager in
+    order to complete the admin request. The following sections describe the
+    actions that are taken when these messages are received.</p>
+
+    <section id="QueueMapCreateReq_53ht98nxze"><title>QueueMapCreateReq</title> <p>The
+    QueueMapCreateReq IPC message is sent from the Admin Command Manager to
+    the Data Manager in order to create a mapping between an NVM Express
+    completion and submission queue. When this request is received by the Data
+    Manager, it will populate the Queue Map array entry indexed by the <i>submissionQueueID</i> field in the message with
+    the <i>completionQueueID</i>, <i>interruptEnable</i>, and <i>adminQueue</i> fields from the message. The
+    Data Manager will then send a QueueMapCreateCpl message to the Admin
+    Command Manager.</p></section>
+
+    <section id="QueueMapDelReq_54ht98nxze"><title>QueueMapDelReq</title> <p>The
+    QueueMapDelReq IPC message is sent from the Admin Command Manager to the
+    Data Manager in order to delete a mapping between an NVM Express
+    completion and submission queue. The Data Manager will delete the queue
+    mapping and send a QueueMapDelCpl to the Admin Command Manager. Any
+    outstanding requests associated with the deleted queue mapping will be
+    discarded.</p> <p>When this request is received by the
+    Data Manager, it will check the number of outstanding commands for the
+    specified submission queue. If the outstanding command count is zero, the
+    Data Manager sets the state of the mapping to <i>Disabled</i> in the Queue Map and then sends a
+    QueueMapDelCpl message to the Admin Command Manager.</p> <p>The Data Manager must wait for the outstanding command
+    count to be zero (that is, all outstanding requests issued to the queue
+    that is being deleted must be completed) before it sends a QueueMapDelCpl
+    to the Admin Command Manager.</p></section>
+
+    <section id="SMARTUpdateReq_55ht98nxze"><title>SMARTUpdateReq</title> <p>Each
+    Data Manager will keep track of SMART statistics, such as the number of
+    reads and writes issued from the host and the number of 512-byte data
+    blocks read and written by the host. When the Data Manager receives a
+    SMARTUpdateReq message from the Admin Command Manager, it will respond
+    with a DMSMARTUpdateCpl IPC message. This completion message will include
+    the SMART statistical information collected by the specific Data Manager.
+    Once the DMSMARTUpdateCpl has been sent to the Admin Command Manager, the
+    SMART counters requested are reset to zero.</p></section>
+
+    <section id="PMReadyReq_56ht98nxze"><title>PMReadyReq</title> <p>The
+    partition metadata ready IPC message (PMReadyReq) is sent to the Data
+    Manager from the Admin Command Manager to inform the Data Manager that the
+    partition metadata in controller memory is valid or has been updated. The
+    Data Manager will re-read the required partition metadata information from
+    controller memory and then respond to the Admin Command Manager with a
+    partition metadata ready completion (PMReadyCpl) IPC
+    message.</p></section>
+
+    <section id="UpdateMemPgSzReq_57ht98nxzf"><title>UpdateMemPgSzReq</title> <p>The
+    update memory page size IPC message (UpdateMemPgSzReq) is sent to the Data
+    Manager from the Admin Command Manager to inform the Data Manager of the
+    size of the host machine's physical memory page. The host should write to
+    CC.MPS prior to enabling the device; that is, setting the CC.EN bit to
+    ‘1’, as per the NVM Express Revision 1.0c Specification, February 16, 2012
+    <xref href="../Firmware_References.xml">[1]</xref>. After receiving this
+    message, the Data Manager will update its internal configuration and then
+    respond to the Admin Command Manager with a UpdateMemPgSzCpl IPC
+    message.</p></section>
+
+    <section id="UpdatePCIHDR_58ht98nxzf"><title>UpdatePCIHDR</title> <p>The
+    Admin Command Manager sends an UpdatePCIHdr IPC message to the Data
+    Managers to inform them of a change to the PCI header information. The PCI
+    header information is required to be provided when issuing DMA requests to
+    the host.</p></section>
+  </body>
+</topic>

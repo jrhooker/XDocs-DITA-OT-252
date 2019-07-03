@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="xd_93d21203bdc2f150-2efdba1e-14d2040067e--7fcc" xml:lang="en-US">
+  <title>Flash Interface Message Usage Examples</title>
+
+  <body>
+    <p>Figures below contain multiple common scenarios showing how the flash
+    interface messages can be used for single plane or multi plane, read and
+    write operations. The assumptions in the following examples are as
+    follows: 16KB flash page is used and each page can fit five ECC chunks;
+    the data frame size is 4176 bytes (4096 bytes of user data, 64 bytes T10
+    Protection information, and 16 bytes firmware metadata). All of the fields
+    that contain length or offset information, such as data frame length, are
+    in DWORDS.</p>
+
+    <section id="section_Single_plane_-_One_Data_Frame_Read_0i0fq24ij"><title>Single
+    plane - One Data Frame Read</title><p>The figure below shows how a single
+    plane, single data frame read is done. This can be accomplished by using
+    one read header (as noted in the flash read message read header count
+    field), and one data frame buffer (as noted in read header 0, number of
+    buffers field). The data frame length field shows 1044 (4176 bytes), which
+    corresponds to the data frame buffer length for each of the buffers used.
+    The data frame buffer pointer is noted by A and the size of the data frame
+    buffer also matches the size of the ECC chunk which is indicated as ECC 1.
+    The page offset shows the amount of data on the page which is skipped (2
+    ECC chunks) to reach the start of the data which will be read.</p><fig id="fig_Single_plane_-_One_Data_Frame_Read_1i0fq24ij">
+        <title>Single plane - One Data Frame Read<image href="Graphics/singleplane_singleframe_read_chunk.svg" placement="break" width="600"/></title>
+      </fig></section>
+
+    <section id="section_Single_Plane_-_Contiguous_Multi-data_Fra_2i0fq24ij"><title>Single
+    Plane - Contiguous Multi-data Frame Read</title><p>The figure below shows
+    how a read request for multiple, contiguous data frames is processed. For
+    this case, one read header and three data frame buffers are used. Each of
+    the data frame buffers (and ECC chunks) will be the same size as noted by
+    the data frame length. The data frame buffer pointers are noted by A, B,
+    and C. Since space in the flash read message is limited, a flash continue
+    message is used to hold data frame buffers B and C. </p><fig id="fig_Single_plane_-_Contiguous_Multi-data_Fra_3i0fq24ij">
+        <title>Single plane - Contiguous Multi-data Frame Read</title>
+
+        <image href="Graphics/singleplane_contiguous_multiframe_read.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Single_Plane_-_Non-contiguous_Multi-data_4i0fq24ij"><title>Single
+    Plane - Non-contiguous Multi-data Frame Read</title><p>The figure below
+    shows how a read containing multiple, non-contiguous data frames read is
+    processed. The data frame buffer pointers are noted by A and B. This
+    scenario needs two read headers and two data frame buffers. Since a flash
+    read message does not have enough space to contain all this information, a
+    continue message will be specified as part of DWORD 1 of the flash read
+    message. In the flash read message, read header 0 is followed by the the
+    first ECC code rate and the first buffer pointer. Read header 0 starts at
+    the beginning of the page and reads a single ECC chunk. Read header 1
+    contains one data frame buffer pointer (B). The buffer pointer is located
+    in the continue message as there's no more space in the flash read
+    message. Read header 1 starts at the third ECC chunk and reads a single
+    chunk.</p><fig id="fig_Single_plane_-_Non-contiguous_Multi-data_5i0fq24ij">
+        <title>Single plane - Non-contiguous Multi-data Frame Read</title>
+
+        <image href="Graphics/singleplane_multiframe_read.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi-plane_-_Page_Spanning_Read_6i0fq24ij"><title>Multi-plane
+    - Page Spanning Read</title><p>The figure below shows how a multi plane,
+    page spanning data frame read is done using a flash interface message.
+    Since this is a 2-plane read: the flash addresses field contain two flash
+    addresses, and numPlane has value of two. There are two read headers, and
+    two data frame buffers. Read header 0 is used for the portion that resides
+    in plane 0, which starts at data frame 4. Last buffer spans to the next
+    plane has been set to one. An additional ECC code rate is used to read the
+    second portion which resides in the first ECC chunk of plane 1. A is the
+    data frame buffer used for both data frame buffers. The microcode will
+    keep track of how much data has been transferred by read header 0 which
+    amounts to ECC2 and will continue to transfer the second portion for the
+    second ECC code rate which is ECC3 (ECC2 + ECC3 = full data frame
+    length).</p><fig id="fig_Multi-Plane_-_Page_Spanning_Read_7i0fq24ij">
+        <title>Multi-Plane - Page Spanning Read</title>
+
+        <image href="Graphics/multiplane_single_frame_read.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi_Plane_Write_ki0fq24ij"><title>Multi Plane
+    Read</title><p>The figure below shows an example of a multi plane read.
+    There are two flash addresses for this 2-plane read message. Data frame
+    buffer E is spanning both planes and the microcode will keep track of how
+    much is needed to be written to the first plane and how much data is
+    leftover to complete the transfer of a full data frame. It is also
+    interesting to note that the data frame offset for plane 1 must be derived
+    from external data.</p><fig id="fig_Multi_plane_write_li0fq24ij">
+        <title>Multi plane read</title>
+
+        <image href="Graphics/multiplane_multiframe_full_read.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi-plane_-_Multiple_Data_Frame_Read_8i0fq24ij"><title>Multi-plane
+    - Multiple Data Frame Read</title><p>The figure below shows how two
+    separate data frames which reside in two different planes are read using a
+    multi plane message. The data frame buffer pointers are noted as A and B.
+    There are two different flash addresses involved in this read command with
+    two planes and two data frame buffers. Read header 0 transfers the data
+    frame pointed at by A, the read starts at page offset ECC1 and transfers a
+    single ECC chunk. Read header 1 transfers the data frame pointed at by B,
+    the read starts at page offset ECC3 and transfers a single ECC
+    chunk.</p><fig id="fig_Multi_plane_-_Multiple_Data_Frame_Read_9i0fq24ij">
+        <title>Multi plane - Multiple Data Frame Read</title>
+
+        <image href="Graphics/multiplane_multiframe_read.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi_Message_-_Page-spanning_Read_ai0fq24ij"><title>Multi
+    Message - Page-spanning Read</title><p>The figure below shows how a page
+    spanning data frame read is done using two separate flash interface read
+    messages. A multi message read is used when a multi plane access is not
+    possible. In this case there are two channels and each of them requires a
+    message with a single flash address, one plane and one data buffer. Flash
+    read message 0 contains information to read data pointed by A and the read
+    header 0 for message 0 starts at the page offset of (ECC0 + (3* ECC1)) .
+    Flash read message 1 accesses the second portion of the data frame at the
+    beginning of page 0 on channel 1. This is indicated by
+    firstdataFrameOffset of ECC2. </p><fig id="fig_Multi_Message_-_Page-spanning_Read_bi0fq24ij">
+        <title>Multi Message - Page-spanning Read</title>
+
+        <image href="Graphics/multiplemsg_multiplane_read.svg" placement="break" translate="-dita-use-conref-target" width="600"/>
+      </fig></section>
+
+    <section id="section_Raw_Read_-_Full_Page_ci0fq24ij"><title>Raw Read -
+    Full Page</title><p>The figure below shows how a page is read in raw mode
+    using a single buffer. In raw mode, the number of ECC chunks being read
+    and the start ECC chunk number are not applicable. The ECC context index
+    is 15 but the number of code rates is zero, which reflects raw mode. In
+    order to simplify the microcode, the read header used for raw read is the
+    same as the read header used by a protected read. The data frame length as
+    the size of the full flash page (user + spare).</p><fig id="fig_Raw_Read_-_Full_Page_di0fq24ij">
+        <title>Raw Read - Full Page</title>
+
+        <image href="Graphics/rawread_full.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Raw_Read_-_Partial_Page_ei0fq24ij"><title>Raw Read -
+    Partial Page</title><p>The figure below shows how a portion of a page is
+    read in raw mode. In raw mode, the number of ECC chunks being read and the
+    start ECC chunk number are not applicable. The ECC context index is 15 but
+    the number of code rates is zero, which reflects raw mode. The data frame
+    length is y which indicates the size of the buffer and transfer. Read
+    header 0 contains the total number of buffers, which in this case is
+    one.</p><fig id="fig_Raw_Read_-_Partial_Page_fi0fq24ij">
+        <title>Raw Read - Partial Page</title>
+
+        <image href="Graphics/rawread_partial.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Raw_Read_-_Multiple_Buffers_gi0fq24ij"><title>Raw
+    Read - Multiple Buffers</title><p>The figure below shows how a portion of
+    a page is read in raw mode. In raw mode, the number of ECC chunks being
+    read and the start ECC chunk number are not applicable. The ECC context
+    index is 15 but the number of code rates is zero, which reflects raw mode.
+    The data frame length is (y/2) which indicates the size of the buffer and
+    transfer. The data frame length has to be the same for raw read with
+    multiple buffers, in the figure below, the size of A and B are the same
+    which is y/2. Read header 0 contains the total number of buffer, which in
+    this case is two. </p><fig id="fig_Raw_Read_-_Multiple_Buffers_hi0fq24ij">
+        <title>Raw Read - Multiple Buffers</title>
+
+        <image href="Graphics/rawread_multibuffer_partial.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Single_Plane_Write_ii0fq24ij"><title>Single Plane
+    Write</title><p>The figure below shows a full page write. The full page
+    write needs five data frame buffers to write five ECC chunks. This
+    requires a flash continue message because there is insufficient space in a
+    flash write message for the all the information required. The data frame
+    length is1044 (4176 bytes). The amount of data transferred might not be
+    the full data frame length, which can be seen by data frame buffer pointed
+    by A. Microcode will use the information from the first data frame offset
+    and the data frame length to calculate the amount of data to be
+    transferred from this data frame. </p><fig id="fig_Single_Plane_Write_ji0fq24ij">
+        <title>Single Plane Write</title>
+
+        <image href="Graphics/singleplane_write.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi_Plane_Write_ki0fq24ij"><title>Multi Plane
+    Write</title><p>The figure below shows an example of a multi plane write.
+    There are two flash addresses for this 2-plane write message. Data frame
+    buffer E is spanning both planes and the microcode will keep track of how
+    much is needed to be written to the first plane and how much data is
+    leftover to complete the transfer of a full data frame. It is also
+    interesting to note that the data frame offset for plane 1 must be derived
+    from external data.</p><fig id="fig_Multi_plane_write_li0fq24ij">
+        <title>Multi plane write</title>
+
+        <image href="Graphics/multiplane_write.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Multi_Message_Write_mi0fq24ij"><title>Multi Message
+    Write</title><p>The example below shows how to write multiple pages with a
+    page (and channel) spanning data frame using multiple messages. Each of
+    the write messages contains a continue message and a pair of write
+    headers. Flash message 0 needs to calculate the first data frame offset by
+    examining the code rates for plane 2. Flash write message 1 is using the
+    information found in message 0 to calculate the first data frame offset.
+    </p><fig id="fig_Multi_Message_Write_ni0fq24ij">
+        <title>Multi Message Write</title>
+
+        <image href="Graphics/multiplemsg_multiplane_write.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Raw_Write_oi0fq24ij"><title>Raw Write</title><p>The
+    figure below shows a raw write example. A raw write has to start at the
+    beginning of the page. The data frame length has the value of y which
+    covers the full page.</p><fig id="fig_Raw_Write_pi0fq24ij">
+        <title>Raw Write</title>
+
+        <image href="Graphics/rawwrite_full.svg" placement="break" width="600"/>
+      </fig></section>
+
+    <section id="section_Raw_write_-_Multiple_buffers_qi0fq24ij"><title>Raw
+    Write - Multiple Buffers</title><p>This figure shows how a raw write can
+    be done with multiple buffers. A raw write has to start at the beginning
+    of the page, and the size of the data frame buffers A and B have to be the
+    same. In this case the size is y/2. The total amount to be written will be
+    the number of buffers multiplied by data frame length. There's no
+    restriction in the firmware about how many buffers can be sent for writes,
+    users can write using multiple buffers up to a full page. </p><fig id="fig_Raw_write_-multiple_buffers_ri0fq24ij">
+        <title>Raw Write - Multiple Buffers</title>
+
+        <image href="Graphics/rawwrite_multibuffer.svg" placement="break" width="600"/>
+      </fig></section>
+  </body>
+</topic>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Create_I_O_Submission_Queue_qht97qqbk" xml:lang="en-US">
+  <title>Create I/O Submission Queue</title>
+
+  <body>
+    <p>The Create I/O Submission Queue command is used to
+    create all I/O Submission Queues, with the exception of the Admin
+    Submission Queue. The Admin Submission Queue is created by specifying its
+    base address in the ASQ register, its size in the ASQS field of the AQA
+    register, and then enabling the controller by setting the CC.EN bit.</p>
+
+    <fig id="Create_I_O_Submission_Queue_Command_Cont_rht97qqbk">
+      <title>Create I/O Submission Queue Command
+      Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Create_IO_Submission_Queue.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_sht97qqbk">
+      <title>Create I/O Submission Queue Command
+      Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CmdReady64</cmdname>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CmdReady</cmdname>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager programs the submission queue base, size, and
+            interrupt enable CSR’s, enables the submission queue engine, and
+            updates its internal state to reflect that the submission queue
+            has been created and mapped to a completion queue.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">QueueMapCreateReq</cmdname> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues queue map create requests to all of the
+            Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry><p>The Data
+            Managers update their internal queue map state to reflect the new
+            queue mapping.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">QueueMapCreateCpl</cmdname> </p></entry>
+
+            <entry><p>The Data
+            Manager responds to the Admin Command Manager with a queue map
+            create completion message.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CplQueueUpdate</cmdname> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <cmdname otherprops="bold">CplQueueUpdateCpl</cmdname> </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

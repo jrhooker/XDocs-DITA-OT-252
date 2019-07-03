@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="base" id="xtensa_linker_script_table" xml:lang="en-US">
+  <title>Linker Script Table</title>
+
+  <body>
+    <p>This table is placed into linker scripts by running
+    updateLinkerScripts.pl and is placed once into the DRAM at runtime. This
+    table tracks which overlays are mapped and is used by the Xtensa overlay
+    manager when loading overlays. This same table is used by GDB to enable
+    debugging. The table must be named _ovly_table and it is an array composed
+    of the following structure:</p>
+
+    <codeblock>struct
+{
+/*The overlay's mapped address. */
+unsigned long vma;
+
+/* The size of the overlay, in bytes. */
+unsigned long size;
+
+/* The overlay's load address. */
+unsigned long lma;
+
+/* Non-zero if the overlay is mapped, zero otherwise. */
+unsigned long mapped;
+}</codeblock>
+  </body>
+</topic>

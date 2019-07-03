@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Write_Manager_cghta8b1a7" xml:lang="en-US">
+  <title><ph audience="PMCInternal">Belmar </ph>Write Manager</title>
+
+  <body>
+    <p>All flash writes are initiated by the Write Manager.
+    The Write Manager receives page frame write requests from the Lookup
+    Managers[0:1], updates the controller metadata, and issues flash write
+    requests to the flash interface</p>
+
+    <p>The controller metadata is used by the Wearleveling
+    Manager to reconstruct the FTL data structures, such as L2P table, block
+    information, etc, in the event of an improper shutdown.</p>
+
+    <p>In case of multi-plane write, the Write Manager
+    creates a chained message for a flash write request. If there is not
+    enough data (to write even number of planes) from the Lookup Manager to
+    perform multi-plane operation, the Write Manager inserts dummy data to
+    complete the multi-plane operation.</p>
+
+    <p>Since the Write Manager is aware of how many flash
+    writes are issued to the flash, It sends a message to the Journal Manager
+    to initiate a snapshot write.</p>
+  </body>
+</topic>

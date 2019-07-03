@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Device_Temperature_Sensing_fht97qqbj" xml:lang="en-US">
+  <title>Device Temperature Sensing</title>
+
+  <body>
+    <p>The Admin Command Manager will poll the I<sup>2</sup>C temperature sensing device once
+    every <i>n</i> seconds. If the device
+    temperature rises or falls above or below <i>x</i> predetermined temperature thresholds, the
+    Admin Command Manager will issue a <cmdname>TemperatureUpdate</cmdname>
+    Message to Mapping Manager 0, specifying the current device temperature in
+    degrees Kelvin.</p>
+  </body>
+</topic>

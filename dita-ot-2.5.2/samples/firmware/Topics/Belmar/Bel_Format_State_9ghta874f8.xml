@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Format_State_9ghta874f8" xml:lang="en-US">
+  <title>Format State Structure</title>
+
+  <body>
+    <p>Format State Structure is used to maintain context
+    information for an outstanding format request. Memory for this structure
+    is statically allocated as <varname>format_state_t</varname>.</p>
+
+    <fig id="Format_State_Structure_9hhta874f8">
+      <title>Format State Structure</title>
+
+      <codeblock>
+typedef struct format_state
+{
+    union
+    {
+        state_header_t header;
+        struct
+        {
+            u8 formatReqState;
+            u8 cplCount;
+            u8 status;
+            u8 outMsgQ;
+            ipc_list_t ipcList;
+        };
+    };
+
+    u32 formatType : 8;
+    u32 namespaceID : 24;
+    u32 formatInfo;
+    u64 namespaceConfigDataAddr;
+    u32 remainingLength;
+}format_state_t;</codeblock>
+    </fig>
+
+    <parml>
+      <plentry>
+        <pt>header</pt>
+
+        <pd>Current state of this data frame.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>formatReqState</pt>
+
+        <pd>State of format state structure.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>cplCount</pt>
+
+        <pd>Expected number of completions from other managers.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>Status</pt>
+
+        <pd>Format request status.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>outMsgQ</pt>
+
+        <pd>Message Queue number to send format completions.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>formatType</pt>
+
+        <pd>Format Type - NVMe format or format flash media.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>namespaceId</pt>
+
+        <pd>Format request namespace ID.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>formatInfo</pt>
+
+        <pd>DWORD 10 of NVMe commands.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>namespaceConfigDataAddr</pt>
+
+        <pd>Address of the Namespace configuration data in the controller
+        memory.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>remainingLength</pt>
+
+        <pd>Remaining data length to be transferred.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>ipclist</pt>
+
+        <pd>Used by the advanced IPC Network API for message queuing.</pd>
+      </plentry>
+    </parml>
+  </body>
+</topic>

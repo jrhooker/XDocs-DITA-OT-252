@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Format_Request_bchta88ui4" xml:lang="en-US">
+  <title>Format Request</title>
+
+  <body>
+    <p>Format request is used to bring the device into
+    empty drive state. The Wearleveling Manager erases all flash blocks and
+    adds to the free block list. There are two types of format:</p>
+
+    <ul>
+      <li id="d1e2225"><p>Low-level
+      format</p></li>
+
+      <li id="d1e2231"><p>High-level
+      format</p></li>
+    </ul>
+
+    <p>The main difference is erase counter initialization.
+    Low-level format initializes erase counter to 1 where as high-level format
+    increments current erase counter value by 1. Format request control flow
+    is shown below.</p>
+
+    <fig id="Format_Request_Control_Flow_bdhta88ui4">
+      <title>Format Request Control Flow</title>
+
+      <image href="Graphics/bel_format_request.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_behta88ui4">
+      <title>Format Request Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="26*"/>
+
+        <colspec colname="c3" colwidth="69*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Operation</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FormatReq</b>
+            </p></entry>
+
+            <entry><p>The Lookup
+            Manager sends formatReq to the Wearleveling Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Extract format
+            type from the inbound message.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">moveOutPosted</b>
+            </p></entry>
+
+            <entry><p>Create empty
+            lists for free block list, used block list, garbage block list,
+            and bad block list.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">moveOutPosted</b>
+            </p></entry>
+
+            <entry><p>Write default
+            valid data frame bitmap (all 1’s) to the controller memory using
+            moveOutPosted.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">moveOutPosted</b>
+            </p></entry>
+
+            <entry><p>Depending on
+            format type, wearleveling parameters are initialized to 1 or its
+            current value is incremented by 1.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">dataNetworkMoveIn</b>
+            </p></entry>
+
+            <entry><p>Send a data
+            network movein request to read the block information from the
+            controller memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">dataNetworkCpl</b>
+            </p></entry>
+
+            <entry><p>Data network
+            responds with dataNetwokCpl for dataNetworkMoveIn.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process data
+            network completion. If data network completion received with
+            exception bit, Wearleveling Manager is halted with LOG_ERR.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashErase</b>
+            </p></entry>
+
+            <entry><p>Send a message
+            to the flash interface to erase virtual block. Depending on
+            virtual block size, one or more flashErase requests will be sent
+            to the flash interface.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashOpCpl</b>
+            </p></entry>
+
+            <entry><p>Flash
+            Interface responds with flashOpCpl for FlashErase.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Process flash
+            interface completions. If there is flash erase error, update
+            virtual block bad block bitmap.</p> <p>Wait for
+            all flash erase completions for this virtual block before moving
+            to next step.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">moveOutPosted</b>
+            </p></entry>
+
+            <entry><p>Change block
+            state to ERASED.</p> <p>Depending on format
+            type, increment virtual block erase counter or initialize to
+            1.</p> <p>Write block information to the
+            controller memory using moveOutPosted.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ListOp</b>
+            </p></entry>
+
+            <entry><p>Send a message
+            to the List Engine to add virtual block to the free block
+            list.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">ListOpCpl</b>
+            </p></entry>
+
+            <entry><p>List Engine
+            responds with listOpCpl for ListOp.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">NA</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">Internal
+            Operation</b> </p></entry>
+
+            <entry><p>Increment
+            block number. If block number is less than maximum number of flash
+            blocks, go to step 5 to continue with next block. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">formatCpl</b>
+            </p></entry>
+
+            <entry><p>Send formatCpl
+            message to the Lookup Manager.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

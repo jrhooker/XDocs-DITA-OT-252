@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Wearleveling_Manager_afhta88ui2" xml:lang="en-US">
+  <title><ph audience="PMCInternal">Belmar </ph>Wearleveling Manager</title>
+
+  <body>
+    <p>NAND flash memory is organized as blocks and block
+    consists of multiple pages. The NAND Flash memory is programmed and read
+    using page-based operations and is erased using block-based operations.
+    For the Micron MT29F128G08 flash device, there are 4K blocks, 128 Pages in
+    a block, and the page size is 8 Kbytes.</p>
+
+    <p>A logical to physical mapping table is used to map a
+    logical block address as requested by the host to the physical block
+    address of the flash devices. Data is not updated in place but written to
+    a new page. Old data is invalidated and the page becomes obsolete. The
+    obsolete pages must be cleaned up at regular intervals. Pages that contain
+    valid data within a block are moved to a new flash block such that the
+    block can be erased. After the erase, the block is ready to be written
+    again. The process to reclaim the obsolete pages is called garbage
+    collection.</p>
+
+    <p>A block (SLC flash) can be typically erased 100,000
+    times before it becomes unreliable and cannot be used to store any more
+    data. Garbage collection prefers to reclaim those blocks with the least
+    number of pages that contain valid data to reduce the data copy traffic to
+    a minimum. This causes some of the flash blocks to be erased more
+    frequently than others. The overall lifespan of a flash device could be
+    shortened because of uneven wear on the flash device. Wearleveling refers
+    to the process of preventing blocks from being unevenly erased (or worn)
+    so as to prolong the life of a flash device.</p>
+
+    <p>PMC NVMe controller supports 32 flash channels, 8
+    targets per channel, and 2 LUNs per target. Wearleveling has to ensure
+    even wear on all targets within a channel and across channels. It has to
+    manage the allocation of the next block used for data storage, decide when
+    to invoke garbage collection, and determine which block to reclaim next in
+    order to wear all the devices as evenly as possible. It also needs to
+    minimize the number of pages that have to be moved in order to reclaim
+    flash blocks.</p>
+
+    <p>The Wearleveling Manager is responsible for managing
+    the flash blocks and implementing wearleveling algorithms. As part of
+    flash block management, it opens (allocates) a free block for write,
+    closes the block when it is full, manages the valid data frames count,
+    performs garbage collection based on wearleveling algorithm, and erases
+    the block when all valid data frames are moved. It also handles read/write
+    errors</p>
+
+    <p>To achieve maximum performance, two Wearleveling
+    Managers (WEARLVL_MGR0 and WEARLVL_MGR1) are instantiated. Wearleveling
+    Manager0 manages even channels and Wearleveling Manager1 manages odd
+    channels. Each Wearleveling Manager operates in an non-blocking,
+    asynchronous event-driven manner in order to hide the latency associated
+    with the flash and DDR accesses.</p>
+  </body>
+</topic>

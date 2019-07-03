@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="IPC_Messages_amhta88ui3" xml:lang="en-US">
+  <title>IPC Messages</title>
+
+  <body>
+    <p>The Wearleveling Manager sends and receives IPC
+    messages from many of the managers and hardware functional units in the
+    system; <xref href="#IPC_Messages_amhta88ui3/Wearleveling_Manager_Received_and_Issued_anhta88ui3"/>
+    describes the message types that are sent between these managers and
+    functional units</p>
+
+    <table id="Wearleveling_Manager_Received_and_Issued_anhta88ui3" otherprops="type_size6">
+      <title>Wearleveling Manager, Inbound and Outbound
+      Messages</title>
+
+      <!--Most of the command names have xrefs in the FM document-->
+
+      <tgroup cols="7">
+        <colspec align="center" colname="A" colwidth=".2in"/>
+
+        <colspec align="center" colname="B" colwidth=".6in"/>
+
+        <colspec align="center" colname="C" colwidth=".8in"/>
+
+        <colspec align="center" colname="D" colwidth=".8in"/>
+
+        <colspec align="center" colname="E" colwidth=".8in"/>
+
+        <colspec align="center" colname="F" colwidth=".8in"/>
+
+        <colspec align="center" colname="G" colwidth=".8in"/>
+
+        <thead>
+          <row>
+            <entry bg_color="#FFFFFF" colsep="0" morerows="1"/>
+
+            <entry bg_color="#FFFFFF" morerows="1"/>
+
+            <entry nameend="G" namest="C">Received
+            Messages</entry>
+          </row>
+
+          <row>
+            <entry><p>Flash </p><p>Controller</p></entry>
+
+            <entry><p> Buffer </p><p>Manager</p></entry>
+
+            <entry><p>Linked </p><p>List </p><p>Manager</p></entry>
+
+            <entry><p>Lookup </p><p>Manager</p></entry>
+
+            <entry><p>Wearleveling
+            </p><p>Manager </p></entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry bg_color="#DDDDDD" morerows="4" valign="middle"><p otherprops="rotate_text"><b>Issued Messages</b></p></entry>
+
+            <entry bg_color="#DDDDDD"><p><b>Flash</b></p><p><b>Controller</b></p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>FlashOpCpl</p></entry>
+          </row>
+
+          <row>
+            <entry bg_color="#DDDDDD"><p><b>Buffer </b></p><p><b>Manager</b></p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>bufferOpCpl</p></entry>
+          </row>
+
+          <row>
+            <entry bg_color="#DDDDDD"><p><b>Linked </b></p><p><b>List </b></p><p><b>Manager</b></p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>ListOpCpl</p></entry>
+          </row>
+
+          <row>
+            <entry bg_color="#DDDDDD"><p><b>Lookup </b></p><p><b>Manager</b></p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>BlockOpenReq</p><p>ObsoleteDataFrame</p><p>SMARTUpdateReq</p><p>GCCTRLReq</p><p>FormatReq</p><p>PowerReq</p><p>ConfigDataReadyReq</p></entry>
+          </row>
+
+          <row>
+            <entry bg_color="#DDDDDD"><p><b>Wearleveling
+            </b></p><p><b>Manager</b></p></entry>
+
+            <entry><p>FlashReadReq</p><p>FlashEraseReq</p></entry>
+
+            <entry><p>BufferAlloc</p><p>BufferFree</p></entry>
+
+            <entry><p>ListAddBefore</p><p>ListRemoveAfter</p><p>ListMoveBefore</p></entry>
+
+            <entry><p>PowerCpl</p><p>ConfigDataOpCpl</p><p>BlockOpenCpl</p><p>UpdateWriteCreditCount</p><p>DataFrameWriteReq</p><p>FMSMARTUpdateCpl</p><p>FormatCpl</p><p>GCCTRLCpl</p></entry>
+
+            <entry><p>N/A</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

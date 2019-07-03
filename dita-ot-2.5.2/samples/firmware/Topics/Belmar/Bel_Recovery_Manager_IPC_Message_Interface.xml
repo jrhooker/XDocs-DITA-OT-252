@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Recovery_Manager_IPC_Message_Interface" xml:lang="en-US">
+  <title><ph audience="PMCInternal">Belmar </ph>IPC Message</title>
+
+  <body>
+    <p>The Recovery Manager sends and receives IPC messages
+    from Lookup Manager, Wearlevelling Manager, Buffer Manager and Flash
+    Interface;</p>
+
+    <p><xref href="#IPC_Messages/Recovery_Manager_Received_and_Issued">
+    </xref>describes the message types that are sent between these managers
+    and functional units</p>
+
+    <table id="Wearleveling_Manager_Received_and_Issued_anhta88ui3" rowheader="firstcol">
+      <title>Recovery Manager Received and Issued
+      Messages</title>
+
+      <tgroup cols="6">
+        <colspec colname="c2" colwidth="10*"/>
+
+        <colspec colname="c3" colwidth="11*"/>
+
+        <colspec colname="c4" colwidth="10*"/>
+
+        <colspec colname="c5" colwidth="13*"/>
+
+        <colspec colname="c6" colwidth="12*"/>
+
+        <colspec colname="c7" colwidth="12*"/>
+
+        <thead>
+          <row>
+            <entry/>
+
+            <entry>Flash Controller (Received
+            Messages)</entry>
+
+            <entry>Buffer Manager(Received
+            Messages)</entry>
+
+            <entry>Lookup Manager (Received
+            Messages)</entry>
+
+            <entry>Wearleveling Manager (Received
+            Messages)</entry>
+
+            <entry>Recovery Manager (Received
+            Messages)</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p>Flash
+            Controller (Issued Messages)</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>FlashOpCpl</p></entry>
+
+            <entry><p>FlashOpCpl</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Buffer Manager
+            (Issued Messages)</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>BufferOpCpl</p></entry>
+
+            <entry><p>BufferOpCpl</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Lookup
+            Manager(Issued Messages)</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>N/A</p></entry>
+
+            <entry><p>BlockOpenReq</p><p>ObsoleteDataFrame</p><p>SMARTUpdateReq</p><p>GCCTRLReq</p><p>FormatReq</p><p>PowerReq</p><p>ConfigDataReadyReq</p></entry>
+
+            <entry><p>ReadRetryReq</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Wearleveling
+            Manager(Issued Messages)</p></entry>
+
+            <entry><p>FlashReadReq</p> <p>FlashEraseReq</p></entry>
+
+            <entry><p>BufferAlloc</p><p>BufferFree</p></entry>
+
+            <entry><p>PowerCpl</p>
+            <p>ConfigDataOpCpl</p> <p>BlockOpenCpl</p> <p>UpdateWriteCreditCount</p> <p>DataFrameWriteReq</p> <p>FMSMARTUpdateCpl</p> <p>FormatCpl</p> <p>GCCTRLCpl</p></entry>
+
+            <entry>N/A</entry>
+
+            <entry><p>ReadRetryReq</p></entry>
+          </row>
+
+          <row>
+            <entry><p>Recovery
+            Manager(Issued Messages)</p></entry>
+
+            <entry><p>FlashReadReq</p></entry>
+
+            <entry><p>BufferAlloc</p><p>BufferFree</p><p/></entry>
+
+            <entry><p>ReadRetryCpl</p></entry>
+
+            <entry><p>ReadRetryCpl</p></entry>
+
+            <entry>N/A</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

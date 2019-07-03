@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="Command_Atomicity_9ht97qqbi" base="Princeton" xml:lang="en-US">
+   <title>Command Atomicity</title>
+   <body>
+      
+
+      <p>The Admin Command Manager ensures that only one admin command is
+      processed at a time by masking the inbound IPC ports used to receive
+      admin commands from other managers once an admin command has been
+      received. The Admin Command Manager is still able to receive completions
+      to admin requests it issues to other managers via a second inbound IPC
+      port used solely for admin request completions. When a received admin
+      command has been successfully processed, the inbound IPC ports are
+      unmasked, allowing the reception of a new admin command.</p>
+    </body>
+</topic>

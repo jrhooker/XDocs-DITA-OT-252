@@ -18,7 +18,7 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Description                  : </xsl:text><xsl:value-of select="/ditac:chunk/topic[1]/title[1]"></xsl:value-of><xsl:text>
+ * Description                  : </xsl:text><xsl:value-of select="/bookmap/topic[1]/title[1]"></xsl:value-of><xsl:text>
  *                                This file is auto-generated, do not modify.
  * 
  * $Revision$

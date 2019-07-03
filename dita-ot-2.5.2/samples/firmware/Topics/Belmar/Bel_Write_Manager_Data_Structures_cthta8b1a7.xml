@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Write_Manager_Data_Structures_cthta8b1a7" xml:lang="en-US">
+  <title>Write Manager Data Structures</title>
+
+  <body>
+    <p>The following sections describe the data structures
+    used by the Write Manager.</p>
+
+    <section id="Configuration_Structure_cuhta8b1a7"><title>Configuration Structure</title><p>General Write Manager configuration information such as
+    the flash configuration, 64-bit sequence number and etc are stored in a
+    global variable of type <varname>write_mgr_config_t</varname> called <varname>config</varname>. The <varname>write_mgr_config_t</varname> structure is shown
+    in <xref href="#Write_Manager_Data_Structures_cthta8b1a7/Write_Manager_Configuration_Data_Structu_cvhta8b1a7"/>.</p><fig id="Write_Manager_Configuration_Data_Structu_cvhta8b1a7">
+        <title>Write Manager Configuration Data
+        Structure</title>
+
+        <codeblock>typedef struct write_mgr_config
+{
+    u32 opState;
+    u16 activeFlashWriteState;
+    u16 activePageFrameState;
+    u32 pageFrameDummyLineAddr;
+    flash_config_t flashConfig;
+    u64 sequenceNumber;
+} write_mgr_config_t;
+</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>opState;</pt>
+
+          <pd>Write Manager operational state.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>activeFlashWriteState</pt>
+
+          <pd>Active flash write state structure number.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>activePageFrameState</pt>
+
+          <pd>Active flash write state structure number.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashConfig</pt>
+
+          <pd>Flash geometry and configuration.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>sequenceNumber</pt>
+
+          <pd>Next sequence number.</pd>
+        </plentry>
+      </parml></section>
+
+    <section id="Flash_Write_State_Structure_cwhta8b1a7"><title>Flash Write State Structure</title><p>The Flash Write State structures are used to maintain
+    context information required to send chained message. Memory for these
+    structures is allocated during initialization based on flash configuration
+    parameters and flash write state is set to IDLE.</p><fig id="Lun_State_Structure_cxhta8b1a7">
+        <title>Flash Write State Structure</title>
+
+        <codeblock> typedef struct flash_write_state_s
+{
+    state_header_t header;
+    u8 flashWriteOrderIndex;
+    u8 pendingDataNetworkCpls;
+    u8 pendingFlashWriteReq;
+    u8 maxFlashWriteReqs;
+    u8 activeDataFrameBuff;
+    u32 referenceID;
+    u32 firstMsgHandle;
+    u32 prevMsgHandle;
+    list_head_t list;
+}flash_write_state_t;
+
+</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>header</pt>
+
+          <pd>Flash write state structure header.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashWriteOrderIndex</pt>
+
+          <pd>Order index of flash write message. * Message are sent to the
+          flash interface as they received.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>pendingDataNetworkCpls</pt>
+
+          <pd>Pending data network completions.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>pendingFlashWriteReq</pt>
+
+          <pd>Pending flash write requests to be sent in a chained
+          message.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>maxFlashWriteReqs</pt>
+
+          <pd>Max number of flash write request messages to be sent to the
+          flash interface.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dataFrameBuffAddr</pt>
+
+          <pd>Memory line address in controller memory of the Data Frame
+          buffer.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>activeDataFrameBuff</pt>
+
+          <pd>Active data frame buffer in current page frame state
+          structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>referenceID</pt>
+
+          <pd>Reference ID to differentiate requests between chained
+          message.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>firstMsgHandle</pt>
+
+          <pd>First outbound message handle. This is used to post the message
+          to the flash interface.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>prevMsgHandle</pt>
+
+          <pd>Previous message handle. This is used to create chained
+          messages.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>list</pt>
+
+          <pd>Used to create a list of page frame state structures belong to
+          current chain. </pd>
+        </plentry>
+      </parml></section>
+
+    <section id="Flash_Write_State_Structure_cwhta8b1a7"><title>Page Frame State Structure</title><p>The Page Frame Write State structures are used to
+    maintain context information for each outstanding page frame write
+    request. Memory for these structures is allocated during initialization
+    based on flash configuration parameters and flash write state is set to
+    IDLE.</p><fig id="Lun_State_Structure_cxhta8b1a7">
+        <title>Flash Write State Structure</title>
+
+        <codeblock>typedef struct page_frame_state_s
+{
+    single_list_head_t list;
+    u8 state;
+    u8 outMsgQ;
+    u8 lastDataFrameBuffSpan;
+    u8 numberDFBuffHandles;
+    u32 flashWriteDW0;
+    u32 flashAddr;
+    u16 firstDataFrameBuffOffset;
+    u16 lastDataFrameLength;
+    u8 eccContextIndex;
+    u8 flashWriteStateIndex;
+    u32 logicalAddress[10];
+    u32 dataFrameBuffAddr[10];
+    u32 tag[2];
+    single_list_head_t dataNetworkPendinglist;
+    reg64 sequenceNumber;
+    u32 logicalAddr;
+    u32 eraseCount;
+} page_frame_state_t;
+</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>list</pt>
+
+          <pd>Link to the next page frame state structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>state</pt>
+
+          <pd>State of page frame state structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>outMsgQ</pt>
+
+          <pd>Message queue index to send the completion.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>lastDataFrameBuffSpan</pt>
+
+          <pd>Flag to keep track of last buffer in current page frame state
+          spans to next plane.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>numberDFBuffHandles</pt>
+
+          <pd>Number of data frame buffer handles involved in current page
+          frame write request.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashWriteDW0</pt>
+
+          <pd>DWORD0 of Flash write request.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashAddr</pt>
+
+          <pd>Flash address to write the page frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>firstDataFrameBuffOffset</pt>
+
+          <pd>First data frame buffer offset for a partial data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>lastDataFrameLength</pt>
+
+          <pd>Last data frame buffer length for a partial data frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>eccContextIndex</pt>
+
+          <pd>ECC context index to be for this page frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>flashWriteStateIndex</pt>
+
+          <pd>State index of current flash write state structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>logicalAddress</pt>
+
+          <pd>Logical addresses of the data frames to be written in current
+          page frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dataFrameBuffAddr</pt>
+
+          <pd>Data frame buffer address contains user data to be written in
+          current page frame.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>tag</pt>
+
+          <pd>Tag information to be returned by the flashOpCpl IPC
+          message.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>dataNetworkPendinglist</pt>
+
+          <pd>List pointer to add current state structure to the data network
+          pending list.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>sequenceNumber</pt>
+
+          <pd>Sequence number to be written to controller metadata.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>logicalAddr</pt>
+
+          <pd>Logical address to be written to controller metadata.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>eraseCount</pt>
+
+          <pd>Erase counter to be written to controller metadata.</pd>
+        </plentry>
+      </parml></section>
+
+    <section id="Flash_Write_State_Structure_cwhta8b1a7"><title>State Header Structure</title><p>The State Header structure is common header structure
+    for all state structures used in Write Manager.</p><fig id="Lun_State_Structure_cxhta8b1a7">
+        <title>State Header Structure</title>
+
+        <codeblock>typedef struct state_header_s
+{
+    single_list_head_t list;
+    u8 state;
+    u8 stateNumber;
+    u16 status;
+} state_header_t;
+</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>list</pt>
+
+          <pd>Used to queue this structure when resources are not
+          available.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>state</pt>
+
+          <pd>State of current state structure.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>stateNumber</pt>
+
+          <pd>Current state structure index(number).</pd>
+        </plentry>
+
+        <plentry>
+          <pt>status</pt>
+
+          <pd>Status of current state structure.</pd>
+        </plentry>
+      </parml></section>
+
+    <section id="Flash_Write_State_Structure_cwhta8b1a7"><title>Write Snapshot State Structure</title><p>The Write Snapshot State Structure is used to maintain
+    the context information for writeSnapshotReq. Write Manager handles one
+    WriteSnapshotReq at a time and memory is allocated for one
+    structure.</p><fig id="Lun_State_Structure_cxhta8b1a7">
+        <title>Write Snapshot State Structure</title>
+
+        <codeblock>typedef struct write_snapshot_state
+{
+    u32 state:8;
+    u32 reason:8;
+    u32 reserved:16;
+    ipc_list_t ipcList;
+    u64 sequenceNumber;
+} write_snapshot_state_t;</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>state</pt>
+
+          <pd>State of write snapshot request.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>reason</pt>
+
+          <pd>Reason for saving snapshot.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>ipcList</pt>
+
+          <pd>Used by the advanced IPC Network API for message queuing.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>sequenceNumber</pt>
+
+          <pd>Namespace sequence number when this snapshot is taken.</pd>
+        </plentry>
+      </parml></section>
+
+    <section id="Flash_Write_State_Structure_cwhta8b1a7"><title>General State Structure</title><p>The General State Structure is used to maintain the
+    context information for admin command request such as configDataReady and
+    flush requests. Write Manager handles one admin command request at a time
+    and memory is allocated for one structure.</p><fig id="Lun_State_Structure_cxhta8b1a7">
+        <title>General State Structure</title>
+
+        <codeblock>typedef struct general_state
+{
+    u32 outMsgQ : 16;
+    u32 replyOpcode : 8;
+    u32 status : 7;
+    u32 usedStatus : 1;
+    u32 tags[2];
+    ipc_list_t ipcList;
+}general_state_t;
+</codeblock>
+      </fig><parml>
+        <plentry>
+          <pt>outMsgQ</pt>
+
+          <pd>Out message queue index to send the completions.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>replyOpcode</pt>
+
+          <pd>Reply opcode to be used when the completions are sent.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>status</pt>
+
+          <pd>State structure status.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>usedStatus</pt>
+
+          <pd>Flag to keep track general state structure used or free (0 :
+          Free, 1: used).</pd>
+        </plentry>
+
+        <plentry>
+          <pt>tags</pt>
+
+          <pd>Storage for the tags received with incoming request.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>ipcList</pt>
+
+          <pd>Used by the advanced IPC Network API for message queuing.</pd>
+        </plentry>
+      </parml></section>
+  </body>
+</topic>

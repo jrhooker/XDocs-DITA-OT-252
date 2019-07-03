@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Data_Frame_Buffer_Ownership_59ht98nxzf" xml:lang="en-US">
+  <title>Data Frame Buffer Ownership</title>
+
+  <body>
+    <p>During NVM Express read operations, the Data Manager
+    will request the allocation of a Data Frame buffer from the Buffer Manager
+    and free the Data Frame buffer when it is no longer needed. During NVM
+    Express write operations, the Data Manager will allocate the Data Frame
+    buffers, but ownership of the buffers will pass to the FTL when the
+    WriteReq is issued. It is then the responsibility of the FTL to free the
+    Data Frame buffer when it is no longer required.</p>
+  </body>
+</topic>

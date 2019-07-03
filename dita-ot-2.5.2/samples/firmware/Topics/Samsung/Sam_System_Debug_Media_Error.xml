@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Sys_Debug_Media_Error" xml:lang="en-US">
+  <title>Debug Media Error (subcommand opcode
+  0x02)</title>
+
+  <body>
+    <p>Use the Debug Media Error command to test the
+    Asynchronous Event Command and the SMART/Health Information Log on the
+    device.</p>
+
+    <fig id="NVM_Express_Vendor_Specific_Command_Debu_5rht97qqby">
+      <title>NVM Express Vendor Specific Command Debug
+      Media Error Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/System_Debug_Debug_Media_Error.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_5sht97qqby">
+      <title>NVM Express Vendor Specific Command Debug
+      Media Error Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth=".5in"/>
+
+        <colspec colname="c2" colwidth="1.5in"/>
+
+        <colspec colname="c3" colwidth="4in"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady64</b>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">IngressDMA</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues ingress DMA requests to transfer the
+            debugging information to the controller memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">DMACpl</b>
+            </p></entry>
+
+            <entry><p>The DMA engine
+            responds with DMA completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">DebugMediaError</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues requests to the <b>Mapping Manager0</b> the desired
+            debugging information.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">MediaError</b>
+            </p></entry>
+
+            <entry><p>The <b>Mapping Manager0</b> sends back IPC
+            message that the Admin Command Manager needs.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b>
+            </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

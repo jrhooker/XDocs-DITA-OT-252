@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="LUN_State_Structure_96hta874f7" xml:lang="en-US">
+  <title>LUN State Structure</title>
+
+  <body>
+    <p>The LUN State structures are used to maintain
+    context information for each logical target. Memory for these structures
+    is allocated during initialization based on flash configuration parameters
+    and LUN state is set to IDLE.</p>
+
+    <fig id="Lun_State_Structure_97hta874f7">
+      <title>Lun State Structure</title>
+
+      <codeblock>
+typedef struct lun_state
+{
+    state_header_t header;
+    u32 activeDataFrame:8;
+    u32 blockClose:1;
+    u32 writeError:1;
+    u32 page:14;
+    u32 startingPlaneToWrite:8;
+    u32 numPlanesToWrite:8;
+    u32 activePlane:8;
+    u32 firstMultiPlaneRequest:1;
+    u32 lastMultiPlaneRequest:1;
+    u32 reserved0:14;
+    u32 refId:16;
+    u32 pageOffset:16;
+    u32 remainingBytesInEccChunk:16;
+    u32 activeEccChunkNum:8;
+    u32 eccContextIndex:8;
+    u32 blockAddress;
+    struct data_frame_state_s* firstDataFrame;
+    u16 remainingBytesInPage;
+    u8 validPlaneBitmap;
+} lun_state_t;</codeblock>
+    </fig>
+
+    <parml>
+      <plentry>
+        <pt>header</pt>
+
+        <pd>Current state of this LUN.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>activeDataFrame</pt>
+
+        <pd>Active data frame within the flash page.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>blockClose</pt>
+
+        <pd>Used to keep track of block close operation for block open
+        request.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>writeError</pt>
+
+        <pd>Block write status for the current LUN.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>page</pt>
+
+        <pd>Active flash page within the block.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>startingPlaneToWrite</pt>
+
+        <pd>Starting plane number for current write.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>numPlanesToWrite</pt>
+
+        <pd>Number of planes involved in current write.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>activePlane</pt>
+
+        <pd>Active plane number.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>firstMultiPlaneRequest</pt>
+
+        <pd><p>First request of multi plane write:</p><ul>
+            <li id="d1e7157"><p>0 -
+            Middle or last request of multi plane write.</p></li>
+
+            <li id="d1e7163"><p>1 -
+            First request of multi plane write.</p></li>
+          </ul></pd>
+      </plentry>
+
+      <plentry>
+        <pt>lastMultiPlaneRequest</pt>
+
+        <pd><p>Last request of multi plane write:</p><ul>
+            <li id="d1e7188"><p>0 -
+            First or middle request of multi plane write.</p></li>
+
+            <li id="d1e7194"><p>1 -
+            Last request of multi plane write.</p></li>
+          </ul></pd>
+      </plentry>
+
+      <plentry>
+        <pt>reserved0</pt>
+
+        <pd>Reserved.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>refId</pt>
+
+        <pd>Used by the Write Manager to group write requests for multi plane
+        write.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>pageOffset</pt>
+
+        <pd>Offset within physical page in the current plane.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>remainingBytesInEccChunk</pt>
+
+        <pd>Remaining number of bytes in current ECC chunk for next data
+        frame.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>activeEccChunkNum</pt>
+
+        <pd>Active ECC chunk number.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>eccContextIndex</pt>
+
+        <pd>ECC context index to be used for this LUN.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>blockAddress</pt>
+
+        <pd>Block address associated with this LUN.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>firstDataFrame</pt>
+
+        <pd>Pointer to the first data frame for the multi plane
+        operation.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>remainingBytesInPage</pt>
+
+        <pd>Remaining number of bytes in the current page.</pd>
+      </plentry>
+
+      <plentry>
+        <pt>validPlaneBitmap</pt>
+
+        <pd>Valid plane bitmap within the LUN.</pd>
+      </plentry>
+    </parml>
+  </body>
+</topic>

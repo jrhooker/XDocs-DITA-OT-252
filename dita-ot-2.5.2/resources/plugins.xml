@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><plugins><plugin id="org.oasis-open.dita.v1_2" xml:base="../plugins/org.oasis-open.dita.v1_2/plugin.xml">
   <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
+</plugin><plugin id="mchp-csrreg" xml:base="../plugins/mchp-csrreg/plugin.xml">
+  <feature extension="package.version" value="0.0.1"/>
+  <require plugin="org.dita.pdf2"/>
+  <feature extension="dita.conductor.transtype.check" value="mchp-csrreg"/>
+  <feature extension="dita.transtype.print" value="mchp-csrreg"/>
+  <feature extension="dita.conductor.target.relative" file="integrator.xml"/>
 </plugin><plugin id="org.dita.base" xml:base="../plugins/org.dita.base/plugin.xml">
   <!-- base extension points -->
   <extension-point id="package.version" name="Plug-in version"/>
@@ -339,6 +345,12 @@
   <feature extension="dita.conductor.transtype.check" value="exportpreprocess"/>
   <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
   <require plugin="org.dita.base"/>
+</plugin><plugin id="mchp-firmware-h" xml:base="../plugins/mchp-firmware-h/plugin.xml">
+  <feature extension="package.version" value="0.0.1"/>
+  <require plugin="org.dita.pdf2"/>
+  <feature extension="dita.conductor.transtype.check" value="mchp-firmware-h"/>
+  <feature extension="dita.transtype.print" value="mchp-firmware-h"/>
+  <feature extension="dita.conductor.target.relative" file="integrator.xml"/>
 </plugin><plugin id="com.sophos.tocjs" xml:base="../plugins/com.sophos.tocjs/plugin.xml">
   <transtype desc="TocJS" extends="html5" name="tocjs"/>
   <feature extension="dita.conductor.target" file="integrator.xml"/>

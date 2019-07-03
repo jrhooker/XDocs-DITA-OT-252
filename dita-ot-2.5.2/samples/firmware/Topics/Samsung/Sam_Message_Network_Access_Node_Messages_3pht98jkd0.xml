@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysConfig/backup/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Message_Network_Access_Node_Messages_3pht98jkd0" xml:lang="en-US">
+  <title>Message Network Access Node Messages</title>
+
+  <body>
+    <p>The IPC messages described in the following sections
+    are initiated based on the proper programming of the Message Network
+    Access Node registers. This may be initiated by SMBus to allow access to
+    the PCIe Configuration Space for debugging purposes.</p>
+
+    <section id="MNANCfgWriteReq_3qht98jkd0"><title>MNANCfgWriteReq</title> <p>Message Network Access Node message to PCIe Manager in
+    order to perform a write to the Port’s Configuration Space. A MNANCfgCpl
+    will return the value read from the register offset after the write has
+    taken place.</p> <table id="_3rht98jkd0">
+        <title>MnancfgWriteReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>offset</name>
+
+              <description>
+                <p>Register Offset</p>
+
+                <p>Register offset is DWord Aligned. If
+                byte access is needed, the byteEn field is used to specify
+                what</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>port</name>
+
+              <description>
+                <p>Port</p>
+
+                <p>0h Port 0</p>
+
+                <p>1h Port 1</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>byteEn</name>
+
+              <description>
+                <p>Byte Enable</p>
+
+                <p>Bit 0 Byte 0</p>
+
+                <p>Bit 1 Byte 1</p>
+
+                <p>Bit 2 Byte 2</p>
+
+                <p>Bit 3 Byte 3</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>30</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>write</name>
+
+              <description>
+                <p><b otherprops="bold">Write</b></p>
+
+                <p>0h Read</p>
+
+                <p>1h Write</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>data</name>
+
+              <description>
+                <p><b otherprops="bold">Write Data</b></p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="MNANCfgReadReq_3sht98jkd0"><title>MNANCfgReadReq</title> <p>Message Network Access Node message to PCIe Manager in
+    order to perform a read to the Port’s Configuration Space. A MNANCfgCpl
+    will return the value read from the register offset.</p> <table id="_3tht98jkd0">
+        <title>MnancfgReadReq</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>11</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>offset</name>
+
+              <description>
+                <p>Register Offset</p>
+
+                <p>Register offset is DWord Aligned. If
+                byte access is needed, the byteEn field is used to specify
+                what</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>15</msb>
+
+                  <lsb>12</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>16</single>
+              </position>
+
+              <name>port</name>
+
+              <description>
+                <p>Port</p>
+
+                <p>0h Port 0</p>
+
+                <p>1h Port 1</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>19</msb>
+
+                  <lsb>17</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>23</msb>
+
+                  <lsb>20</lsb>
+                </double>
+              </position>
+
+              <name>byteEn</name>
+
+              <description>
+                <p>Byte Enable</p>
+
+                <p>Bit 0 Byte 0</p>
+
+                <p>Bit 1 Byte 1</p>
+
+                <p>Bit 2 Byte 2</p>
+
+                <p>Bit 3 Byte 3</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>30</msb>
+
+                  <lsb>24</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <single>31</single>
+              </position>
+
+              <name>write</name>
+
+              <description>
+                <p><b otherprops="bold">Write</b></p>
+
+                <p>0h Read</p>
+
+                <p>1h Write</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+
+    <section id="MNANCfgCpl_3uht98jkd0"><title>MNANCfgCpl</title> <p>PCIe
+    Manager to Message Network Access Node notifying the Message Network
+    Access Node that the operation MNANCfgWriteReq or MNANCfgReadReq has
+    completed and the data has been read from that offset.</p> <table id="_3vht98jkd0">
+        <title>MnancfgCpl</title>
+
+        <tgroup cols="4">
+          <colspec colname="c1" colwidth="8*"/>
+
+          <colspec colname="c2" colwidth="11*"/>
+
+          <colspec colname="c3" colwidth="14*"/>
+
+          <colspec colname="c4" colwidth="67*"/>
+
+          <thead>
+            <row>
+              <entry>DWord</entry>
+
+              <entry>Position</entry>
+
+              <entry>Name</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <struct>
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>3</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>cplStatus</name>
+
+              <description>
+                <p>Completion Status</p>
+
+                <p>0h Completed with no errors.</p>
+
+                <p>1h Error Unknown offset or offset is not
+                DWord aligned.</p>
+
+                <p>Others reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>0</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>4</lsb>
+                </double>
+              </position>
+
+              <name>reserved</name>
+
+              <description>
+                <p>Reserved</p>
+              </description>
+            </dword>
+
+            <dword>
+              <value>1</value>
+
+              <position>
+                <double>
+                  <msb>31</msb>
+
+                  <lsb>0</lsb>
+                </double>
+              </position>
+
+              <name>data</name>
+
+              <description>
+                <p>Data</p>
+
+                <p>The data returned is read as if it is
+                DWord access, but only the bytes specified by the
+                MNANCfgWriteReq or MNANCfgReadReq byteEn field are valid.</p>
+              </description>
+            </dword>
+          </struct>
+        </tgroup>
+      </table></section>
+  </body>
+</topic>

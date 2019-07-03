@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Supported_Host_Initiated_Commands_6pht97qqc0" xml:lang="en-US">
+  <title>Supported Host Initiated Commands</title>
+
+  <body>
+    <p>The following commands will be support in the
+    initial revision of the firmware:</p>
+
+    <ul>
+      <li id="d1e15043"><p>NVM Command
+      Set</p><ul>
+          <li id="d1e15050"><p>Read</p></li>
+
+          <li id="d1e15056"><p>Write</p></li>
+        </ul></li>
+
+      <li id="d1e15064"><p>Admin
+      Command Set</p><ul>
+          <li id="d1e15071"><p>Create
+          I/O Completion Queue</p></li>
+
+          <li id="d1e15077"><p>Create
+          I/O Submission Queue</p></li>
+
+          <li id="d1e15083"><p>Delete
+          I/O Completion Queue</p></li>
+
+          <li id="d1e15089"><p>Delete
+          I/O Submission Queue</p></li>
+
+          <li id="d1e15095"><p>Abort</p></li>
+
+          <li id="d1e15102"><p>Set
+          Feature</p><ul>
+              <li id="d1e15109"><p>LBA
+              Range Type (feature identifier 0x03)</p></li>
+
+              <li id="d1e15115"><p>Volatile Write Cache (feature identifier
+              0x06)</p></li>
+
+              <li id="d1e15121"><p>Number of Queues (feature identifier
+              0x07)</p></li>
+            </ul></li>
+
+          <li id="d1e15129"><p>Get
+          Feature</p><ul>
+              <li id="d1e15136"><p>LBA
+              Range Type (feature identifier 0x03)</p></li>
+
+              <li id="d1e15142"><p>Volatile Write Cache (feature identifier
+              0x06)</p></li>
+
+              <li id="d1e15148"><p>Number of Queues (feature identifier
+              0x07)</p></li>
+            </ul></li>
+
+          <li id="d1e15156"><p>Identify
+          (controller data)</p></li>
+
+          <li id="d1e15162"><p>Identify
+          (namespace data)</p></li>
+        </ul></li>
+    </ul>
+
+    <p>Subsequent revisions of the firmware will include
+    support for the following commands:</p>
+
+    <ul>
+      <li id="d1e15176"><p>NVM Command
+      Set</p><ul>
+          <li id="d1e15183"><p>Flush</p></li>
+
+          <li id="d1e15189"><p>Write
+          Uncorrectable</p></li>
+
+          <li id="d1e15195"><p>Data Set
+          Management</p><ul>
+              <li id="d1e15202"><p>Deallocate</p></li>
+
+              <li id="d1e15208"><p>Integral Dataset for Write</p></li>
+
+              <li id="d1e15214"><p>Integral Dataset for Read</p></li>
+            </ul></li>
+        </ul></li>
+
+      <li id="d1e15224"><p>Admin
+      Command Set</p><ul>
+          <li id="d1e15231"><p>Async
+          Event Request</p></li>
+
+          <li id="d1e15237"><p>Format
+          NVM</p></li>
+
+          <li id="d1e15243"><p>Firmware
+          Download</p></li>
+
+          <li id="d1e15249"><p>Firmware
+          Activate</p></li>
+
+          <li id="d1e15255"><p audience="PMCInternal"> <draft-comment translate="no">Security Send</draft-comment> </p></li>
+
+          <li id="d1e15263"><p audience="PMCInternal"> <draft-comment translate="no">Security Receive</draft-comment> </p></li>
+
+          <li id="d1e15270"><p>Get Log
+          Page</p><ul>
+              <li id="d1e15277"><p>Error Information (log identifier
+              0x01)</p></li>
+
+              <li id="d1e15283"><p>SMART/Health Information (log identifier
+              0x02)</p></li>
+
+              <li id="d1e15289"><p>Firmware Slot Information (log identifier
+              0x03)</p></li>
+            </ul></li>
+
+          <li id="d1e15297"><p>Set
+          Feature</p><ul>
+              <li id="d1e15304"><p>Arbitration (feature identifier
+              0x01)</p></li>
+
+              <li id="d1e15310"><p>Power Management (feature identifier
+              0x02)</p></li>
+
+              <li id="d1e15316"><p>Temperature Threshold (feature identifier
+              0x04)</p></li>
+
+              <li id="d1e15322"><p>Error Recovery (feature identifier
+              0x05)</p></li>
+
+              <li id="d1e15328"><p>Interrupt Coalescing (feature identifier
+              0x08)</p></li>
+
+              <li id="d1e15335"><p>Interrupt Vector Configuration (feature
+              identifier 0x09)</p></li>
+
+              <li id="d1e15341"><p>Write Atomicity (feature identifier
+              0x0A)</p></li>
+
+              <li id="d1e15347"><p>Asynchronous Event Configuration (feature
+              identifier 0x0B)</p></li>
+
+              <li id="d1e15353"><p>Software Progress Marker (0x80)</p></li>
+            </ul></li>
+
+          <li id="d1e15361"><p>Get
+          Feature</p><ul>
+              <li id="d1e15368"><p>Arbitration (feature identifier
+              0x01)</p></li>
+
+              <li id="d1e15374"><p>Power Management (feature identifier
+              0x02)</p></li>
+
+              <li id="d1e15380"><p>Temperature Threshold (feature identifier
+              0x04)</p></li>
+
+              <li id="d1e15386"><p>Error Recovery (feature identifier
+              0x05)</p></li>
+
+              <li id="d1e15392"><p>Interrupt Coalescing (feature identifier
+              0x08)</p></li>
+
+              <li id="d1e15399"><p>Interrupt Vector Configuration (feature
+              identifier 0x09)</p></li>
+
+              <li id="d1e15405"><p>Write Atomicity (feature identifier
+              0x0A)</p></li>
+
+              <li id="d1e15411"><p>Asynchronous Event Configuration (feature
+              identifier 0x0B)</p></li>
+
+              <li id="d1e15417"><p>Software Progress Marker (0x80)</p></li>
+            </ul></li>
+        </ul></li>
+
+      <li id="d1e15427"><p>Vendor
+      Specific Admin Command Set</p><ul>
+          <li id="d1e15434"><p>System
+          Configuration (0xC1)</p><ul>
+              <li id="d1e15441"><p>Option ROM Image Enable (subcommand opcode
+              0x00)</p></li>
+
+              <li id="d1e15447"><p>Format Flash Media (subcommand opcode
+              0x01)</p></li>
+
+              <li id="d1e15453"><p>Delete Namespace (subcommand opcode
+              0x02)</p></li>
+
+              <li id="d1e15459"><p>Create Namespace (subcommand opcode
+              0x03)</p></li>
+
+              <li id="d1e15465"><p>EEPROM Image Download (subcommand opcode
+              0x04)</p></li>
+
+              <li id="d1e15472"><p>EEPROM Image Commit (subcommand opcode
+              0x05)</p></li>
+
+              <li id="d1e15478"><p>Flash Bad Block Download (subcommand opcode
+              0x06)</p></li>
+
+              <li id="d1e15484"><p>Vendor Defined Firmware Activate (subcommand
+              opcode 0x07)</p></li>
+            </ul></li>
+
+          <li id="d1e15492"><p>System
+          Debug (0xC5)</p><ul>
+              <li id="d1e15499"><p>Debug Critical Warning (subcommand opcode
+              0x01)</p></li>
+
+              <li id="d1e15505"><p>Debug Media Error (subcommand opcode
+              0x02)</p></li>
+
+              <li id="d1e15511"><p>Debug Error Log Update (subcommand opcode
+              0x03)</p></li>
+
+              <li id="d1e15517"><p>Debug Generic (subcommand opcode
+              0x04)</p></li>
+
+              <li id="d1e15523"><p>Debug Global Uncorrected Error Interrupt
+              (subcommand opcode 0x05)</p></li>
+            </ul></li>
+
+          <li id="d1e15531"><p>System
+          Diagnostics (0xCA)</p><ul>
+              <li id="d1e15538"><p>Core
+              Dump (subcommand opcode 0x00)</p></li>
+
+              <li id="d1e15544"><p>Dump
+              Controller Memory (subcommand opcode 0x01)</p></li>
+
+              <li id="d1e15550"><p>Firmware Image Upload (subcommand opcode
+              0x02)</p></li>
+
+              <li id="d1e15556"><p>EEPROM Image Upload (subcommand opcode
+              0x03)</p></li>
+
+              <li id="d1e15562"><p>Flash Bad Block Upload (subcommand opcode
+              0x04)</p></li>
+
+              <li id="d1e15569"><p>Flash statistics Upload (subcommand opcode
+              0x05)</p></li>
+
+              <li id="d1e15575"><p>Global Statistics Upload (subcommand opcode
+              0x06)</p></li>
+            </ul></li>
+        </ul></li>
+    </ul>
+  </body>
+</topic>

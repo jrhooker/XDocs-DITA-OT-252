@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="System_Diagnostics_62ht97qqby" xml:lang="en-US">
+  <title>System Diagnostics</title>
+
+  <body>
+    <p>Use the System Diagnostics command to retrieve
+    diagnostic information from the device to the host. <xref href="#System_Diagnostics_62ht97qqby/NVM_Express_Vendor_Specific_Command_Syst_63ht97qqby"/>
+    shows the subcommand list and implementation status.</p>
+
+    <table id="NVM_Express_Vendor_Specific_Command_Syst_63ht97qqby">
+      <title>NVM Express Vendor Specific Command System
+      Diagnostics Subcommand List</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="26*"/>
+
+        <colspec colname="c2" colwidth="26*"/>
+
+        <colspec colname="c3" colwidth="48*"/>
+
+        <thead>
+          <row>
+            <entry>Subcommand Opcode</entry>
+
+            <entry>Status (I/N)</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p>00h</p></entry>
+
+            <entry><p>I</p></entry>
+
+            <entry><p>Core
+            Dump</p></entry>
+          </row>
+
+          <row>
+            <entry><p>01h</p></entry>
+
+            <entry><p>I</p></entry>
+
+            <entry><p>Dump
+            Controller Memory</p></entry>
+          </row>
+
+          <row>
+            <entry><p>02h</p></entry>
+
+            <entry><p>I</p></entry>
+
+            <entry><p>Firmware Image
+            Upload</p></entry>
+          </row>
+
+          <row>
+            <entry><p>03h</p></entry>
+
+            <entry><p>I</p></entry>
+
+            <entry><p>EEPROM Image
+            Upload</p></entry>
+          </row>
+
+          <row>
+            <entry><p>04h</p></entry>
+
+            <entry><p>N</p></entry>
+
+            <entry><p>Flash Bad
+            Block Upload</p></entry>
+          </row>
+
+          <row>
+            <entry><p>05h</p></entry>
+
+            <entry><p>N</p></entry>
+
+            <entry><p>Flash
+            statistics Upload</p></entry>
+          </row>
+
+          <row>
+            <entry><p>06h</p></entry>
+
+            <entry><p>N</p></entry>
+
+            <entry><p>Global
+            Statistics Upload</p></entry>
+          </row>
+
+          <row>
+            <entry nameend="c3" namest="c1"><p>NOTES:</p><p>1. I/N
+            definition: I = Implemented, N = N/A</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

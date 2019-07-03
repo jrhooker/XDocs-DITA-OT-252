@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Sys_Config_Nmspc_Mgmt" xml:lang="en-US">
+  <title>Namespace Management</title>
+
+  <body>
+    <p>Two Namespace Management commands are defined for
+    user applications to manage the associated namespaces. Each namespace
+    contains a certain amount of namespace units that need to be contiguous. A
+    namespace unit is the smallest addressable unit for Namespace Management
+    commands. There might be some namespace units located between namespaces
+    that do not belong to any namespaces.</p>
+
+    <p>In the sense of system programming, the size of each
+    namespace unit should be a multiple of the flash physical page size that
+    is also a multiple of the supported LBA data sizes by the controller. Due
+    to the foreseeable increase in flash page size, it is appropriate to
+    decide the namespace unit size as 32KB, for example.</p>
+  </body>
+</topic>

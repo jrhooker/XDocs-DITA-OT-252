@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Power-On_Flow_ght97qqbj" xml:lang="en-US">
+  <title>Power-On Flow</title>
+
+  <body>
+    <p>The Control Manager sends
+    <cmdname>PowerReq</cmdname> the Admin Command Manager. The Admin Command
+    Manager indicates to FTL Managers, Data Managers, and PCIe Manager on the
+    power-on event before sending <cmdname>PowerCpl</cmdname> to the Control
+    Manager.</p>
+
+    <fig id="Power-on_Control_Flow_hht97qqbj">
+      <title>Power-0n Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/Admin_Power_On_Flow.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_iht97qqbj">
+      <title>Power-0n Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager sends the power up request to the Admin Command
+            Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends the power up requests to all the FTL
+            managers. This message will indicate if this is the first time
+            power up, or if this is a normal power up sequence.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>All the FTL
+            managers send power completions to the Admin Command Manager. The
+            Admin Command Manager waits for all completions to return before
+            proceeding.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">-</b> </p></entry>
+
+            <entry/>
+
+            <entry><p>The Admin
+            Command Manager reads configuration data from the controller
+            memory. If it is first time power on, the Admin Command Manager
+            initializes the LBA range for the Get/Set Feature and
+            miscellaneous data.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadReq/</b> </p>
+            <p> <b otherprops="bold">PMWriteReq</b> </p></entry>
+
+            <entry><p>In case of
+            first time power on, the Admin Command Manager issues <cmdname otherprops="bold">PMWriteReq
+            </cmdname>to the Mapping Manager 0 to store protocol metadata to
+            flash. Otherwise, the Admin Command Manager issues <cmdname otherprops="bold">PMReadReq</cmdname>
+            to the Mapping Manager 0 to read protocol metadata from flash to
+            the controller memory</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMOpCpl</b>
+            </p></entry>
+
+            <entry><p>Mapping
+            Manager 0 sends a completion message for <cmdname otherprops="bold">PMReadReq</cmdname>/<cmdname otherprops="bold">PMWriteReq</cmdname>.
+            </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues <cmdname otherprops="bold">PowerReq</cmdname> with Device Enable in the
+            opState field.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>Mapping
+            manager 0 responds with a completion to <b otherprops="bold">PowerReq
+            </b>indicating the FTL is now operational.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends messages to all the Data Managers indicating
+            that the protocol metadata has been updated. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyCpl</b>
+            </p></entry>
+
+            <entry><p>Data Managers
+            send completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a message to the PCIe Manager indicating
+            that the protocol metadata has been updated. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">11</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PMReadyCpl</b>
+            </p></entry>
+
+            <entry><p>The PCIe
+            Manager sends a completion message. </p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">12</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">PowerCpl</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion to the Control Manager to
+            indicate that power up sequence has completed.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

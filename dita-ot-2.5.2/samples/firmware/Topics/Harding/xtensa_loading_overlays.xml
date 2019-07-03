@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="base" id="xtensa_loading_overlays" xml:lang="en-US">
+  <title>Loading Overlays</title>
+
+  <body>
+    <p>The Xtensa overlay manager shares its loading mechanism with the PMC
+    overlay manager. By default Xtensa overlay manager provides a loading
+    function using memcpy from the gcc library to perform loading. This
+    function was given a weak definition so that users can provide their own
+    loading function. Refer to <xref href="../Loading_Overlay_toht7esfi5.xml"/> for details on
+    the loading mechanism.</p>
+  </body>
+</topic>

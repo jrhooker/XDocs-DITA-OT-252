@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="Sys_Diag_FW_Img_Up" xml:lang="en-US">
+  <title>Firmware Image Upload (subcommand opcode
+  0x02)</title>
+
+  <body>
+    <p>Use the Upload Firmware Image command to upload the
+    firmware image from the specified firmware slot to the host.</p>
+
+    <fig id="NVM_Express_Vendor_Specific_Command_Firm_6bht97qqbz">
+      <title>NVM Express Vendor Specific Command
+      Firmware Image Upload Control Flow</title>
+
+      <image href="Graphics/Admin Command Manager/System_Diag_FW_Upload.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_6cht97qqbz">
+      <title>NVM Express Vendor Specific Command
+      Firmware Image Upload Control Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth=".5in"/>
+
+        <colspec colname="c2" colwidth="1.5in"/>
+
+        <colspec colname="c3" colwidth="4in"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady64</b>
+            </p></entry>
+
+            <entry><p>The command is
+            received by one of the Data Managers.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CmdReady</b>
+            </p></entry>
+
+            <entry><p>The Data
+            Manager forwards the command to the Admin Command Manager for
+            processing.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">3</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FwUpdtReq</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a request to the Control Manager to upload
+            the firmware image from a specified firmware slot to the
+            controller memory.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">4</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashRead</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager issues flash read requests.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">5</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FlashOpCpl</b>
+            </p></entry>
+
+            <entry><p>The Flash
+            Interface responds to the flash read requests.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">6</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">FwUpdtCpl</b>
+            </p></entry>
+
+            <entry><p>The Control
+            Manager sends a firmware update completion request to the Admin
+            Command Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">7</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">EgressDMA</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues Egress DMA requests to transfer the
+            firmware image to the host.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">8</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">DMACpl</b>
+            </p></entry>
+
+            <entry><p>The DMA engine
+            responds with DMA completion messages.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">9</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdate</b>
+            </p></entry>
+
+            <entry><p>The Admin
+            Command Manager sends a completion queue update request to the
+            Completion Manager.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">10</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">CplQueueUpdateCpl</b>
+            </p></entry>
+
+            <entry><p>The Completion
+            Manager replies back to the Admin Command Manager when the
+            completion has been successfully sent to the host.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

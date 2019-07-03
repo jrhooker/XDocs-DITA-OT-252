@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 1.2 Topic//EN" "/SysSchema/dita/dtd/technicalContent/dtd/topic.dtd">
+<topic xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" base="Princeton" id="NamespaceUpdateReq_89hta874f5" xml:lang="en-US">
+  <title>NamespaceUpdateReq</title>
+
+  <body>
+    <p>The Namespace Update Request is used to provide
+    namespace utilization.</p>
+
+    <fig id="Namespace_Update_Request_Control_Flow_8ahta874f5">
+      <title>Namespace Update Request Control
+      Flow</title>
+
+      <image href="../../Graphics/Lookup_Mgr/namespaceUpdate.svg" placement="break" width="5.5in"/>
+    </fig>
+
+    <table id="_8bhta874f5">
+      <title>Namespace Update Request Control
+      Flow</title>
+
+      <tgroup cols="3">
+        <colspec colname="c1" colwidth="5*"/>
+
+        <colspec colname="c2" colwidth="23*"/>
+
+        <colspec colname="c3" colwidth="72*"/>
+
+        <thead>
+          <row>
+            <entry>No.</entry>
+
+            <entry>Message</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><p> <b otherprops="bold">1</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">NamespaceUpdateReq</b> </p></entry>
+
+            <entry><p>The Admin
+            Command Manager issues requests to the Lookup Manager 0 requesting
+            the namespace utilization data.</p></entry>
+          </row>
+
+          <row>
+            <entry/>
+
+            <entry/>
+
+            <entry><p>The Lookup
+            Manager 0 gets namespace utilization data from the Lookup Manager
+            1.</p></entry>
+          </row>
+
+          <row>
+            <entry><p> <b otherprops="bold">2</b> </p></entry>
+
+            <entry><p> <b otherprops="bold">NamespaceUpdateCpl</b> </p></entry>
+
+            <entry><p>The Lookup
+            Manager 0 responds to the Admin Command Manager with a <b otherprops="bold">namespace update</b>
+            completion message.</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>
