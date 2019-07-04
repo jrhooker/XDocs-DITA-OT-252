@@ -2561,17 +2561,21 @@ See the accompanying LICENSE file for applicable license.
 
   <xsl:template name="chapter-setup">   
     <html>
-      <xsl:variable name="XDocs_ResPathId" select="data[@name = 'XDocs_ResPathId']/@value"/>
-      <xsl:variable name="XDocs_ResId" select="data[@name = 'XDocs_ResId']/@value"/>
-      <xsl:variable name="XDocs_ResIdPrimary" select="data[@name = 'XDocs_ResIdPrimary']/@value"/>
+      <xsl:variable name="XdProp_ResPathId">
+           <xsl:variable name="tokens" select="tokenize(//processing-instruction('XdProp_ResPathId')[1], '/')" />
+           <xsl:value-of select="substring-before(., $tokens[last()])"/>
+      </xsl:variable>
+      <xsl:variable name="XdProp_ResLblId">
+        <xsl:variable name="tokens" select="tokenize(//processing-instruction('XdProp_ResLblId')[1], '/')" />
+        <xsl:value-of select="$tokens[last()]"/>
+      </xsl:variable>
       <xsl:call-template name="setTopicLanguage"/>
       <xsl:value-of select="$newline"/>
       <xsl:call-template name="chapterHead"/>      
       <xsl:if test="number($SHOWCOMMENTS-NUM) = 1">
         <xsl:element name="div">
           <xsl:attribute name="class">EDITBLOCKCOMMENT</xsl:attribute>        
-          <xsl:variable name="path2production"><xsl:value-of select="concat('xdocs://Production/' ,$XDocs_ResPathId)"/></xsl:variable>          
-          <xsl:variable name="path2production">xdocs://Production/<xsl:value-of select="@XDocs_ResPathId"/></xsl:variable>          
+          <xsl:variable name="path2production" select="concat('xdocs://Production/', $XdProp_ResPathId, $XdProp_ResLblId)"/>         
           <script>
             function editXDocs() {           
             <xsl:text>window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
@@ -2584,9 +2588,8 @@ See the accompanying LICENSE file for applicable license.
       </xsl:if>
       <xsl:call-template name="chapterBody"/>         
       <xsl:call-template name="chapterBody"/>    
-      <p>XDocs_ResPathId: <xsl:value-of select="$XDocs_ResPathId"/></p>
-      <p>XDocs_ResId: <xsl:value-of select="$XDocs_ResId"/></p>
-      <p>XDocs_ResIdPrimary: <xsl:value-of select="$XDocs_ResIdPrimary"/></p>
+      <!-- <p>XdProp_ResPathId: <xsl:value-of select="$XdProp_ResPathId"/></p>
+      <p>XdProp_ResLblId: <xsl:value-of select="$XdProp_ResLblId"/></p> -->
     </html>
   </xsl:template>  
 
