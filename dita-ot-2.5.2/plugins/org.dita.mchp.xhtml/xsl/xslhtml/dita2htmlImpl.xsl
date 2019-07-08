@@ -2562,11 +2562,13 @@ See the accompanying LICENSE file for applicable license.
   <xsl:template name="chapter-setup">   
     <html>
       <xsl:variable name="XdProp_ResPathId">
-           <xsl:variable name="tokens" select="tokenize(//processing-instruction('XdProp_ResPathId')[1], '/')" />
-           <xsl:value-of select="substring-before(., $tokens[last()])"/>
+        <xsl:variable name="tokens"
+          select="tokenize(ancestor-or-self::*[contains(@class, ' topic/topic ')][1]/processing-instruction('XdProp_ResPathId')[1], '/')"/>
+        <xsl:value-of select="substring-before(ancestor-or-self::*[contains(@class, ' topic/topic ')][1]/processing-instruction('XdProp_ResPathId')[1], $tokens[last()])"/>
       </xsl:variable>
       <xsl:variable name="XdProp_ResLblId">
-        <xsl:variable name="tokens" select="tokenize(//processing-instruction('XdProp_ResLblId')[1], '/')" />
+        <xsl:variable name="tokens"
+          select="tokenize(ancestor-or-self::*[contains(@class, ' topic/topic ')][1]/processing-instruction('XdProp_ResLblId')[1], '/')"/>
         <xsl:value-of select="$tokens[last()]"/>
       </xsl:variable>
       <xsl:call-template name="setTopicLanguage"/>
@@ -2575,7 +2577,7 @@ See the accompanying LICENSE file for applicable license.
       <xsl:if test="number($SHOWCOMMENTS-NUM) = 1">
         <xsl:element name="div">
           <xsl:attribute name="class">EDITBLOCKCOMMENT</xsl:attribute>        
-          <xsl:variable name="path2production" select="concat('xdocs://Production/', $XdProp_ResPathId, $XdProp_ResLblId)"/>         
+          <xsl:variable name="path2production" select="concat('xdocs://Production', $XdProp_ResPathId, $XdProp_ResLblId)"/>         
           <script>
             function editXDocs() {           
             <xsl:text>window.open('</xsl:text><xsl:value-of select="$path2production"/><xsl:text>');</xsl:text> 
