@@ -84,6 +84,9 @@ See the accompanying LICENSE file for applicable license.
       </xsl:attribute>
       <xsl:attribute name="id">
         <xsl:choose>
+          <xsl:when test="//pmc_iso[1]/@id">
+            <xsl:value-of select="//pmc_iso[1]/@id"/>
+          </xsl:when>
           <xsl:when test="@id">
             <xsl:value-of select="@id"/>
           </xsl:when>
