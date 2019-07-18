@@ -2588,10 +2588,14 @@ See the accompanying LICENSE file for applicable license.
           <button onclick="editXDocs()">Edit In XMLmind</button>           
         </xsl:element>      
       </xsl:if>
-      <xsl:call-template name="chapterBody"/>         
-      <xsl:call-template name="chapterBody"/>    
-      <!-- <p>XdProp_ResPathId: <xsl:value-of select="$XdProp_ResPathId"/></p>
-      <p>XdProp_ResLblId: <xsl:value-of select="$XdProp_ResLblId"/></p> -->
+      <xsl:call-template name="chapterBody"/>
+      <xsl:if test="number($SHOWCOMMENTS-NUM) = 1">
+        <xsl:element name="div">
+          <xsl:attribute name="class">EDITBLOCKCOMMENT</xsl:attribute>   
+            <xsl:variable name="path2production" select="concat('xdocs://Production', $XdProp_ResPathId, $XdProp_ResLblId)"/>         
+          <p><b>XDocs Location:</b><xsl:value-of select="$path2production"/></p>            
+          </xsl:element>     
+      </xsl:if>
     </html>
   </xsl:template>  
 
