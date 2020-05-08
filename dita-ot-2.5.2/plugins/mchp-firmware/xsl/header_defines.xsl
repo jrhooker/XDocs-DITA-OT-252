@@ -72,14 +72,17 @@
             select="count($table/descendant::*[contains(@class, ' struct-d/value ')][number(.) = $dword_number]/following-sibling::*[contains(@class, ' struct-d/name ')][not(contains(., 'reserve') or contains(., 'Reserve'))])"/>
         <xsl:variable name="function-list"
             select="$table/descendant::*[contains(@class, ' struct-d/value ')][number(.) = $dword_number]/following-sibling::*[contains(@class, ' struct-d/name ')][not(contains(., 'reserve') or contains(., 'Reserve'))]"/>
-        <xsl:choose>
+       
+        <!--This section of code has been removed at the request of Raviteja Reddy Levaka - C34323. -->
+        <!--<xsl:choose>
             <xsl:when test="number($dword_number) = 0 and $node-count &gt; 1">
-                <xsl:text>+(</xsl:text>
+                <xsl:text>+</xsl:text>
             </xsl:when>
             <xsl:when test="number($dword_number) &gt; 0 and $node-count &gt; 0">
-                <xsl:text>-(</xsl:text>
+                <xsl:text>-</xsl:text>
             </xsl:when>
-        </xsl:choose>
+        </xsl:choose>-->
+        <xsl:text>(</xsl:text>
         <xsl:for-each select="$function-list">
             <xsl:choose>
                 <xsl:when test="number($dword_number) = 0">                    
