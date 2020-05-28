@@ -1,5 +1,7 @@
 DITA Open Toolkit: Third Party Notices
 
+This is a change made to test how to work with branches.
+
 This Notices file contains certain notices and important information that the DITA Open Toolkit Project licensors and contributors (the “Project”) are required to provide to you with respect to certain third party components included in the DITA Open Toolkit (the “Program”).
 
 Your use of the Program is governed by the license terms set forth in the “license.txt” file or other license terms and conditions accompanying the Program, and NOT by any terms contained in this Notices file below.  The notices and information below are provided for informational purposes only.
